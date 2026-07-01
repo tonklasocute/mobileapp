@@ -2,6 +2,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import initialPosts from "../data/posts.json";
 import type { Post } from "../types";
+import dada2 from "../assets/pic/dada2.jpg";
 
 const BLUE = "#1d9bf0";
 
@@ -192,7 +193,7 @@ function PostCard({ post }: { post: Post }) {
 
   return (
     <div className="px-4 py-3 border-b border-white/10 flex gap-3">
-      <div className="w-10 h-10 rounded-full shrink-0" style={{ background: post.avatarGradient ?? "linear-gradient(135deg,#8b7bff,#ff9ac2)" }} />
+      <img src={dada2} alt="" className="w-10 h-10 rounded-full object-cover shrink-0" />
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1 text-[15px] leading-none">
           <span className="font-bold truncate">{post.author}</span>
@@ -313,7 +314,7 @@ function ComposeScreen({ onCancel, onPost }: { onCancel: () => void; onPost: (te
         </motion.button>
       </div>
       <div className="flex gap-3 px-4">
-        <div className="w-10 h-10 rounded-full shrink-0" style={{ background: "linear-gradient(135deg,#8b7bff,#ff9ac2)" }} />
+        <img src={dada2} alt="" className="w-10 h-10 rounded-full object-cover shrink-0" />
         <textarea
           value={text}
           onChange={(e) => setText(e.target.value)}
@@ -379,7 +380,7 @@ export function SoftPosts({ onClose }: { onClose: () => void }) {
         </button>
         {activeTab === "home" ? (
           <div className="relative w-8 h-8 ml-auto">
-            <div className="w-full h-full rounded-full" style={{ background: "linear-gradient(135deg,#8b7bff,#ff9ac2)" }} />
+            <img src={dada2} alt="" className="w-full h-full rounded-full object-cover" />
             <span className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-black" style={{ background: BLUE }} />
           </div>
         ) : (

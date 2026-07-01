@@ -6,7 +6,7 @@ import { ChatBubble } from "../components/ChatBubble";
 import { Button } from "../components/Button";
 import chats from "../data/chats.json";
 import type { ChatMessage } from "../types";
-import tonkla from "../assets/pic/tonkla.jpg";
+import dada2 from "../assets/pic/dada2.jpg";
 
 type Block =
   | { kind: "quote"; title: string; text: string }
@@ -34,7 +34,7 @@ const profiles: Profile[] = [
     id: "pr1",
     theOne: true,
     blocks: [
-      { kind: "photo", image: tonkla, badge: "Most Likely to Match" },
+      { kind: "photo", image: dada2, badge: "Most Likely to Match" },
       {
         kind: "identity",
         name: "T",

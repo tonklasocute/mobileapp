@@ -2,7 +2,6 @@ import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import memories from "../data/memories.json";
 import type { Memory } from "../types";
-import tonkla from "../assets/pic/tonkla.jpg";
 import dada1 from "../assets/pic/dada1.jpg";
 import dada2 from "../assets/pic/dada2.jpg";
 import dada3 from "../assets/pic/dada3.jpg";
@@ -155,7 +154,7 @@ function ProfileScreen({ onOpenStory }: { onOpenStory: () => void }) {
           className="w-[74px] h-[74px] rounded-full p-[2px] shrink-0"
           style={{ background: "linear-gradient(135deg,#ff9ac2,#8b7bff)" }}
         >
-          <img src={tonkla} alt="" className="w-full h-full rounded-full object-cover border-2 border-white" />
+          <img src={dada2} alt="" className="w-full h-full rounded-full object-cover border-2 border-white" />
         </div>
         <div className="flex-1 flex justify-around text-center">
           <div>
@@ -255,7 +254,7 @@ function FeedPost({ memory, photo }: { memory: Memory; photo: string }) {
   return (
     <div className="pb-1">
       <div className="flex items-center gap-2.5 px-1 py-2">
-        <img src={tonkla} alt="" className="w-8 h-8 rounded-full object-cover" />
+        <img src={dada2} alt="" className="w-8 h-8 rounded-full object-cover" />
         <div className="flex-1 min-w-0">
           <p className="text-[13px] font-semibold truncate">{PROFILE.username}</p>
           <p className="text-[11px] text-ink/50 truncate">{memory.location}</p>
