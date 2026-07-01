@@ -64,5 +64,71 @@
     "reposts": 14,
     "likes": 231,
     "views": 1900
+  },
+  {
+    "id": "p6",
+    "author": "Dada",
+    "handle": "@dada",
+    "verified": true,
+    "avatarGradient": "linear-gradient(135deg,#ff9ac2,#6ea8ff)",
+    "timeAgo": "3d",
+    "text": "วันนี้แค่ลืมตาตื่นมาก็เก่งมากแล้วนะ 🌤️",
+    "replies": 2,
+    "reposts": 7,
+    "likes": 98,
+    "views": 1400
+  },
+  {
+    "id": "p7",
+    "author": "Dada",
+    "handle": "@dada",
+    "verified": true,
+    "avatarGradient": "linear-gradient(135deg,#8b7bff,#ffb4a8)",
+    "timeAgo": "4d",
+    "text": "you don't have to be perfect today. just a little kinder to yourself than yesterday.",
+    "quote": ["be gentle", "with the version of you", "who is still learning"],
+    "replies": 8,
+    "reposts": 45,
+    "likes": 512,
+    "views": 6700
+  },
+  {
+    "id": "p8",
+    "author": "Dada",
+    "handle": "@dada",
+    "verified": true,
+    "avatarGradient": "linear-gradient(135deg,#6ea8ff,#8b7bff)",
+    "timeAgo": "5d",
+    "text": "จดไว้กันลืม: หายใจเข้าลึกๆ แล้วก็ไปต่อ",
+    "replies": 1,
+    "reposts": 5,
+    "likes": 76,
+    "views": 980
+  },
+  {
+    "id": "p9",
+    "author": "Dada",
+    "handle": "@dada",
+    "verified": true,
+    "avatarGradient": "linear-gradient(135deg,#ffb4a8,#8b7bff)",
+    "timeAgo": "6d",
+    "text": "grateful for the small good things today: morning coffee, a good song, and one less worry.",
+    "replies": 3,
+    "reposts": 11,
+    "likes": 143,
+    "views": 2050
+  },
+  {
+    "id": "p10",
+    "author": "Dada",
+    "handle": "@dada",
+    "verified": true,
+    "avatarGradient": "linear-gradient(135deg,#6ea8ff,#ff9ac2)",
+    "timeAgo": "1w",
+    "text": "ทุกความพยายามที่ผ่านมา มันไม่เคยสูญเปล่านะ",
+    "replies": 6,
+    "reposts": 27,
+    "likes": 305,
+    "views": 4100
   }
 ]

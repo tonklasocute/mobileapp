@@ -5,6 +5,51 @@ import type { Post } from "../types";
 
 const BLUE = "#1d9bf0";
 
+type Tab = "home" | "search" | "grok" | "notifications" | "messages";
+
+interface NotificationEntry {
+  id: string;
+  type: "like" | "repost" | "reply" | "follow";
+  author: string;
+  handle: string;
+  avatarGradient: string;
+  text: string;
+  timeAgo: string;
+}
+
+const notifications: NotificationEntry[] = [
+  { id: "n1", type: "like", author: "Bua", handle: "@bua_", avatarGradient: "linear-gradient(135deg,#6ea8ff,#8b7bff)", text: 'liked your post: "small steps still count"', timeAgo: "3m" },
+  { id: "n2", type: "follow", author: "Mint", handle: "@mint.k", avatarGradient: "linear-gradient(135deg,#ffb4a8,#ff9ac2)", text: "started following you", timeAgo: "22m" },
+  { id: "n3", type: "reply", author: "Ploy", handle: "@ploypim", avatarGradient: "linear-gradient(135deg,#8b7bff,#6ea8ff)", text: 'replied: "needed to read this today 🤍"', timeAgo: "1h" },
+  { id: "n4", type: "repost", author: "Kade", handle: "@kade.d", avatarGradient: "linear-gradient(135deg,#ff9ac2,#ffb4a8)", text: "reposted your post", timeAgo: "3h" },
+  { id: "n5", type: "like", author: "Fah", handle: "@fahsai", avatarGradient: "linear-gradient(135deg,#6ea8ff,#ffb4a8)", text: 'liked your post: "rest is productive too"', timeAgo: "5h" },
+  { id: "n6", type: "follow", author: "Nan", handle: "@nan_w", avatarGradient: "linear-gradient(135deg,#8b7bff,#ff9ac2)", text: "started following you", timeAgo: "1d" },
+];
+
+interface DirectMessage {
+  id: string;
+  author: string;
+  handle: string;
+  avatarGradient: string;
+  preview: string;
+  timeAgo: string;
+  unread?: boolean;
+}
+
+const messages: DirectMessage[] = [
+  { id: "m1", author: "Bua", handle: "@bua_", avatarGradient: "linear-gradient(135deg,#6ea8ff,#8b7bff)", preview: "เห็นโพสวันนี้แล้ว หายเหนื่อยเลยอ่ะ 🤍", timeAgo: "2m", unread: true },
+  { id: "m2", author: "Ploy", handle: "@ploypim", avatarGradient: "linear-gradient(135deg,#ff9ac2,#8b7bff)", preview: "เก่งมากนะวันนี้ ไปพักผ่อนบ้างน้า", timeAgo: "1h", unread: true },
+  { id: "m3", author: "Kade", handle: "@kade.d", avatarGradient: "linear-gradient(135deg,#ffb4a8,#6ea8ff)", preview: "ส่งเพลงนี้ให้ฟังนะ เพราะดี", timeAgo: "6h" },
+  { id: "m4", author: "Mint", handle: "@mint.k", avatarGradient: "linear-gradient(135deg,#8b7bff,#ffb4a8)", preview: "ขอบคุณที่แชร์นะ ต้องการอ่านพอดีเลย", timeAgo: "1d" },
+];
+
+const trends = [
+  { id: "t1", category: "Self-care · Trending", topic: "#เหนื่อยแต่ไม่ยอมแพ้", posts: "12.4K posts" },
+  { id: "t2", category: "Music · Trending", topic: "small steps still count", posts: "3,201 posts" },
+  { id: "t3", category: "Trending in Thailand", topic: "#restisproductive", posts: "8,904 posts" },
+  { id: "t4", category: "For you", topic: "proud of you", posts: "1,532 posts" },
+];
+
 function VerifiedBadge() {
   return (
     <svg width="16" height="16" viewBox="0 0 24 24" className="shrink-0">
@@ -110,6 +155,15 @@ function MessageIcon() {
   );
 }
 
+function PersonIcon() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="shrink-0">
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 20c0-4 4-6 8-6s8 2 8 6" />
+    </svg>
+  );
+}
+
 function PlusIcon() {
   return (
     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#fff" strokeWidth="2.4" strokeLinecap="round">
@@ -178,6 +232,68 @@ function PostCard({ post }: { post: Post }) {
   );
 }
 
+function NotificationItem({ n }: { n: NotificationEntry }) {
+  const color = n.type === "like" ? "#f91880" : n.type === "repost" ? "#00ba7c" : BLUE;
+  return (
+    <div className="flex gap-3 px-4 py-3 border-b border-white/10">
+      <div className="w-6 pt-0.5 flex justify-center shrink-0" style={{ color }}>
+        {n.type === "like" && <HeartIcon filled />}
+        {n.type === "repost" && <RepostIcon />}
+        {n.type === "reply" && <ReplyIcon />}
+        {n.type === "follow" && <PersonIcon />}
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="w-8 h-8 rounded-full mb-2" style={{ background: n.avatarGradient }} />
+        <p className="text-[14px] leading-snug">
+          <span className="font-bold">{n.author}</span> <span className="text-white/50">{n.handle}</span>{" "}
+          <span className="text-white/80">{n.text}</span>
+        </p>
+        <p className="text-[12px] text-white/40 mt-1">{n.timeAgo}</p>
+      </div>
+    </div>
+  );
+}
+
+function MessageItem({ m }: { m: DirectMessage }) {
+  return (
+    <button className="w-full flex items-center gap-3 px-4 py-3 border-b border-white/10 text-left">
+      <div className="w-12 h-12 rounded-full shrink-0" style={{ background: m.avatarGradient }} />
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center justify-between gap-2">
+          <span className="font-bold text-[15px] truncate">
+            {m.author} <span className="font-normal text-white/50">{m.handle}</span>
+          </span>
+          <span className="text-[12px] text-white/40 shrink-0">{m.timeAgo}</span>
+        </div>
+        <p className={`text-[13px] truncate mt-0.5 ${m.unread ? "text-white" : "text-white/50"}`}>{m.preview}</p>
+      </div>
+      {m.unread && <span className="w-2.5 h-2.5 rounded-full shrink-0" style={{ background: BLUE }} />}
+    </button>
+  );
+}
+
+function TrendItem({ t }: { t: (typeof trends)[number] }) {
+  return (
+    <div className="px-4 py-3 border-b border-white/10">
+      <p className="text-[13px] text-white/50">{t.category}</p>
+      <p className="font-bold text-[15px] mt-0.5">{t.topic}</p>
+      <p className="text-[13px] text-white/50 mt-0.5">{t.posts}</p>
+    </div>
+  );
+}
+
+function GrokScreen() {
+  return (
+    <div className="flex-1 min-h-0 flex flex-col items-center justify-center gap-3 px-10 text-center">
+      <div className="w-16 h-16 rounded-full border-2 border-white/20 flex items-center justify-center text-white/70">
+        <GrokIcon />
+      </div>
+      <p className="text-[15px] font-bold text-white">Grok</p>
+      <p className="text-[13px] text-white/50">Ask anything, get answers, have fun.</p>
+    </div>
+  );
+}
+
 function ComposeScreen({ onCancel, onPost }: { onCancel: () => void; onPost: (text: string) => void }) {
   const [text, setText] = useState("");
   return (
@@ -211,10 +327,18 @@ function ComposeScreen({ onCancel, onPost }: { onCancel: () => void; onPost: (te
   );
 }
 
+const tabTitles: Partial<Record<Tab, string>> = {
+  notifications: "Notifications",
+  messages: "Messages",
+  grok: "Grok",
+};
+
 export function SoftPosts({ onClose }: { onClose: () => void }) {
   const [posts, setPosts] = useState<Post[]>(initialPosts as Post[]);
   const [composing, setComposing] = useState(false);
-  const [tab, setTab] = useState<"forYou" | "following">("following");
+  const [feedTab, setFeedTab] = useState<"forYou" | "following">("following");
+  const [activeTab, setActiveTab] = useState<Tab>("home");
+  const [query, setQuery] = useState("");
 
   if (composing) {
     return (
@@ -245,79 +369,135 @@ export function SoftPosts({ onClose }: { onClose: () => void }) {
 
   return (
     <div className="absolute inset-0 bg-black text-white flex flex-col">
-      <div className="flex items-center justify-between px-4 pt-8 shrink-0">
+      <div className="flex items-center gap-3 px-4 pt-8 shrink-0">
         <button
           onClick={onClose}
           aria-label="Back to home screen"
-          className="w-8 h-8 -ml-1.5 rounded-full bg-white/10 flex items-center justify-center text-white/70 text-lg"
+          className="w-8 h-8 -ml-1.5 rounded-full bg-white/10 flex items-center justify-center text-white/70 text-lg shrink-0"
         >
           ‹
         </button>
-        <div className="relative w-8 h-8">
-          <div className="w-full h-full rounded-full" style={{ background: "linear-gradient(135deg,#8b7bff,#ff9ac2)" }} />
-          <span className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-black" style={{ background: BLUE }} />
-        </div>
+        {activeTab === "home" ? (
+          <div className="relative w-8 h-8 ml-auto">
+            <div className="w-full h-full rounded-full" style={{ background: "linear-gradient(135deg,#8b7bff,#ff9ac2)" }} />
+            <span className="absolute -top-0.5 -right-0.5 w-3 h-3 rounded-full border-2 border-black" style={{ background: BLUE }} />
+          </div>
+        ) : (
+          tabTitles[activeTab] && <span className="font-bold text-[17px]">{tabTitles[activeTab]}</span>
+        )}
       </div>
 
-      <div className="flex items-center justify-center gap-8 pt-3 text-[15px] shrink-0">
-        <button
-          onClick={() => setTab("forYou")}
-          className={`pb-3 ${tab === "forYou" ? "font-bold text-white border-b-2" : "text-white/50"}`}
-          style={tab === "forYou" ? { borderColor: BLUE } : undefined}
-        >
-          For you
-        </button>
-        <button
-          onClick={() => setTab("following")}
-          className={`pb-3 ${tab === "following" ? "font-bold text-white border-b-2" : "text-white/50"}`}
-          style={tab === "following" ? { borderColor: BLUE } : undefined}
-        >
-          Following
-        </button>
-        <span className="pb-3 text-white/50 flex items-center gap-0.5">
-          Add
-          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round">
-            <line x1="12" y1="5" x2="12" y2="19" />
-            <line x1="5" y1="12" x2="19" y2="12" />
-          </svg>
-        </span>
-      </div>
-      <div className="border-b border-white/10 shrink-0" />
+      {activeTab === "home" && (
+        <>
+          <div className="flex items-center justify-center gap-8 pt-3 text-[15px] shrink-0">
+            <button
+              onClick={() => setFeedTab("forYou")}
+              className={`pb-3 ${feedTab === "forYou" ? "font-bold text-white border-b-2" : "text-white/50"}`}
+              style={feedTab === "forYou" ? { borderColor: BLUE } : undefined}
+            >
+              For you
+            </button>
+            <button
+              onClick={() => setFeedTab("following")}
+              className={`pb-3 ${feedTab === "following" ? "font-bold text-white border-b-2" : "text-white/50"}`}
+              style={feedTab === "following" ? { borderColor: BLUE } : undefined}
+            >
+              Following
+            </button>
+          </div>
+          <div className="border-b border-white/10 shrink-0" />
+        </>
+      )}
 
-      <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar pb-4 relative">
-        {posts.map((post) => (
-          <PostCard key={post.id} post={post} />
-        ))}
+      <div className="flex-1 min-h-0 flex flex-col">
+        {activeTab === "home" && (
+          <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar pb-4 relative">
+            {posts.map((post) => (
+              <PostCard key={post.id} post={post} />
+            ))}
 
-        <motion.button
-          whileTap={{ scale: 0.9 }}
-          onClick={() => setComposing(true)}
-          aria-label="New post"
-          className="fixed right-4 bottom-24 w-14 h-14 rounded-full flex items-center justify-center shadow-lg shadow-black/50"
-          style={{ background: BLUE }}
-        >
-          <PlusIcon />
-        </motion.button>
+            <motion.button
+              whileTap={{ scale: 0.9 }}
+              onClick={() => setComposing(true)}
+              aria-label="New post"
+              className="fixed right-4 bottom-24 w-14 h-14 rounded-full flex items-center justify-center shadow-lg shadow-black/50"
+              style={{ background: BLUE }}
+            >
+              <PlusIcon />
+            </motion.button>
+          </div>
+        )}
+
+        {activeTab === "search" && (
+          <>
+            <div className="px-4 pt-3 pb-2 shrink-0">
+              <div className="flex items-center gap-2 bg-white/10 rounded-full px-4 py-2.5">
+                <SearchIcon />
+                <input
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Search"
+                  className="flex-1 bg-transparent outline-none text-[15px] placeholder:text-white/40"
+                />
+              </div>
+            </div>
+            <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar pb-4">
+              <p className="px-4 py-2 font-bold text-[18px]">Trends for you</p>
+              {trends.map((t) => (
+                <TrendItem key={t.id} t={t} />
+              ))}
+            </div>
+          </>
+        )}
+
+        {activeTab === "grok" && <GrokScreen />}
+
+        {activeTab === "notifications" && (
+          <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar pb-4">
+            {notifications.map((n) => (
+              <NotificationItem key={n.id} n={n} />
+            ))}
+          </div>
+        )}
+
+        {activeTab === "messages" && (
+          <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar pb-4">
+            {messages.map((m) => (
+              <MessageItem key={m.id} m={m} />
+            ))}
+          </div>
+        )}
       </div>
 
       <div className="flex items-center justify-around bg-black border-t border-white/10 pt-2.5 pb-6 shrink-0">
-        <button aria-label="Home" className="text-white">
-          <HomeIcon active />
+        <button aria-label="Home" onClick={() => setActiveTab("home")} className={activeTab === "home" ? "text-white" : "text-white/60"}>
+          <HomeIcon active={activeTab === "home"} />
         </button>
-        <button aria-label="Search" className="text-white/60">
+        <button aria-label="Search" onClick={() => setActiveTab("search")} className={activeTab === "search" ? "text-white" : "text-white/60"}>
           <SearchIcon />
         </button>
-        <button aria-label="Grok" className="text-white/60">
+        <button aria-label="Grok" onClick={() => setActiveTab("grok")} className={activeTab === "grok" ? "text-white" : "text-white/60"}>
           <GrokIcon />
         </button>
-        <button aria-label="Notifications" className="relative text-white/60">
+        <button
+          aria-label="Notifications"
+          onClick={() => setActiveTab("notifications")}
+          className={`relative ${activeTab === "notifications" ? "text-white" : "text-white/60"}`}
+        >
           <BellIcon />
           <span className="absolute -top-1.5 -right-2 min-w-[16px] h-4 px-1 rounded-full bg-[#1d9bf0] text-white text-[10px] leading-4 text-center font-semibold">
-            20
+            {notifications.length}
           </span>
         </button>
-        <button aria-label="Messages" className="text-white/60">
+        <button
+          aria-label="Messages"
+          onClick={() => setActiveTab("messages")}
+          className={`relative ${activeTab === "messages" ? "text-white" : "text-white/60"}`}
+        >
           <MessageIcon />
+          {messages.some((m) => m.unread) && (
+            <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#1d9bf0] border-2 border-black" />
+          )}
         </button>
       </div>
     </div>
