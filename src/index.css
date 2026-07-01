@@ -1,0 +1,68 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", -apple-system, "SF Pro Display", system-ui, sans-serif;
+
+  --color-ink: #05040a;
+  --color-ink-soft: #0d0b18;
+  --color-glass: rgb(255 255 255 / 0.08);
+  --color-glass-border: rgb(255 255 255 / 0.14);
+
+  --color-dada-purple: #8b7bff;
+  --color-dada-blue: #6ea8ff;
+  --color-dada-pink: #ff9ac2;
+  --color-dada-rose: #ffb4a8;
+
+  --radius-app: 22px;
+  --radius-card: 26px;
+  --radius-phone: 54px;
+}
+
+@layer base {
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    margin: 0;
+    font-family: var(--font-sans);
+    background: #000;
+    color: white;
+    -webkit-tap-highlight-color: transparent;
+    overscroll-behavior: none;
+  }
+
+  * {
+    -webkit-font-smoothing: antialiased;
+  }
+}
+
+@layer utilities {
+  .glass {
+    background: var(--color-glass);
+    border: 1px solid var(--color-glass-border);
+    -webkit-backdrop-filter: blur(24px) saturate(160%);
+    backdrop-filter: blur(24px) saturate(160%);
+  }
+
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .text-gradient-dada {
+    background: linear-gradient(
+      120deg,
+      var(--color-dada-purple),
+      var(--color-dada-pink)
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+}

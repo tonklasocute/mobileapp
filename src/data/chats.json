@@ -1,0 +1,10 @@
+[
+  { "id": "c1", "from": "them", "text": "hey! this is going to sound random but i think we matched last week", "time": "9:14 PM" },
+  { "id": "c2", "from": "dada", "text": "haha it's not random, i've been meaning to say hi", "time": "9:16 PM" },
+  { "id": "c3", "from": "them", "text": "okay good, i was overthinking it for an embarrassing amount of time", "time": "9:17 PM" },
+  { "id": "c4", "from": "dada", "text": "same. what does your perfect sunday look like?", "time": "9:20 PM" },
+  { "id": "c5", "from": "them", "text": "slow coffee, a walk with no destination, and being back home before it gets cold", "time": "9:24 PM" },
+  { "id": "c6", "from": "dada", "text": "that's suspiciously exactly my answer", "time": "9:25 PM" },
+  { "id": "c7", "from": "them", "text": "we should test that theory in person sometime", "time": "9:31 PM" },
+  { "id": "c8", "from": "dada", "text": "i was hoping you'd say that", "time": "9:33 PM" }
+]

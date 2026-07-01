@@ -1,0 +1,50 @@
+[
+  {
+    "id": "m1",
+    "image": "linear-gradient(135deg,#ff9ac2,#8b7bff)",
+    "caption": "The evening the sky turned pink and you laughed at nothing.",
+    "location": "Rooftop, home",
+    "likes": 214,
+    "timeAgo": "2d"
+  },
+  {
+    "id": "m2",
+    "image": "linear-gradient(135deg,#6ea8ff,#8b7bff)",
+    "caption": "First rain of the season. We stayed out longer than we should have.",
+    "location": "Old street",
+    "likes": 178,
+    "timeAgo": "5d"
+  },
+  {
+    "id": "m3",
+    "image": "linear-gradient(135deg,#ffb4a8,#ff9ac2)",
+    "caption": "You fell asleep mid-sentence. I let the story end there.",
+    "location": "Sunday afternoon",
+    "likes": 342,
+    "timeAgo": "1w"
+  },
+  {
+    "id": "m4",
+    "image": "linear-gradient(135deg,#8b7bff,#6ea8ff)",
+    "caption": "Coffee gone cold, conversation still warm.",
+    "location": "Corner cafe",
+    "likes": 96,
+    "timeAgo": "2w"
+  },
+  {
+    "id": "m5",
+    "image": "linear-gradient(135deg,#ff9ac2,#ffb4a8)",
+    "caption": "Small apartment, big year.",
+    "location": "Home",
+    "likes": 401,
+    "timeAgo": "3w"
+  },
+  {
+    "id": "m6",
+    "image": "linear-gradient(135deg,#6ea8ff,#ffb4a8)",
+    "caption": "You said this was your favorite kind of quiet.",
+    "location": "Late night",
+    "likes": 267,
+    "timeAgo": "1mo"
+  }
+]
