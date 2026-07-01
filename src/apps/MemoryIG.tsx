@@ -357,7 +357,12 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
     <div className="absolute inset-0 bg-white text-ink">
       {view === "feed" ? (
         <div className="absolute inset-0 flex flex-col">
-          <div className="flex items-center justify-between px-4 pt-12 pb-2 shrink-0">
+          <div className="pt-8 px-4 shrink-0">
+            <button onClick={onClose} aria-label="Back to home screen" className="w-8 h-8 -ml-1.5 rounded-full bg-black/5 flex items-center justify-center text-ink/60 text-lg">
+              ‹
+            </button>
+          </div>
+          <div className="flex items-center justify-between px-4 pt-1 pb-2 shrink-0">
             <button aria-label="New story">
               <PlusIcon />
             </button>
