@@ -3,6 +3,14 @@ import { AnimatePresence, motion } from "framer-motion";
 import memories from "../data/memories.json";
 import type { Memory } from "../types";
 import tonkla from "../assets/pic/tonkla.jpg";
+import dada1 from "../assets/pic/dada1.jpg";
+import dada2 from "../assets/pic/dada2.jpg";
+import dada3 from "../assets/pic/dada3.jpg";
+import dada4 from "../assets/pic/dada4.jpg";
+import dada5 from "../assets/pic/dada5.jpg";
+import dada6 from "../assets/pic/dada6.jpg";
+
+const dadaPhotos = [dada1, dada2, dada3, dada4, dada5, dada6];
 
 const CLOSE_FRIENDS_GREEN = "#3ad16a";
 
@@ -198,8 +206,8 @@ function ProfileScreen({ onOpenStory }: { onOpenStory: () => void }) {
 
       <div className="grid grid-cols-3 gap-0.5">
         {(memories as Memory[]).map((m, i) => (
-          <div key={m.id} className="relative aspect-square" style={i === 0 ? undefined : { background: m.image }}>
-            {i === 0 && <img src={tonkla} alt="" className="w-full h-full object-cover" />}
+          <div key={m.id} className="relative aspect-square">
+            <img src={dadaPhotos[i]} alt="" className="w-full h-full object-cover" />
             {i === (memories as Memory[]).length - 1 && (
               <span className="absolute top-1.5 right-1.5 text-white text-sm drop-shadow">▶</span>
             )}
@@ -243,7 +251,7 @@ function PostActions({ likes }: { likes: number }) {
   );
 }
 
-function FeedPost({ memory }: { memory: Memory }) {
+function FeedPost({ memory, photo }: { memory: Memory; photo: string }) {
   return (
     <div className="pb-1">
       <div className="flex items-center gap-2.5 px-1 py-2">
@@ -254,7 +262,7 @@ function FeedPost({ memory }: { memory: Memory }) {
         </div>
         <span className="text-lg text-ink/60">⋯</span>
       </div>
-      <div className="aspect-[4/5]" style={{ background: memory.image }} />
+      <img src={photo} alt="" className="w-full aspect-[4/5] object-cover" />
       <PostActions likes={memory.likes} />
       <p className="px-1 text-[13px] mt-1">
         <span className="font-semibold">{PROFILE.username}</span> {memory.caption}
@@ -385,8 +393,8 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
             </div>
 
             <div className="px-3">
-              {(memories as Memory[]).map((m) => (
-                <FeedPost key={m.id} memory={m} />
+              {(memories as Memory[]).map((m, i) => (
+                <FeedPost key={m.id} memory={m} photo={dadaPhotos[i]} />
               ))}
             </div>
           </div>
