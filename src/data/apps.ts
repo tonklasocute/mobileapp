@@ -3,14 +3,14 @@ import type { AppMeta } from "../types";
 export const apps: AppMeta[] = [
   {
     id: "memoryIg",
-    name: "Memory IG",
+    name: "IG",
     emoji: "📷",
     gradient: "linear-gradient(135deg,#ff9ac2,#8b7bff)",
     icon: "/logo/ig.png",
   },
   {
     id: "cmbOrigin",
-    name: "CMB Origin",
+    name: "CMB",
     emoji: "💬",
     gradient: "linear-gradient(135deg,#6ea8ff,#8b7bff)",
     icon: "/logo/cmb.png",
@@ -27,12 +27,13 @@ export const apps: AppMeta[] = [
     name: "Dental Clinic",
     emoji: "🦷",
     gradient: "linear-gradient(135deg,#6ea8ff,#ffb4a8)",
-    icon: "/logo/dental.avif",
+    icon: "/logo/dental-icon.png",
     iconFit: "contain",
+    iconBg: "#ffffff",
   },
   {
     id: "softPosts",
-    name: "Soft Posts",
+    name: "X",
     emoji: "✍️",
     gradient: "linear-gradient(135deg,#ffb4a8,#ff9ac2)",
     icon: "/logo/X_logo.jpg",
@@ -42,5 +43,7 @@ export const apps: AppMeta[] = [
     name: "Comfort AI",
     emoji: "🌙",
     gradient: "linear-gradient(135deg,#0d0b18,#8b7bff)",
+    icon: "/logo/comfort-ai.svg",
+    iconFit: "contain",
   },
 ];

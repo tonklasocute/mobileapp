@@ -24,13 +24,13 @@ export function AppIcon({
     >
       <motion.div
         className="w-16 h-16 rounded-app flex items-center justify-center text-3xl shadow-lg shadow-black/40 overflow-hidden"
-        style={{ background: app.icon && app.iconFit === "contain" ? "#fff" : app.gradient }}
+        style={{ background: app.icon ? (app.iconBg ?? app.gradient) : app.gradient }}
       >
         {app.icon ? (
           <img
             src={app.icon}
             alt=""
-            className={`w-full h-full ${app.iconFit === "contain" ? "object-contain p-2.5" : "object-cover"}`}
+            className={`w-full h-full ${app.iconFit === "contain" ? "object-contain p-2" : "object-cover"}`}
           />
         ) : (
           app.emoji

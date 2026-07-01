@@ -13,6 +13,7 @@ export interface AppMeta {
   gradient: string;
   icon?: string;
   iconFit?: "cover" | "contain";
+  iconBg?: string;
 }
 
 export interface Memory {
