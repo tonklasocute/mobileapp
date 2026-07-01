@@ -97,9 +97,10 @@ function PlaylistView({
               onClick={() => (active ? onTogglePlay() : onPlaySong(song))}
               className="flex items-center gap-3 text-left rounded-xl p-2"
             >
-              <div
-                className="w-11 h-11 rounded-lg shrink-0"
-                style={{ background: song.gradient }}
+              <img
+                src={song.cover}
+                alt=""
+                className="w-11 h-11 rounded-lg shrink-0 object-cover"
               />
               <div className="flex-1 min-w-0">
                 <p
@@ -142,9 +143,10 @@ function MiniPlayer({
         onClick={onOpen}
         className="flex items-center gap-3 flex-1 min-w-0 text-left"
       >
-        <div
-          className="w-10 h-10 rounded-md shrink-0"
-          style={{ background: song.gradient }}
+        <img
+          src={song.cover}
+          alt=""
+          className="w-10 h-10 rounded-md shrink-0 object-cover"
         />
         <div className="flex-1 min-w-0">
           <p className="text-[13px] font-medium truncate">{song.title}</p>
@@ -200,9 +202,10 @@ function NowPlayingView({
       />
       <AppShell title={playlistName ?? "Now Playing"} onBack={onBack} transparent>
         <div className="flex flex-col items-center px-6 pt-6 gap-6">
-          <div
-            className="w-56 h-56 rounded-xl shadow-2xl"
-            style={{ background: song.gradient }}
+          <img
+            src={song.cover}
+            alt=""
+            className="w-56 h-56 rounded-xl shadow-2xl object-cover"
           />
 
           <div className="text-center w-full">

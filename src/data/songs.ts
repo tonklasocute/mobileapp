@@ -1,4 +1,5 @@
 import trackUrls from "./musicFiles";
+import bannerUrls from "./bannerFiles";
 import type { Playlist, Song } from "../types";
 
 function track(
@@ -7,10 +8,13 @@ function track(
   title: string,
   artist: string,
   gradient: string,
+  banner: string,
 ): Song {
   const src = trackUrls[file];
   if (!src) throw new Error(`Missing music file: ${file}`);
-  return { id, title, artist, gradient, src };
+  const cover = bannerUrls[banner];
+  if (!cover) throw new Error(`Missing banner image: ${banner}`);
+  return { id, title, artist, gradient, cover, src };
 }
 
 const playlists: Playlist[] = [
@@ -26,6 +30,7 @@ const playlists: Playlist[] = [
         "เมื่อถูกค้นพบ (Finally She Found)",
         "FREEHAND",
         "linear-gradient(135deg,#8b7bff,#6ea8ff)",
+        "เมื่อถูกค้นพบ.jpeg",
       ),
       track(
         "s2",
@@ -33,6 +38,7 @@ const playlists: Playlist[] = [
         "ขอแค่นี้ (Forever n Ever)",
         "PUN",
         "linear-gradient(135deg,#ff9ac2,#8b7bff)",
+        "ขอแค่นี้.jpeg",
       ),
     ],
   },
@@ -48,6 +54,7 @@ const playlists: Playlist[] = [
         "Thru These Tears",
         "LANY",
         "linear-gradient(135deg,#0d0b18,#8b7bff)",
+        "thur these tears.jpeg",
       ),
       track(
         "s4",
@@ -55,6 +62,7 @@ const playlists: Playlist[] = [
         "Opalite",
         "Taylor Swift",
         "linear-gradient(135deg,#6ea8ff,#0d0b18)",
+        "opalite.jpeg",
       ),
     ],
   },
@@ -70,6 +78,7 @@ const playlists: Playlist[] = [
         "White Horse (Taylor's Version)",
         "Taylor Swift",
         "linear-gradient(135deg,#6ea8ff,#ffb4a8)",
+        "white horse.jpeg",
       ),
       track(
         "s6",
@@ -77,6 +86,7 @@ const playlists: Playlist[] = [
         "อูโน่ หลาวทอง",
         "ย้าย่ายะ",
         "linear-gradient(135deg,#8b7bff,#6ea8ff)",
+        "ย้าย่ายะ.jpeg",
       ),
     ],
   },
@@ -92,6 +102,7 @@ const playlists: Playlist[] = [
         "'Cause You Have To",
         "LANY",
         "linear-gradient(135deg,#ffb4a8,#ff9ac2)",
+        "cause u have to.jpeg",
       ),
     ],
   },

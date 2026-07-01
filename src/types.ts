@@ -44,6 +44,7 @@ export interface Song {
   title: string;
   artist: string;
   gradient: string;
+  cover: string;
   src: string;
 }
 
