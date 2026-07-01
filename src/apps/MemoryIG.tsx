@@ -5,12 +5,14 @@ import memories from "../data/memories.json";
 import type { Memory } from "../types";
 import tonkla from "../assets/pic/tonkla.jpg";
 
+const CLOSE_FRIENDS_GREEN = "#3ad16a";
+
 const stories = [
-  { id: "st1", label: "First Day", gradient: "linear-gradient(135deg,#ff9ac2,#8b7bff)" },
-  { id: "st2", label: "Trip", gradient: "linear-gradient(135deg,#6ea8ff,#8b7bff)" },
-  { id: "st3", label: "Home", gradient: "linear-gradient(135deg,#ffb4a8,#ff9ac2)" },
-  { id: "st4", label: "Rain", gradient: "linear-gradient(135deg,#8b7bff,#6ea8ff)" },
-  { id: "st5", label: "Us", gradient: "linear-gradient(135deg,#ff9ac2,#ffb4a8)" },
+  { id: "st1", label: "First Day", gradient: "linear-gradient(135deg,#ff9ac2,#8b7bff)", closeFriend: false },
+  { id: "st2", label: "Trip", gradient: "linear-gradient(135deg,#6ea8ff,#8b7bff)", closeFriend: false },
+  { id: "st3", label: "Home", gradient: "linear-gradient(135deg,#ffb4a8,#ff9ac2)", closeFriend: true },
+  { id: "st4", label: "Rain", gradient: "linear-gradient(135deg,#8b7bff,#6ea8ff)", closeFriend: false },
+  { id: "st5", label: "Us", gradient: "linear-gradient(135deg,#ff9ac2,#ffb4a8)", closeFriend: true },
 ];
 
 const highlights = [
@@ -41,6 +43,68 @@ function VerifiedBadge() {
         d="M12 2l2.4 1.3 2.7-.4 1.3 2.4 2.4 1.3-.4 2.7 1.3 2.4-1.3 2.4.4 2.7-2.4 1.3-1.3 2.4-2.7-.4L12 22l-2.4-1.3-2.7.4-1.3-2.4-2.4-1.3.4-2.7L2.3 12l1.3-2.4-.4-2.7 2.4-1.3 1.3-2.4 2.7.4z"
       />
       <path fill="#fff" d="M9.7 12.9l-1.5-1.5-1.1 1.1 2.6 2.6 5-5-1.1-1.1z" />
+    </svg>
+  );
+}
+
+function PlusIcon() {
+  return (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round">
+      <line x1="12" y1="5" x2="12" y2="19" />
+      <line x1="5" y1="12" x2="19" y2="12" />
+    </svg>
+  );
+}
+
+function ActivityHeartIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round">
+      <path d="M12 21s-7.5-4.6-10-9.3C.4 8.2 2 4.3 5.8 3.8c2-.3 4 .6 5.1 2.3 1.1-1.7 3.1-2.6 5.1-2.3 3.8.5 5.4 4.4 3.8 7.9C19.5 16.4 12 21 12 21z" />
+    </svg>
+  );
+}
+
+function HomeIcon({ active }: { active: boolean }) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill={active ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round">
+      <path d="M4 11.5L12 4l8 7.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1v-8.5z" />
+    </svg>
+  );
+}
+
+function ReelsIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
+      <rect x="3" y="3" width="18" height="18" rx="4" />
+      <path d="M10 8.3l6 3.7-6 3.7V8.3z" fill="currentColor" stroke="none" />
+    </svg>
+  );
+}
+
+function CreateIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <line x1="12" y1="8" x2="12" y2="16" />
+      <line x1="8" y1="12" x2="16" y2="12" />
+    </svg>
+  );
+}
+
+function SearchIcon() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round">
+      <circle cx="11" cy="11" r="7" />
+      <line x1="21" y1="21" x2="16.3" y2="16.3" />
+    </svg>
+  );
+}
+
+function ProfileIcon({ active }: { active: boolean }) {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth={active ? 2.4 : 1.8} strokeLinecap="round">
+      <circle cx="12" cy="8" r="3.2" />
+      <path d="M5 20c0-4 3.2-6.5 7-6.5s7 2.5 7 6.5" />
     </svg>
   );
 }
@@ -263,6 +327,28 @@ function StoryViewer({ onClose }: { onClose: () => void }) {
   );
 }
 
+function TabBar({ view, onHome, onProfile }: { view: "feed" | "profile"; onHome: () => void; onProfile: () => void }) {
+  return (
+    <div className="absolute inset-x-0 bottom-0 flex items-center justify-around border-t border-black/10 bg-white pt-2.5 pb-6 z-10">
+      <button onClick={onHome} aria-label="Home" className={view === "feed" ? "text-ink" : "text-ink/40"}>
+        <HomeIcon active={view === "feed"} />
+      </button>
+      <button aria-label="Reels" className="text-ink/40">
+        <ReelsIcon />
+      </button>
+      <button aria-label="Create" className="text-ink/40">
+        <CreateIcon />
+      </button>
+      <button aria-label="Search" className="text-ink/40">
+        <SearchIcon />
+      </button>
+      <button onClick={onProfile} aria-label="Profile" className={view === "profile" ? "text-ink" : "text-ink/40"}>
+        <ProfileIcon active={view === "profile"} />
+      </button>
+    </div>
+  );
+}
+
 export function MemoryIG({ onClose }: { onClose: () => void }) {
   const [view, setView] = useState<"feed" | "profile">("feed");
   const [storyOpen, setStoryOpen] = useState(false);
@@ -272,18 +358,34 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
       {view === "feed" ? (
         <div className="absolute inset-0 flex flex-col">
           <div className="flex items-center justify-between px-4 pt-12 pb-2 shrink-0">
-            <span className="w-8" />
-            <h1 className="text-2xl font-serif italic">Instagram</h1>
-            <button onClick={() => setView("profile")} aria-label="Profile">
-              <img src={tonkla} alt="" className="w-8 h-8 rounded-full object-cover" />
+            <button aria-label="New story">
+              <PlusIcon />
+            </button>
+            <h1 className="text-2xl font-serif italic flex items-center gap-1">
+              Instagram <span className="text-sm">⌄</span>
+            </h1>
+            <button aria-label="Activity">
+              <ActivityHeartIcon />
             </button>
           </div>
 
-          <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar">
+          <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar pb-20">
             <div className="flex gap-4 px-4 py-3 overflow-x-auto no-scrollbar border-b border-black/10">
+              <div className="flex flex-col items-center gap-1.5 shrink-0">
+                <div className="relative w-14 h-14">
+                  <div className="w-full h-full rounded-full bg-black/10" />
+                  <span className="absolute -bottom-0.5 -right-0.5 w-4.5 h-4.5 rounded-full bg-ink text-white text-[11px] leading-none flex items-center justify-center border-2 border-white">
+                    +
+                  </span>
+                </div>
+                <span className="text-[10px] text-ink/60">Your story</span>
+              </div>
               {stories.map((s) => (
                 <button key={s.id} onClick={() => setStoryOpen(true)} className="flex flex-col items-center gap-1.5 shrink-0">
-                  <div className="w-14 h-14 rounded-full p-[2px]" style={{ background: s.gradient }}>
+                  <div
+                    className="w-14 h-14 rounded-full p-[2px]"
+                    style={{ background: s.closeFriend ? CLOSE_FRIENDS_GREEN : s.gradient }}
+                  >
                     <div className="w-full h-full rounded-full bg-white border-2 border-white" />
                   </div>
                   <span className="text-[10px] text-ink/60">{s.label}</span>
@@ -299,12 +401,19 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
           </div>
         </div>
       ) : (
-        <div className="absolute inset-0 overflow-y-auto no-scrollbar">
-          <ProfileScreen onOpenStory={() => setStoryOpen(true)} />
-        </div>
+        <>
+          <div className="absolute inset-0 overflow-y-auto no-scrollbar pb-20">
+            <ProfileScreen onOpenStory={() => setStoryOpen(true)} />
+          </div>
+          <BackButton onClick={() => setView("feed")} />
+        </>
       )}
 
-      <BackButton onClick={() => (view === "profile" ? setView("feed") : onClose())} />
+      <TabBar
+        view={view}
+        onHome={() => (view === "feed" ? onClose() : setView("feed"))}
+        onProfile={() => setView("profile")}
+      />
 
       <AnimatePresence>{storyOpen && <StoryViewer onClose={() => setStoryOpen(false)} />}</AnimatePresence>
     </div>
