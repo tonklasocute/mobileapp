@@ -11,6 +11,8 @@ export interface AppMeta {
   name: string;
   emoji: string;
   gradient: string;
+  icon?: string;
+  iconFit?: "cover" | "contain";
 }
 
 export interface Memory {
