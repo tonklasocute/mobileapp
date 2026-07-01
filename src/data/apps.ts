@@ -17,10 +17,10 @@ export const apps: AppMeta[] = [
   },
   {
     id: "musicPlayer",
-    name: "Music",
+    name: "Spotify",
     emoji: "🎵",
     gradient: "linear-gradient(135deg,#8b7bff,#0d0b18)",
-    icon: "/logo/spotify-logo.webp",
+    icon: "/logo/spotify-icon.png",
   },
   {
     id: "dentalGame",
