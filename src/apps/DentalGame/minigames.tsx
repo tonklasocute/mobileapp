@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { motion } from "framer-motion";
+import { difficultyConfig } from "./data";
 import type { Patient, TreatmentResult } from "./types";
 
 export interface MinigameProps {
@@ -11,9 +12,67 @@ function stars(mistakes: number) {
   return Math.max(1, 3 - mistakes);
 }
 
+/** guards against double-firing onDone (e.g. a timeout racing a completion) */
+function useFinish(onDone: (result: TreatmentResult) => void) {
+  const doneRef = useRef(false);
+  return (result: TreatmentResult) => {
+    if (doneRef.current) return;
+    doneRef.current = true;
+    onDone(result);
+  };
+}
+
+/** counts down from `seconds`, firing onExpire once when it hits zero */
+function useCountdown(seconds: number, onExpire: () => void) {
+  const [remaining, setRemaining] = useState(seconds);
+  const expiredRef = useRef(false);
+  const onExpireRef = useRef(onExpire);
+  onExpireRef.current = onExpire;
+
+  useEffect(() => {
+    const id = setInterval(() => {
+      setRemaining((r) => Math.max(0, r - 0.1));
+    }, 100);
+    return () => clearInterval(id);
+  }, []);
+
+  useEffect(() => {
+    if (remaining <= 0 && !expiredRef.current) {
+      expiredRef.current = true;
+      onExpireRef.current();
+    }
+  }, [remaining]);
+
+  return remaining;
+}
+
+function shuffledMask(total: number, marked: number): boolean[] {
+  const idx = Array.from({ length: total }, (_, i) => i);
+  for (let i = idx.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [idx[i], idx[j]] = [idx[j], idx[i]];
+  }
+  const chosen = new Set(idx.slice(0, marked));
+  return Array.from({ length: total }, (_, i) => chosen.has(i));
+}
+
+function TimerBar({ remaining, total }: { remaining: number; total: number }) {
+  const pct = (remaining / total) * 100;
+  const color = pct > 50 ? "#34d399" : pct > 20 ? "#facc15" : "#f87171";
+  return (
+    <div className="w-full h-1.5 rounded-full bg-white/10 overflow-hidden mb-3 shrink-0">
+      <motion.div
+        className="h-full"
+        animate={{ width: `${pct}%`, background: color }}
+        transition={{ duration: 0.15, ease: "linear" }}
+      />
+    </div>
+  );
+}
+
 function MiniHeader({ patient, mistakes, hint }: { patient: Patient; mistakes: number; hint: string }) {
   return (
-    <div className="text-center mb-4">
+    <div className="text-center mb-3">
       <p className="text-sm text-white/60">
         Treating {patient.name} · mistakes: {mistakes}
       </p>
@@ -85,19 +144,22 @@ function useShake() {
   return { shakeIndex, trigger };
 }
 
-/* 1. Cleaning — tap plaque teeth with the scaler, avoid healthy gums */
+/* 1. Cleaning — tap plaque teeth with the scaler, avoid healthy gums, beat the clock */
 export function CleaningGame({ patient, onDone }: MinigameProps) {
+  const cfg = difficultyConfig[patient.difficulty];
+  const finish = useFinish(onDone);
   const [teeth, setTeeth] = useState<("healthy" | "plaque")[]>(() =>
-    Array.from({ length: 6 }, (_, i) => (i % 2 === 0 ? "plaque" : "healthy")),
+    shuffledMask(cfg.teeth, cfg.problems).map((plaque) => (plaque ? "plaque" : "healthy")),
   );
   const [mistakes, setMistakes] = useState(0);
   const { shakeIndex, trigger } = useShake();
+  const remaining = useCountdown(cfg.timeLimit, () => finish({ mistakes: 3, stars: 1 }));
 
   const tap = (i: number) => {
     if (teeth[i] === "plaque") {
       setTeeth((t) => t.map((tt, idx) => (idx === i ? "healthy" : tt)));
       const willComplete = teeth.every((t, idx) => (idx === i ? true : t === "healthy"));
-      if (willComplete) setTimeout(() => onDone({ mistakes, stars: stars(mistakes) }), 400);
+      if (willComplete) setTimeout(() => finish({ mistakes, stars: stars(mistakes) }), 400);
     } else {
       setMistakes((m) => m + 1);
       trigger(i);
@@ -107,6 +169,7 @@ export function CleaningGame({ patient, onDone }: MinigameProps) {
   return (
     <div className="flex flex-col h-full px-5 pt-4 pb-6">
       <MiniHeader patient={patient} mistakes={mistakes} hint="Tap the scaler on plaque, avoid clean teeth" />
+      <TimerBar remaining={remaining} total={cfg.timeLimit} />
       <div className="flex-1 grid grid-cols-3 gap-4 place-content-center">
         {teeth.map((t, i) => (
           <ToothTile
@@ -122,17 +185,20 @@ export function CleaningGame({ patient, onDone }: MinigameProps) {
   );
 }
 
-/* 2. Cavity fill — drill, fill, polish each cavity tooth in order */
+/* 2. Cavity fill — drill, fill, polish each cavity tooth in order, beat the clock */
 type CavityState = "healthy" | "cavity" | "drilled" | "filled";
 type CavityTool = "drill" | "fill" | "polish";
 
 export function CavityGame({ patient, onDone }: MinigameProps) {
+  const cfg = difficultyConfig[patient.difficulty];
+  const finish = useFinish(onDone);
   const [teeth, setTeeth] = useState<CavityState[]>(() =>
-    Array.from({ length: 6 }, (_, i) => (i % 2 === 0 ? "cavity" : "healthy")),
+    shuffledMask(cfg.teeth, cfg.problems).map((cavity) => (cavity ? "cavity" : "healthy")),
   );
   const [tool, setTool] = useState<CavityTool>("drill");
   const [mistakes, setMistakes] = useState(0);
   const { shakeIndex, trigger } = useShake();
+  const remaining = useCountdown(cfg.timeLimit, () => finish({ mistakes: 3, stars: 1 }));
 
   const tap = (i: number) => {
     const t = teeth[i];
@@ -147,7 +213,7 @@ export function CavityGame({ patient, onDone }: MinigameProps) {
       setTeeth((arr) => arr.map((tt, idx) => (idx === i ? next : tt)));
       if (next === "healthy") {
         const willComplete = teeth.every((tt, idx) => (idx === i ? true : tt === "healthy"));
-        if (willComplete) setTimeout(() => onDone({ mistakes, stars: stars(mistakes) }), 400);
+        if (willComplete) setTimeout(() => finish({ mistakes, stars: stars(mistakes) }), 400);
       }
     } else if (t !== "healthy") {
       setMistakes((m) => m + 1);
@@ -166,6 +232,7 @@ export function CavityGame({ patient, onDone }: MinigameProps) {
   return (
     <div className="flex flex-col h-full px-5 pt-4 pb-6">
       <MiniHeader patient={patient} mistakes={mistakes} hint="Drill → fill → polish each cavity" />
+      <TimerBar remaining={remaining} total={cfg.timeLimit} />
       <div className="flex-1 grid grid-cols-3 gap-4 place-content-center">
         {teeth.map((t, i) => (
           <ToothTile key={i} color={colors[t]} emoji={emoji[t]} shake={shakeIndex === i} onClick={() => tap(i)} />
@@ -184,17 +251,24 @@ export function CavityGame({ patient, onDone }: MinigameProps) {
   );
 }
 
-/* 3. Whitening — apply gel, then release the UV timer inside the green zone */
-const UV_ZONE: [number, number] = [55, 80];
+/* 3. Whitening — apply gel, then release the UV timer inside a moving, narrowing zone */
+function randomZone(width: number): [number, number] {
+  const center = 20 + width / 2 + Math.random() * (60 - width);
+  return [center - width / 2, center + width / 2];
+}
 
 export function WhiteningGame({ patient, onDone }: MinigameProps) {
+  const cfg = difficultyConfig[patient.difficulty];
+  const finish = useFinish(onDone);
   const [round, setRound] = useState(0);
+  const [zone, setZone] = useState<[number, number]>(() => randomZone(cfg.zoneWidth));
   const [gelApplied, setGelApplied] = useState(false);
   const [progress, setProgress] = useState(0);
   const [holding, setHolding] = useState(false);
   const [mistakes, setMistakes] = useState(0);
   const rafRef = useRef<number | null>(null);
   const startRef = useRef(0);
+  const remaining = useCountdown(cfg.timeLimit, () => finish({ mistakes: 3, stars: 1 }));
 
   useEffect(() => {
     if (!holding) return;
@@ -213,15 +287,16 @@ export function WhiteningGame({ patient, onDone }: MinigameProps) {
 
   const release = () => {
     setHolding(false);
-    const hit = progress >= UV_ZONE[0] && progress <= UV_ZONE[1];
+    const hit = progress >= zone[0] && progress <= zone[1];
     if (hit) {
       const nextRound = round + 1;
       setGelApplied(false);
       setProgress(0);
       if (nextRound >= 3) {
-        setTimeout(() => onDone({ mistakes, stars: stars(mistakes) }), 400);
+        setTimeout(() => finish({ mistakes, stars: stars(mistakes) }), 400);
       } else {
         setRound(nextRound);
+        setZone(randomZone(cfg.zoneWidth));
       }
     } else {
       setMistakes((m) => m + 1);
@@ -234,6 +309,7 @@ export function WhiteningGame({ patient, onDone }: MinigameProps) {
   return (
     <div className="flex flex-col h-full px-5 pt-4 pb-6">
       <MiniHeader patient={patient} mistakes={mistakes} hint="Apply gel, then release in the glowing zone" />
+      <TimerBar remaining={remaining} total={cfg.timeLimit} />
       <div className="flex-1 flex flex-col items-center justify-center gap-6">
         <motion.div
           animate={{ filter: `brightness(${brightness}%)` }}
@@ -250,7 +326,7 @@ export function WhiteningGame({ patient, onDone }: MinigameProps) {
             <div className="w-full h-4 rounded-full bg-white/10 overflow-hidden relative">
               <div
                 className="absolute inset-y-0 bg-emerald-400/40"
-                style={{ left: `${UV_ZONE[0]}%`, right: `${100 - UV_ZONE[1]}%` }}
+                style={{ left: `${zone[0]}%`, right: `${100 - zone[1]}%` }}
               />
               <motion.div className="h-full bg-dada-pink" style={{ width: `${progress}%` }} />
             </div>
@@ -270,13 +346,22 @@ export function WhiteningGame({ patient, onDone }: MinigameProps) {
   );
 }
 
-/* 4. Braces — attach brackets in order, then set tension in the target zone */
+/* 4. Braces — attach brackets in order, then drag tension into a hidden target zone */
 export function BracesGame({ patient, onDone }: MinigameProps) {
-  const [attached, setAttached] = useState<boolean[]>(Array(6).fill(false));
+  const cfg = difficultyConfig[patient.difficulty];
+  const finish = useFinish(onDone);
+  const [attached, setAttached] = useState<boolean[]>(Array(cfg.teeth).fill(false));
   const [mistakes, setMistakes] = useState(0);
   const [phase, setPhase] = useState<"brackets" | "tension">("brackets");
   const [tension, setTension] = useState(50);
+  const [zone] = useState<[number, number]>(() => {
+    const offset = 25 + Math.random() * 20;
+    const center = 50 + (Math.random() < 0.5 ? -offset : offset);
+    const clamped = Math.min(88, Math.max(12, center));
+    return [clamped - cfg.zoneWidth / 2, clamped + cfg.zoneWidth / 2];
+  });
   const { shakeIndex, trigger } = useShake();
+  const remaining = useCountdown(cfg.timeLimit, () => finish({ mistakes: 3, stars: 1 }));
 
   const nextIndex = attached.findIndex((a) => !a);
 
@@ -292,11 +377,11 @@ export function BracesGame({ patient, onDone }: MinigameProps) {
   };
 
   const setWire = () => {
-    if (tension < 40 || tension > 60) {
+    if (tension < zone[0] || tension > zone[1]) {
       setMistakes((m) => m + 1);
       return;
     }
-    setTimeout(() => onDone({ mistakes, stars: stars(mistakes) }), 300);
+    finish({ mistakes, stars: stars(mistakes) });
   };
 
   return (
@@ -304,8 +389,9 @@ export function BracesGame({ patient, onDone }: MinigameProps) {
       <MiniHeader
         patient={patient}
         mistakes={mistakes}
-        hint={phase === "brackets" ? "Attach brackets left to right" : "Set wire tension to the middle"}
+        hint={phase === "brackets" ? "Attach brackets left to right" : "Find the sweet spot for wire tension"}
       />
+      <TimerBar remaining={remaining} total={cfg.timeLimit} />
       {phase === "brackets" ? (
         <div className="flex-1 grid grid-cols-3 gap-4 place-content-center">
           {attached.map((a, i) => (
@@ -339,22 +425,25 @@ export function BracesGame({ patient, onDone }: MinigameProps) {
   );
 }
 
-/* 5. Wisdom tooth — inject, wait, hold to extract, apply gauze */
+/* 5. Wisdom tooth — inject, wait, hold to extract for the required duration, apply gauze */
 type WisdomStep = "inject" | "waiting" | "extract" | "gauze" | "done";
 
 export function WisdomGame({ patient, onDone }: MinigameProps) {
+  const cfg = difficultyConfig[patient.difficulty];
+  const finish = useFinish(onDone);
   const [step, setStep] = useState<WisdomStep>("inject");
   const [waitProgress, setWaitProgress] = useState(0);
   const [holdProgress, setHoldProgress] = useState(0);
   const [mistakes, setMistakes] = useState(0);
   const rafRef = useRef<number | null>(null);
   const holdStart = useRef(0);
+  const remaining = useCountdown(cfg.timeLimit, () => finish({ mistakes: 3, stars: 1 }));
 
   useEffect(() => {
     if (step !== "waiting") return;
     const start = performance.now();
     const tick = (now: number) => {
-      const pct = Math.min(100, ((now - start) / 1800) * 100);
+      const pct = Math.min(100, ((now - start) / cfg.waitMs) * 100);
       setWaitProgress(pct);
       if (pct >= 100) setStep("extract");
       else rafRef.current = requestAnimationFrame(tick);
@@ -363,12 +452,12 @@ export function WisdomGame({ patient, onDone }: MinigameProps) {
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
     };
-  }, [step]);
+  }, [step, cfg.waitMs]);
 
   const startHold = () => {
     holdStart.current = performance.now();
     const tick = (now: number) => {
-      const pct = Math.min(100, ((now - holdStart.current) / 1200) * 100);
+      const pct = Math.min(100, ((now - holdStart.current) / cfg.holdMs) * 100);
       setHoldProgress(pct);
       if (pct < 100) rafRef.current = requestAnimationFrame(tick);
     };
@@ -385,14 +474,15 @@ export function WisdomGame({ patient, onDone }: MinigameProps) {
     setHoldProgress(0);
   };
 
-  const finish = () => {
+  const finishUp = () => {
     setStep("done");
-    setTimeout(() => onDone({ mistakes, stars: stars(mistakes) }), 400);
+    setTimeout(() => finish({ mistakes, stars: stars(mistakes) }), 400);
   };
 
   return (
     <div className="flex flex-col h-full px-5 pt-4 pb-6">
       <MiniHeader patient={patient} mistakes={mistakes} hint="Inject, wait, then extract carefully" />
+      <TimerBar remaining={remaining} total={cfg.timeLimit} />
       <div className="flex-1 flex flex-col items-center justify-center gap-6">
         <span className="text-6xl">🦷</span>
         {step === "inject" && (
@@ -427,7 +517,7 @@ export function WisdomGame({ patient, onDone }: MinigameProps) {
           </div>
         )}
         {step === "gauze" && (
-          <button onClick={finish} className="glass rounded-full px-5 py-2.5 text-sm font-semibold">
+          <button onClick={finishUp} className="glass rounded-full px-5 py-2.5 text-sm font-semibold">
             🩹 Apply Gauze
           </button>
         )}
@@ -436,13 +526,16 @@ export function WisdomGame({ patient, onDone }: MinigameProps) {
   );
 }
 
-/* 6. X-ray diagnosis — find the damaged tooth, then name the diagnosis */
+/* 6. X-ray diagnosis — find the damaged tooth in a growing grid, then name the diagnosis */
 export function XrayGame({ patient, onDone }: MinigameProps) {
-  const [damagedIndex] = useState(() => Math.floor(Math.random() * 6));
+  const cfg = difficultyConfig[patient.difficulty];
+  const finish = useFinish(onDone);
+  const [damagedIndex] = useState(() => Math.floor(Math.random() * cfg.teeth));
   const [diagnosis] = useState<"Cavity" | "Broken Tooth">(Math.random() < 0.5 ? "Cavity" : "Broken Tooth");
   const [found, setFound] = useState(false);
   const [mistakes, setMistakes] = useState(0);
   const { shakeIndex, trigger } = useShake();
+  const remaining = useCountdown(cfg.timeLimit, () => finish({ mistakes: 3, stars: 1 }));
 
   const tapTooth = (i: number) => {
     if (found) return;
@@ -455,7 +548,7 @@ export function XrayGame({ patient, onDone }: MinigameProps) {
 
   const pick = (choice: string) => {
     if (choice === diagnosis) {
-      setTimeout(() => onDone({ mistakes, stars: stars(mistakes) }), 300);
+      finish({ mistakes, stars: stars(mistakes) });
     } else {
       setMistakes((m) => m + 1);
     }
@@ -468,8 +561,9 @@ export function XrayGame({ patient, onDone }: MinigameProps) {
         mistakes={mistakes}
         hint={found ? "Choose the correct diagnosis" : "Tap the damaged tooth on the X-ray"}
       />
+      <TimerBar remaining={remaining} total={cfg.timeLimit} />
       <div className="flex-1 grid grid-cols-3 gap-4 place-content-center">
-        {Array.from({ length: 6 }).map((_, i) => (
+        {Array.from({ length: cfg.teeth }).map((_, i) => (
           <ToothTile
             key={i}
             color={i === damagedIndex && found ? "#7a4d3a" : "#1c2b4a"}

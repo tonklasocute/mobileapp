@@ -52,6 +52,27 @@ export function coinsFor(difficulty: Difficulty, stars: number): number {
   return Math.round(difficultyCoins[difficulty] * (stars / 3));
 }
 
+export interface DifficultyConfig {
+  /** total teeth tiles shown in grid-based games */
+  teeth: number;
+  /** how many of those teeth need treatment */
+  problems: number;
+  /** seconds allotted for the whole treatment */
+  timeLimit: number;
+  /** width (out of 100) of the success zone in timing games */
+  zoneWidth: number;
+  /** ms the extract button must be held for the wisdom-tooth game */
+  holdMs: number;
+  /** ms the anesthesia wait bar takes to fill */
+  waitMs: number;
+}
+
+export const difficultyConfig: Record<Difficulty, DifficultyConfig> = {
+  Easy: { teeth: 6, problems: 3, timeLimit: 35, zoneWidth: 34, holdMs: 900, waitMs: 1200 },
+  Medium: { teeth: 9, problems: 5, timeLimit: 25, zoneWidth: 24, holdMs: 1300, waitMs: 1800 },
+  Hard: { teeth: 12, problems: 8, timeLimit: 18, zoneWidth: 16, holdMs: 1700, waitMs: 2400 },
+};
+
 export function reputationFor(stars: number): number {
   return stars === 3 ? 0.15 : stars === 2 ? 0.05 : -0.05;
 }
