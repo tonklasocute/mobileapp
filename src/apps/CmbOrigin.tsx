@@ -6,13 +6,14 @@ import { ChatBubble } from "../components/ChatBubble";
 import { Button } from "../components/Button";
 import chats from "../data/chats.json";
 import type { ChatMessage } from "../types";
+import tonkla from "../assets/pic/tonkla.jpg";
 
 type Block =
   | { kind: "quote"; title: string; text: string }
   | { kind: "info"; title: string; icon: string; text: string }
   | { kind: "list"; title: string; items: { icon: string; text: string }[] }
   | { kind: "tags"; title: string; tags: string[] }
-  | { kind: "photo"; gradient: string; badge?: string }
+  | { kind: "photo"; image?: string; gradient?: string; badge?: string }
   | {
       kind: "identity";
       name: string;
@@ -33,6 +34,15 @@ const profiles: Profile[] = [
     id: "pr1",
     theOne: true,
     blocks: [
+      { kind: "photo", image: tonkla, badge: "Most Likely to Match" },
+      {
+        kind: "identity",
+        name: "T",
+        age: 29,
+        location: "Khwaeng Wat Arun, Krung Thep Maha Nakhon",
+        job: "Kindergarten English Teacher",
+        education: "Srinakharinwirot University · Bachelors",
+      },
       { kind: "quote", title: "I like…", text: "Slow coffee, no destination walks, home before it gets cold." },
       { kind: "info", title: "What I'm looking for", icon: "🔍", text: "Not sure yet" },
       { kind: "quote", title: "Does “The One” exist?", text: "Does the one exist?" },
@@ -52,30 +62,6 @@ const profiles: Profile[] = [
       },
       { kind: "tags", title: "Personality", tags: ["✨ Active", "✨ Balanced"] },
       { kind: "quote", title: "What's your legal addiction?", text: "Coffee ☕ and good playlists — I'm mildly addicted" },
-      { kind: "photo", gradient: "linear-gradient(160deg,#6ea8ff,#8b7bff)", badge: "Most Likely to Match" },
-      {
-        kind: "identity",
-        name: "Sam",
-        age: 29,
-        location: "Khwaeng Wat Arun, Krung Thep Maha Nakhon",
-        job: "Kindergarten English Teacher",
-        education: "Srinakharinwirot University · Bachelors",
-      },
-    ],
-  },
-  {
-    id: "pr2",
-    blocks: [
-      { kind: "quote", title: "I like…", text: "Currently reading four books at once, finishing none." },
-      { kind: "photo", gradient: "linear-gradient(160deg,#ffb4a8,#ff9ac2)" },
-      {
-        kind: "identity",
-        name: "Iris",
-        age: 25,
-        location: "Khwaeng Siam, Krung Thep Maha Nakhon",
-        job: "Graphic Designer",
-        education: "Chulalongkorn University · Bachelors",
-      },
     ],
   },
 ];
@@ -183,12 +169,14 @@ function TagsCard({ title, tags }: { title: string; tags: string[] }) {
 }
 
 function PhotoCard({
+  image,
   gradient,
   badge,
   liked,
   onLike,
 }: {
-  gradient: string;
+  image?: string;
+  gradient?: string;
   badge?: string;
   liked: boolean;
   onLike: () => void;
@@ -207,7 +195,8 @@ function PhotoCard({
           </div>
         </div>
       )}
-      <div className="relative rounded-3xl overflow-hidden aspect-[4/5]" style={{ background: gradient }}>
+      <div className="relative rounded-3xl overflow-hidden aspect-[4/5]" style={image ? undefined : { background: gradient }}>
+        {image && <img src={image} alt="" className="w-full h-full object-cover" />}
         <span className="absolute top-3 left-3 bg-black/40 text-white text-[11px] rounded-full px-2 py-0.5">
           1/6
         </span>
@@ -328,6 +317,7 @@ function SuggestedFeed({ onMatched }: { onMatched: (name: string) => void }) {
                 return (
                   <PhotoCard
                     key={key}
+                    image={block.image}
                     gradient={block.gradient}
                     badge={block.badge}
                     liked={!!likes[key]}
