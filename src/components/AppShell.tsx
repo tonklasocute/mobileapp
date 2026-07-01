@@ -7,12 +7,14 @@ export function AppShell({
   children,
   transparent = false,
   action,
+  bottomBar,
 }: {
   title: string;
   onBack: () => void;
   children: ReactNode;
   transparent?: boolean;
   action?: ReactNode;
+  bottomBar?: ReactNode;
 }) {
   return (
     <div className="absolute inset-0 flex flex-col">
@@ -35,6 +37,7 @@ export function AppShell({
       <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar">
         {children}
       </div>
+      {bottomBar}
     </div>
   );
 }

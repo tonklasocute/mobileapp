@@ -43,9 +43,8 @@ export interface Song {
   id: string;
   title: string;
   artist: string;
-  duration: string;
   gradient: string;
-  lyrics: string[];
+  src: string;
 }
 
 export interface Playlist {
