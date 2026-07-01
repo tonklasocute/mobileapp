@@ -1,7 +1,68 @@
 [
-  { "id": "p1", "author": "Dada", "handle": "@dada", "text": "small reminder: you are allowed to have a slow, uneventful, quiet day.", "timeAgo": "1h", "likes": 128, "reposts": 12 },
-  { "id": "p2", "author": "Dada", "handle": "@dada", "text": "made tea, watched the window for a while. good morning to that specifically.", "timeAgo": "5h", "likes": 84, "reposts": 4 },
-  { "id": "p3", "author": "Dada", "handle": "@dada", "text": "you don't have to earn rest. rest anyway.", "timeAgo": "1d", "likes": 341, "reposts": 56 },
-  { "id": "p4", "author": "Dada", "handle": "@dada", "text": "today's forecast: soft light, low pressure, no obligations.", "timeAgo": "2d", "likes": 201, "reposts": 19 },
-  { "id": "p5", "author": "Dada", "handle": "@dada", "text": "proud of you for the tiny thing you almost didn't mention.", "timeAgo": "3d", "likes": 452, "reposts": 63 }
+  {
+    "id": "p1",
+    "author": "Dada",
+    "handle": "@dada",
+    "verified": true,
+    "avatarGradient": "linear-gradient(135deg,#8b7bff,#ff9ac2)",
+    "timeAgo": "11m",
+    "text": "ถึงทุกคนที่กำลังเหนื่อยอยู่ตอนนี้",
+    "quote": ["แค่วันนี้ยังไหวอยู่", "ก็ถือว่าเก่งมากแล้ว", "ไม่ต้องรีบ ไม่ต้องเปรียบเทียบ", "เธอจะไปถึงจุดนั้นเอง"],
+    "replies": 2,
+    "reposts": 9,
+    "likes": 12,
+    "views": 634
+  },
+  {
+    "id": "p2",
+    "author": "Dada",
+    "handle": "@dada",
+    "verified": true,
+    "avatarGradient": "linear-gradient(135deg,#6ea8ff,#8b7bff)",
+    "timeAgo": "1h",
+    "text": "small steps still count. ก้าวเล็กๆ ของวันนี้ ก็คือ progress ของพรุ่งนี้ 🤍",
+    "replies": 4,
+    "reposts": 18,
+    "likes": 156,
+    "views": 2100
+  },
+  {
+    "id": "p3",
+    "author": "Dada",
+    "handle": "@dada",
+    "verified": true,
+    "avatarGradient": "linear-gradient(135deg,#ffb4a8,#ff9ac2)",
+    "timeAgo": "5h",
+    "text": "rest is productive too. พักบ้างก็ไม่ได้แปลว่าล้มเหลวนะ",
+    "replies": 6,
+    "reposts": 31,
+    "likes": 402,
+    "views": 5200
+  },
+  {
+    "id": "p4",
+    "author": "Dada",
+    "handle": "@dada",
+    "verified": true,
+    "avatarGradient": "linear-gradient(135deg,#8b7bff,#6ea8ff)",
+    "timeAgo": "1d",
+    "text": "โตขึ้นทุกวันไม่ใช่เรื่องง่าย แต่วันนี้เธอทำได้ดีมากแล้ว. proud of you.",
+    "replies": 3,
+    "reposts": 22,
+    "likes": 289,
+    "views": 3300
+  },
+  {
+    "id": "p5",
+    "author": "Dada",
+    "handle": "@dada",
+    "verified": true,
+    "avatarGradient": "linear-gradient(135deg,#6ea8ff,#ffb4a8)",
+    "timeAgo": "2d",
+    "text": "เหนื่อยได้ แต่อย่าเพิ่งยอมแพ้นะ. you've come so far already.",
+    "replies": 5,
+    "reposts": 14,
+    "likes": 231,
+    "views": 1900
+  }
 ]

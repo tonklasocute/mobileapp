@@ -64,6 +64,11 @@ export interface Post {
   timeAgo: string;
   likes: number;
   reposts: number;
+  verified?: boolean;
+  avatarGradient?: string;
+  replies?: number;
+  views?: number;
+  quote?: string[];
 }
 
 export type Mood = "great" | "okay" | "sad" | "crying";
