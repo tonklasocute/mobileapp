@@ -1,6 +1,5 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import clsx from "clsx";
 import memories from "../data/memories.json";
 import type { Memory } from "../types";
 import tonkla from "../assets/pic/tonkla.jpg";
@@ -133,8 +132,6 @@ function HighlightCircle({ label, gradient }: { label: string; gradient: string 
 }
 
 function ProfileScreen({ onOpenStory }: { onOpenStory: () => void }) {
-  const [following, setFollowing] = useState(false);
-
   return (
     <div className="px-4 pt-12 pb-8">
       <div className="flex items-center justify-between pb-2 pl-10">
@@ -181,19 +178,8 @@ function ProfileScreen({ onOpenStory }: { onOpenStory: () => void }) {
       <p className="text-[13px] text-ink/60 mb-3">{PROFILE.followedBy}</p>
 
       <div className="flex items-center gap-2 mb-5">
-        <button
-          onClick={() => setFollowing((v) => !v)}
-          className={clsx(
-            "flex-1 rounded-xl py-2 text-[14px] font-semibold",
-            following ? "bg-black/5 text-ink" : "bg-dada-purple text-white",
-          )}
-        >
-          {following ? "Following" : "Follow"}
-        </button>
-        <button className="flex-1 rounded-xl py-2 text-[14px] font-semibold bg-black/5 text-ink">Message</button>
-        <button className="w-9 h-9 rounded-xl bg-black/5 flex items-center justify-center text-[15px]" aria-label="Add friend">
-          👤
-        </button>
+        <button className="flex-1 rounded-xl py-2 text-[14px] font-semibold bg-black/5 text-ink">Edit profile</button>
+        <button className="flex-1 rounded-xl py-2 text-[14px] font-semibold bg-black/5 text-ink">Share profile</button>
       </div>
 
       <div className="flex gap-4 overflow-x-auto no-scrollbar mb-5">
