@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { AppShell } from "../components/AppShell";
 import playlists from "../data/songs";
 import type { Playlist, Song } from "../types";
@@ -18,6 +19,139 @@ function greeting() {
   if (h < 18) return "Good afternoon";
   return "Good evening";
 }
+
+// ─── SVG Icons ────────────────────────────────────────────────────────────────
+
+function IcoChevronDown() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M6 9l6 6 6-6" />
+    </svg>
+  );
+}
+function IcoEllipsis() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+      <circle cx="5" cy="12" r="2" /><circle cx="12" cy="12" r="2" /><circle cx="19" cy="12" r="2" />
+    </svg>
+  );
+}
+function IcoHeart({ filled }: { filled: boolean }) {
+  return (
+    <svg width="22" height="22" viewBox="0 0 24 24" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
+      stroke={filled ? GREEN : "rgba(255,255,255,0.55)"}
+      fill={filled ? GREEN : "none"}
+    >
+      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+    </svg>
+  );
+}
+function IcoShuffle() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="16 3 21 3 21 8" />
+      <line x1="4" y1="20" x2="21" y2="3" />
+      <polyline points="21 16 21 21 16 21" />
+      <line x1="15" y1="15" x2="21" y2="21" />
+    </svg>
+  );
+}
+function IcoSkipBack() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M6 6h2v12H6zm3.5 6 8.5 6V6z" />
+    </svg>
+  );
+}
+function IcoSkipForward() {
+  return (
+    <svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor">
+      <path d="M6 18l8.5-6L6 6v12zM16 6v12h2V6h-2z" />
+    </svg>
+  );
+}
+function IcoPlay() {
+  return (
+    <svg width="26" height="26" viewBox="0 0 24 24" fill="black">
+      <path d="M8 5v14l11-7z" />
+    </svg>
+  );
+}
+function IcoPause() {
+  return (
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="black">
+      <rect x="6" y="4" width="4" height="16" rx="1.5" />
+      <rect x="14" y="4" width="4" height="16" rx="1.5" />
+    </svg>
+  );
+}
+function IcoRepeat() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="17 1 21 5 17 9" />
+      <path d="M3 11V9a4 4 0 0 1 4-4h14" />
+      <polyline points="7 23 3 19 7 15" />
+      <path d="M21 13v2a4 4 0 0 1-4 4H3" />
+    </svg>
+  );
+}
+function IcoSpeaker() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5" />
+      <path d="M15.54 8.46a5 5 0 0 1 0 7.07" />
+    </svg>
+  );
+}
+function IcoShare() {
+  return (
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" />
+      <line x1="8.59" y1="13.51" x2="15.42" y2="17.49" />
+      <line x1="15.41" y1="6.51" x2="8.59" y2="10.49" />
+    </svg>
+  );
+}
+
+// ─── Custom Progress Bar ───────────────────────────────────────────────────────
+
+function ProgressBar({ value, max, onChange }: { value: number; max: number; onChange: (v: number) => void }) {
+  const ref = useRef<HTMLDivElement>(null);
+  const pct = max > 0 ? Math.min(1, value / max) : 0;
+
+  function valueAt(clientX: number) {
+    if (!ref.current) return 0;
+    const rect = ref.current.getBoundingClientRect();
+    return Math.max(0, Math.min(max, ((clientX - rect.left) / rect.width) * max));
+  }
+
+  return (
+    <div
+      ref={ref}
+      className="relative h-1 rounded-full cursor-pointer"
+      style={{ background: "rgba(255,255,255,0.18)" }}
+      onPointerDown={(e) => {
+        (e.currentTarget as HTMLElement).setPointerCapture(e.pointerId);
+        onChange(valueAt(e.clientX));
+      }}
+      onPointerMove={(e) => {
+        if (e.buttons !== 1) return;
+        onChange(valueAt(e.clientX));
+      }}
+    >
+      <div
+        className="absolute inset-y-0 left-0 rounded-full transition-none"
+        style={{ width: `${pct * 100}%`, background: GREEN }}
+      />
+      <div
+        className="absolute w-3.5 h-3.5 rounded-full bg-white shadow-md"
+        style={{ top: "50%", left: `${pct * 100}%`, transform: "translate(-50%, -50%)" }}
+      />
+    </div>
+  );
+}
+
+// ─── Home View ────────────────────────────────────────────────────────────────
 
 function HomeView({
   onOpenPlaylist,
@@ -121,6 +255,8 @@ function HomeView({
   );
 }
 
+// ─── Playlist View ────────────────────────────────────────────────────────────
+
 function PlaylistView({
   playlist,
   currentSong,
@@ -198,6 +334,8 @@ function PlaylistView({
   );
 }
 
+// ─── Mini Player ──────────────────────────────────────────────────────────────
+
 function MiniPlayer({
   song,
   playing,
@@ -235,6 +373,8 @@ function MiniPlayer({
   );
 }
 
+// ─── Now Playing View (redesigned) ────────────────────────────────────────────
+
 function NowPlayingView({
   song,
   playlistName,
@@ -266,78 +406,164 @@ function NowPlayingView({
   onToggleShuffle: () => void;
   onToggleRepeat: () => void;
 }) {
+  const [liked, setLiked] = useState(false);
+  const glowColor = song.gradient.match(/#[a-f0-9]{6}/i)?.[0] ?? "#8b7bff";
+
   return (
-    <div className="absolute inset-0">
-      <div
-        className="absolute inset-0 opacity-70"
-        style={{ background: song.gradient, filter: "blur(60px)" }}
-      />
-      <AppShell title={playlistName ?? "Now Playing"} onBack={onBack} transparent>
-        <div className="flex flex-col items-center px-6 pt-6 gap-6">
-          <img
-            src={song.cover}
-            alt=""
-            className="w-56 h-56 rounded-xl shadow-2xl object-cover"
-          />
+    <div className="absolute inset-0 flex flex-col overflow-hidden">
+      {/* Dynamic blurred gradient background */}
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={song.id}
+          className="absolute inset-0"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 0.9 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.6 }}
+          style={{
+            background: song.gradient,
+            filter: "blur(90px)",
+            transform: "scale(1.5)",
+          }}
+        />
+      </AnimatePresence>
+      <div className="absolute inset-0 bg-black/40" />
 
-          <div className="text-center w-full">
-            <p className="text-lg font-bold truncate">{song.title}</p>
-            <p className="text-sm text-white/60 truncate">{song.artist}</p>
+      {/* Content */}
+      <div className="relative flex flex-col h-full px-6 pt-12 pb-7 gap-5">
+
+        {/* Header */}
+        <div className="flex items-center justify-between shrink-0">
+          <motion.button
+            whileTap={{ scale: 0.82 }}
+            onClick={onBack}
+            className="w-8 h-8 flex items-center justify-center -ml-1 text-white"
+          >
+            <IcoChevronDown />
+          </motion.button>
+
+          <div className="text-center flex-1 px-3">
+            <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-white/45 leading-none">
+              Playing From Playlist
+            </p>
+            <p className="text-[13px] font-semibold mt-1">
+              {playlistName ?? "Now Playing"}
+            </p>
           </div>
 
-          <div className="w-full flex flex-col gap-1">
-            <input
-              type="range"
-              min={0}
-              max={duration || 0}
-              value={currentTime}
-              onChange={(e) => onSeek(Number(e.target.value))}
-              className="w-full"
-              style={{ accentColor: GREEN }}
-              aria-label="Seek"
+          <button className="w-8 h-8 flex items-center justify-center -mr-1 text-white/60">
+            <IcoEllipsis />
+          </button>
+        </div>
+
+        {/* Album Art */}
+        <motion.div
+          className="w-full aspect-square rounded-2xl overflow-hidden shrink-0"
+          animate={{ scale: playing ? 1 : 0.84 }}
+          transition={{ type: "spring", stiffness: 75, damping: 18 }}
+          style={{
+            boxShadow: `0 24px 70px rgba(0,0,0,0.6), 0 0 50px ${glowColor}44`,
+          }}
+        >
+          <AnimatePresence mode="wait">
+            <motion.img
+              key={song.id}
+              src={song.cover}
+              alt=""
+              className="w-full h-full object-cover"
+              initial={{ opacity: 0, scale: 1.05 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.35 }}
             />
-            <div className="flex justify-between text-[11px] text-white/40">
-              <span>{formatTime(currentTime)}</span>
-              <span>{formatTime(duration)}</span>
-            </div>
-          </div>
+          </AnimatePresence>
+        </motion.div>
 
-          <div className="flex items-center gap-6">
-            <button
-              onClick={onToggleShuffle}
-              className="text-lg"
-              style={{ color: shuffle ? GREEN : "rgba(255,255,255,0.5)" }}
-              aria-label="Shuffle"
-            >
-              🔀
-            </button>
-            <button onClick={onPrev} className="text-2xl text-white/80" aria-label="Previous">
-              ⏮
-            </button>
-            <button
-              onClick={onTogglePlay}
-              className="w-16 h-16 rounded-full bg-white text-ink text-2xl flex items-center justify-center"
-              aria-label={playing ? "Pause" : "Play"}
-            >
-              {playing ? "❚❚" : "▶"}
-            </button>
-            <button onClick={onNext} className="text-2xl text-white/80" aria-label="Next">
-              ⏭
-            </button>
-            <button
-              onClick={onToggleRepeat}
-              className="text-lg"
-              style={{ color: repeat ? GREEN : "rgba(255,255,255,0.5)" }}
-              aria-label="Repeat"
-            >
-              🔁
-            </button>
+        {/* Song Info + Heart */}
+        <div className="flex items-center gap-3 shrink-0">
+          <div className="flex-1 min-w-0">
+            <p className="text-[18px] font-bold truncate leading-snug">{song.title}</p>
+            <p className="text-[13px] text-white/55 mt-0.5 truncate">{song.artist}</p>
+          </div>
+          <motion.button
+            whileTap={{ scale: 0.78 }}
+            onClick={() => setLiked((v) => !v)}
+            className="w-10 h-10 flex items-center justify-center shrink-0"
+          >
+            <IcoHeart filled={liked} />
+          </motion.button>
+        </div>
+
+        {/* Progress Bar */}
+        <div className="flex flex-col gap-2 shrink-0">
+          <ProgressBar value={currentTime} max={duration} onChange={onSeek} />
+          <div className="flex justify-between text-[11px] text-white/38">
+            <span>{formatTime(currentTime)}</span>
+            <span>{formatTime(duration)}</span>
           </div>
         </div>
-      </AppShell>
+
+        {/* Playback Controls */}
+        <div className="flex items-center justify-between shrink-0 px-1">
+          <motion.button
+            whileTap={{ scale: 0.82 }}
+            onClick={onToggleShuffle}
+            className="w-10 h-10 flex items-center justify-center"
+            style={{ color: shuffle ? GREEN : "rgba(255,255,255,0.42)" }}
+          >
+            <IcoShuffle />
+          </motion.button>
+
+          <motion.button
+            whileTap={{ scale: 0.82 }}
+            onClick={onPrev}
+            className="w-10 h-10 flex items-center justify-center text-white"
+          >
+            <IcoSkipBack />
+          </motion.button>
+
+          <motion.button
+            whileTap={{ scale: 0.91 }}
+            onClick={onTogglePlay}
+            className="w-[62px] h-[62px] rounded-full bg-white flex items-center justify-center"
+            style={{ boxShadow: "0 8px 32px rgba(0,0,0,0.45)" }}
+          >
+            {playing ? <IcoPause /> : <IcoPlay />}
+          </motion.button>
+
+          <motion.button
+            whileTap={{ scale: 0.82 }}
+            onClick={onNext}
+            className="w-10 h-10 flex items-center justify-center text-white"
+          >
+            <IcoSkipForward />
+          </motion.button>
+
+          <motion.button
+            whileTap={{ scale: 0.82 }}
+            onClick={onToggleRepeat}
+            className="w-10 h-10 flex items-center justify-center"
+            style={{ color: repeat ? GREEN : "rgba(255,255,255,0.42)" }}
+          >
+            <IcoRepeat />
+          </motion.button>
+        </div>
+
+        {/* Footer: device output + share */}
+        <div className="flex items-center justify-between px-1 mt-auto shrink-0">
+          <button className="w-9 h-9 flex items-center justify-center text-white/32">
+            <IcoSpeaker />
+          </button>
+          <button className="w-9 h-9 flex items-center justify-center text-white/32">
+            <IcoShare />
+          </button>
+        </div>
+      </div>
     </div>
   );
 }
+
+// ─── Root Component ───────────────────────────────────────────────────────────
 
 export function MusicPlayer({ onClose }: { onClose: () => void }) {
   const [activePlaylist, setActivePlaylist] = useState<Playlist | null>(null);
