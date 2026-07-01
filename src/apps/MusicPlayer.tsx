@@ -21,29 +21,101 @@ function greeting() {
 
 function HomeView({
   onOpenPlaylist,
+  onPlaySong,
 }: {
   onOpenPlaylist: (pl: Playlist) => void;
+  onPlaySong: (pl: Playlist, song: Song) => void;
 }) {
+  const rotation = (playlists as Playlist[]).flatMap((pl) =>
+    pl.songs.map((song) => ({ pl, song })),
+  );
+
   return (
-    <div className="px-4 py-4 flex flex-col gap-5">
-      <p className="text-xl font-bold">{greeting()}</p>
-      <div className="grid grid-cols-2 gap-3">
+    <div className="flex flex-col gap-6 pb-4">
+      <p className="px-4 pt-3 text-xl font-bold">{greeting()}</p>
+
+      <div className="px-4 flex items-center gap-2 overflow-x-auto no-scrollbar">
+        <div
+          className="w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-[13px] font-bold"
+          style={{ background: "#ff6a3d" }}
+        >
+          D
+        </div>
+        <button
+          className="px-4 py-1.5 rounded-full text-[13px] font-semibold shrink-0 text-black"
+          style={{ background: GREEN }}
+        >
+          All
+        </button>
+        <button className="glass px-4 py-1.5 rounded-full text-[13px] font-semibold shrink-0">
+          Music
+        </button>
+        <button className="glass px-4 py-1.5 rounded-full text-[13px] font-semibold shrink-0">
+          Podcasts
+        </button>
+      </div>
+
+      <div className="px-4 grid grid-cols-2 gap-2">
         {(playlists as Playlist[]).map((pl) => (
           <button
             key={pl.id}
             onClick={() => onOpenPlaylist(pl)}
-            className="text-left flex flex-col gap-2"
+            className="glass flex items-center gap-2 rounded-md overflow-hidden pr-2"
           >
-            <div
-              className="aspect-square rounded-lg shadow-lg"
-              style={{ background: pl.gradient }}
+            <img
+              src={pl.songs[0]?.cover}
+              alt=""
+              className="w-14 h-14 object-cover shrink-0"
             />
-            <div>
-              <p className="text-[13px] font-semibold truncate">{pl.name}</p>
-              <p className="text-[11px] text-white/50 truncate">{pl.mood}</p>
-            </div>
+            <span className="text-[13px] font-semibold text-left line-clamp-2">
+              {pl.name}
+            </span>
           </button>
         ))}
+      </div>
+
+      <div className="px-4 flex flex-col gap-1">
+        <p className="text-lg font-bold mb-1">Your recent rotation</p>
+        {rotation.map(({ pl, song }) => (
+          <button
+            key={song.id}
+            onClick={() => onPlaySong(pl, song)}
+            className="flex items-center gap-3 py-1.5 text-left"
+          >
+            <img
+              src={song.cover}
+              alt=""
+              className="w-12 h-12 rounded object-cover shrink-0"
+            />
+            <div className="flex-1 min-w-0">
+              <p className="text-[14px] font-medium truncate">{song.title}</p>
+              <p className="text-[12px] text-white/50 truncate">
+                {song.artist}
+              </p>
+            </div>
+            <span className="text-white/50 text-lg px-1">⋯</span>
+          </button>
+        ))}
+      </div>
+
+      <div className="flex flex-col gap-2">
+        <p className="text-lg font-bold px-4">Albums featuring songs you like</p>
+        <div className="flex gap-3 overflow-x-auto no-scrollbar px-4">
+          {(playlists as Playlist[]).map((pl) => (
+            <button
+              key={pl.id}
+              onClick={() => onOpenPlaylist(pl)}
+              className="w-32 shrink-0 flex flex-col gap-2 text-left"
+            >
+              <img
+                src={pl.songs[0]?.cover}
+                alt=""
+                className="w-32 h-32 rounded-md object-cover shadow-lg"
+              />
+              <p className="text-[12px] font-medium truncate">{pl.name}</p>
+            </button>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -381,7 +453,7 @@ export function MusicPlayer({ onClose }: { onClose: () => void }) {
           }
         >
           {!activePlaylist ? (
-            <HomeView onOpenPlaylist={setActivePlaylist} />
+            <HomeView onOpenPlaylist={setActivePlaylist} onPlaySong={playSong} />
           ) : (
             <PlaylistView
               playlist={activePlaylist}
