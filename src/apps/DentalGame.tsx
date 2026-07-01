@@ -1,235 +1,244 @@
 import { useRef, useState } from "react";
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { AppShell } from "../components/AppShell";
 import { Button } from "../components/Button";
-import { GlassCard } from "../components/GlassCard";
 
-const TEETH_COUNT = 8;
-const SCRUB_DISTANCE = 200;
-const TENSION_ZONE_WIDTH = 22;
+type Stage = "intro" | "smash" | "vacuum" | "decorate" | "reveal";
 
-type Stage = "intro" | "clean" | "attach" | "tension" | "brush" | "reveal";
-
-function randomTensionZone(): [number, number] {
-  const offset = 25 + Math.random() * 20;
-  const center = Math.min(88, Math.max(12, 50 + (Math.random() < 0.5 ? -offset : offset)));
-  return [center - TENSION_ZONE_WIDTH / 2, center + TENSION_ZONE_WIDTH / 2];
+interface Chunk {
+  id: number;
+  x: number;
+  y: number;
+  size: number;
+  rot: number;
 }
 
-/* Step 1: scrub the tartar off each tooth by dragging back and forth over it */
-function ScrubTooth({ grime, onScrub }: { grime: number; onScrub: (dist: number) => void }) {
-  const last = useRef<{ x: number; y: number } | null>(null);
-  const clean = grime <= 0;
-
-  return (
-    <motion.div
-      onPointerDown={(e) => {
-        if (clean) return;
-        (e.target as Element).setPointerCapture(e.pointerId);
-        last.current = { x: e.clientX, y: e.clientY };
-      }}
-      onPointerMove={(e) => {
-        if (!last.current || clean) return;
-        const dist = Math.hypot(e.clientX - last.current.x, e.clientY - last.current.y);
-        last.current = { x: e.clientX, y: e.clientY };
-        if (dist > 0) onScrub(dist);
-      }}
-      onPointerUp={() => {
-        last.current = null;
-      }}
-      animate={{ scale: clean ? [1, 1.08, 1] : 1 }}
-      transition={{ duration: 0.3 }}
-      className="relative aspect-square rounded-2xl flex items-center justify-center text-2xl shadow-inner overflow-hidden bg-white touch-none select-none"
-    >
-      <span>{clean ? "✨" : "🦷"}</span>
-      {!clean && <div className="absolute inset-0 bg-[#c9a24a]" style={{ opacity: grime }} />}
-    </motion.div>
-  );
+interface Dust {
+  id: number;
+  x: number;
+  y: number;
 }
+
+const DUST_RADIUS = 42;
+
+function randomChunks(count: number): Chunk[] {
+  return Array.from({ length: count }, (_, id) => ({
+    id,
+    x: 15 + Math.random() * 70,
+    y: 15 + Math.random() * 65,
+    size: 26 + Math.random() * 20,
+    rot: Math.random() * 40 - 20,
+  }));
+}
+
+function randomDust(count: number): Dust[] {
+  return Array.from({ length: count }, (_, id) => ({
+    id,
+    x: 10 + Math.random() * 80,
+    y: 15 + Math.random() * 70,
+  }));
+}
+
+const decorations = [
+  { id: "gold", label: "Gold", swatch: "linear-gradient(135deg,#ffd76a,#c9922a)" },
+  { id: "diamond", label: "Diamond", swatch: "linear-gradient(135deg,#d6f3ff,#7bc9e8)" },
+  { id: "rainbow", label: "Rainbow", swatch: "linear-gradient(135deg,#ff9ac2,#8b7bff,#6ea8ff)" },
+  { id: "classic", label: "Classic", swatch: "linear-gradient(135deg,#ffffff,#e8e8ee)" },
+] as const;
 
 export function DentalGame({ onClose }: { onClose: () => void }) {
   const [stage, setStage] = useState<Stage>("intro");
-  const [grime, setGrime] = useState<number[]>(() => Array(TEETH_COUNT).fill(1));
-  const [attached, setAttached] = useState<boolean[]>(() => Array(TEETH_COUNT).fill(false));
-  const [tension, setTension] = useState(50);
-  const [tensionZone] = useState<[number, number]>(() => randomTensionZone());
-  const [freshness, setFreshness] = useState(0);
-  const [mistakes, setMistakes] = useState(0);
-  const brushLast = useRef<{ x: number; y: number } | null>(null);
+  const [chunks, setChunks] = useState<Chunk[]>(() => randomChunks(7));
+  const [dust, setDust] = useState<Dust[]>(() => randomDust(12));
+  const [shakeKey, setShakeKey] = useState(0);
+  const [decoration, setDecoration] = useState<(typeof decorations)[number] | null>(null);
+  const dragging = useRef(false);
+  const vacuumAreaRef = useRef<HTMLDivElement | null>(null);
 
   function reset() {
     setStage("intro");
-    setGrime(Array(TEETH_COUNT).fill(1));
-    setAttached(Array(TEETH_COUNT).fill(false));
-    setTension(50);
-    setFreshness(0);
-    setMistakes(0);
+    setChunks(randomChunks(7));
+    setDust(randomDust(12));
+    setDecoration(null);
   }
 
-  const scrub = (i: number, dist: number) => {
-    setGrime((g) => {
-      const next = g.map((v, idx) => (idx === i ? Math.max(0, v - dist / SCRUB_DISTANCE) : v));
-      if (next.every((v) => v <= 0)) setTimeout(() => setStage("attach"), 500);
+  const smashChunk = (id: number) => {
+    setShakeKey((k) => k + 1);
+    setChunks((prev) => {
+      const next = prev.filter((c) => c.id !== id);
+      if (next.length === 0) setTimeout(() => setStage("vacuum"), 500);
       return next;
     });
   };
 
-  const nextBracket = attached.findIndex((a) => !a);
-  const attachBracket = (i: number) => {
-    if (i !== nextBracket) {
-      setMistakes((m) => m + 1);
-      return;
-    }
-    const next = attached.map((a, idx) => (idx === i ? true : a));
-    setAttached(next);
-    if (next.every(Boolean)) setStage("tension");
-  };
-
-  const setWire = () => {
-    if (tension < tensionZone[0] || tension > tensionZone[1]) {
-      setMistakes((m) => m + 1);
-      return;
-    }
-    setStage("brush");
-  };
-
-  const brush = (dist: number) => {
-    setFreshness((f) => {
-      const next = Math.min(100, f + dist / 6);
-      if (next >= 100) setTimeout(() => setStage("reveal"), 500);
-      return next;
+  const suckNearbyDust = (clientX: number, clientY: number) => {
+    const area = vacuumAreaRef.current;
+    if (!area) return;
+    const rect = area.getBoundingClientRect();
+    const px = ((clientX - rect.left) / rect.width) * 100;
+    const py = ((clientY - rect.top) / rect.height) * 100;
+    setDust((prev) => {
+      let changed = false;
+      const next = prev.filter((d) => {
+        const dx = ((d.x - px) / 100) * rect.width;
+        const dy = ((d.y - py) / 100) * rect.height;
+        const hit = Math.hypot(dx, dy) < DUST_RADIUS;
+        if (hit) changed = true;
+        return !hit;
+      });
+      if (changed && next.length === 0) setTimeout(() => setStage("decorate"), 500);
+      return changed ? next : prev;
     });
   };
 
-  const stars = Math.max(1, 3 - Math.floor(mistakes / 2));
+  const pickDecoration = (d: (typeof decorations)[number]) => {
+    setDecoration(d);
+    setTimeout(() => setStage("reveal"), 500);
+  };
 
   return (
     <div className="absolute inset-0">
-      <AppShell
-        title={stage === "intro" ? "Dada Dental" : "Smile Makeover"}
-        onBack={onClose}
-      >
+      <AppShell title={stage === "intro" ? "Dada Dental" : "Titan Tooth"} onBack={onClose}>
         {stage === "intro" && (
           <div className="flex flex-col items-center justify-center h-full gap-6 px-8 text-center">
-            <span className="text-6xl">🦷</span>
+            <span className="text-7xl">🦷</span>
             <div>
-              <p className="text-lg font-semibold">Give this smile a full makeover</p>
+              <p className="text-lg font-semibold">A titan's tooth needs your help</p>
               <p className="text-sm text-white/50 mt-2">
-                Scrub away the tartar, straighten with braces, then brush for a fresh finish.
+                Smash away the decay, vacuum the mess, then give it some bling.
               </p>
             </div>
-            <Button onClick={() => setStage("clean")}>Start</Button>
+            <Button onClick={() => setStage("smash")}>Start</Button>
           </div>
         )}
 
-        {stage === "clean" && (
+        {stage === "smash" && (
           <div className="flex flex-col h-full px-5 pt-4 pb-6">
-            <p className="text-center text-sm text-white/60 mb-4">
-              Drag the scaler back and forth to scrub off the tartar
-            </p>
-            <div className="flex-1 grid grid-cols-4 gap-3 place-content-center">
-              {grime.map((g, i) => (
-                <ScrubTooth key={i} grime={g} onScrub={(dist) => scrub(i, dist)} />
-              ))}
+            <p className="text-center text-sm text-white/60 mb-4">🪓 Tap the decay to smash it off</p>
+            <motion.div
+              key={shakeKey}
+              animate={{ x: [0, -8, 8, -4, 0] }}
+              transition={{ duration: 0.25 }}
+              className="relative flex-1 flex items-center justify-center"
+            >
+              <span className="text-[150px] leading-none select-none">🦷</span>
+              <AnimatePresence>
+                {chunks.map((c) => (
+                  <motion.button
+                    key={c.id}
+                    onClick={() => smashChunk(c.id)}
+                    initial={{ opacity: 1, scale: 1, rotate: c.rot }}
+                    exit={{ opacity: 0, scale: 0.2, y: -40, rotate: c.rot + 90 }}
+                    whileTap={{ scale: 1.15 }}
+                    transition={{ duration: 0.25 }}
+                    className="absolute rounded-full bg-[#6b4a2e] shadow-lg"
+                    style={{
+                      left: `${c.x}%`,
+                      top: `${c.y}%`,
+                      width: c.size,
+                      height: c.size,
+                    }}
+                  />
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          </div>
+        )}
+
+        {stage === "vacuum" && (
+          <div className="flex flex-col h-full px-5 pt-4 pb-6">
+            <p className="text-center text-sm text-white/60 mb-4">🌀 Drag the vacuum over the leftover dust</p>
+            <div
+              ref={vacuumAreaRef}
+              onPointerDown={(e) => {
+                (e.target as Element).setPointerCapture(e.pointerId);
+                dragging.current = true;
+                suckNearbyDust(e.clientX, e.clientY);
+              }}
+              onPointerMove={(e) => {
+                if (!dragging.current) return;
+                suckNearbyDust(e.clientX, e.clientY);
+              }}
+              onPointerUp={() => {
+                dragging.current = false;
+              }}
+              className="relative flex-1 rounded-3xl glass overflow-hidden touch-none select-none"
+            >
+              <AnimatePresence>
+                {dust.map((d) => (
+                  <motion.span
+                    key={d.id}
+                    exit={{ opacity: 0, scale: 0 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute text-lg -translate-x-1/2 -translate-y-1/2"
+                    style={{ left: `${d.x}%`, top: `${d.y}%` }}
+                  >
+                    🦠
+                  </motion.span>
+                ))}
+              </AnimatePresence>
             </div>
           </div>
         )}
 
-        {stage === "attach" && (
+        {stage === "decorate" && (
           <div className="flex flex-col h-full px-5 pt-4 pb-6">
-            <p className="text-center text-sm text-white/60 mb-4">
-              Tap each tooth left to right to attach a bracket
-            </p>
-            <div className="flex-1 grid grid-cols-4 gap-3 place-content-center">
-              {attached.map((a, i) => (
+            <p className="text-center text-sm text-white/60 mb-8">✨ Pick some bling for the smile</p>
+            <div className="flex-1 flex items-center justify-center">
+              <span className="text-[130px] leading-none">🦷</span>
+            </div>
+            <div className="grid grid-cols-4 gap-3 shrink-0">
+              {decorations.map((d) => (
                 <button
-                  key={i}
-                  onClick={() => attachBracket(i)}
-                  className="aspect-square rounded-2xl flex items-center justify-center text-2xl shadow-inner"
-                  style={{ background: a ? "#cfd8ff" : "#ffffff" }}
+                  key={d.id}
+                  onClick={() => pickDecoration(d)}
+                  className="flex flex-col items-center gap-1.5"
                 >
-                  {a ? "🔩" : ""}
+                  <span
+                    className="w-12 h-12 rounded-2xl shadow-lg"
+                    style={{ background: d.swatch }}
+                  />
+                  <span className="text-[10px] text-white/70">{d.label}</span>
                 </button>
               ))}
             </div>
           </div>
         )}
 
-        {stage === "tension" && (
-          <div className="flex flex-col h-full px-5 pt-4 pb-6">
-            <p className="text-center text-sm text-white/60 mb-8">Find the sweet spot for wire tension</p>
-            <div className="flex-1 flex flex-col items-center justify-center gap-6">
-              <span className="text-5xl">🦷🔗🦷</span>
-              <input
-                type="range"
-                min={0}
-                max={100}
-                value={tension}
-                onChange={(e) => setTension(Number(e.target.value))}
-                className="w-full accent-dada-pink"
-                aria-label="Wire tension"
-              />
-              <button onClick={setWire} className="glass rounded-full px-5 py-2.5 text-sm font-semibold">
-                Set Tension
-              </button>
-            </div>
-          </div>
-        )}
-
-        {stage === "brush" && (
-          <div className="flex flex-col h-full px-5 pt-4 pb-6">
-            <p className="text-center text-sm text-white/60 mb-4">Brush back and forth for a fresh finish</p>
-            <div className="flex-1 flex items-center justify-center">
-              <motion.div
-                onPointerDown={(e) => {
-                  (e.target as Element).setPointerCapture(e.pointerId);
-                  brushLast.current = { x: e.clientX, y: e.clientY };
-                }}
-                onPointerMove={(e) => {
-                  if (!brushLast.current) return;
-                  const dist = Math.hypot(e.clientX - brushLast.current.x, e.clientY - brushLast.current.y);
-                  brushLast.current = { x: e.clientX, y: e.clientY };
-                  if (dist > 0) brush(dist);
-                }}
-                onPointerUp={() => {
-                  brushLast.current = null;
-                }}
-                animate={{ filter: `brightness(${100 + freshness * 0.4}%)` }}
-                className="w-40 h-40 rounded-full flex items-center justify-center text-7xl bg-white/90 touch-none select-none shadow-inner"
-              >
-                🦷
-              </motion.div>
-            </div>
-            <div className="w-full h-3 rounded-full bg-white/10 overflow-hidden mt-4 shrink-0">
-              <motion.div
-                className="h-full bg-gradient-to-r from-dada-blue to-dada-pink"
-                animate={{ width: `${freshness}%` }}
-                transition={{ duration: 0.1 }}
-              />
-            </div>
-          </div>
-        )}
-
         {stage === "reveal" && (
-          <div className="flex flex-col items-center justify-center h-full gap-5 px-8 text-center">
-            <p className="text-white/60 text-sm">Makeover complete ✨</p>
-            <span className="text-7xl">😁</span>
-            <div className="flex gap-2 text-4xl">
-              {[1, 2, 3].map((n) => (
-                <motion.span
-                  key={n}
-                  initial={{ scale: 0, rotate: -30 }}
-                  animate={{ scale: 1, rotate: 0 }}
-                  transition={{ delay: n * 0.15, type: "spring", stiffness: 260, damping: 14 }}
-                >
-                  {n <= stars ? "⭐" : "☆"}
-                </motion.span>
-              ))}
-            </div>
-            <GlassCard className="p-4 w-full">
-              <p className="text-sm text-white/70">A brand new, sparkling smile — ready for anything.</p>
-            </GlassCard>
-            <Button onClick={reset}>Play Again</Button>
+          <div className="relative flex flex-col items-center justify-center h-full gap-5 px-8 text-center overflow-hidden">
+            {["✨", "🎉", "⭐", "💫"].map((e, i) => (
+              <motion.span
+                key={i}
+                className="absolute text-2xl top-1/3"
+                initial={{ opacity: 1, x: 0, y: 0, scale: 0.6 }}
+                animate={{ opacity: 0, x: (i - 1.5) * 70, y: -90 - i * 10, scale: 1.3, rotate: 180 }}
+                transition={{ duration: 1.1, ease: "easeOut" }}
+              >
+                {e}
+              </motion.span>
+            ))}
+            <p className="text-white/60 text-sm">One happy titan ✨</p>
+            <motion.span
+              initial={{ scale: 0.4, rotate: -20 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ type: "spring", stiffness: 220, damping: 14 }}
+              className="text-[110px] leading-none rounded-full"
+              style={{
+                filter: decoration ? "drop-shadow(0 0 18px rgba(255,255,255,0.5))" : undefined,
+              }}
+            >
+              🦷
+            </motion.span>
+            {decoration && (
+              <span
+                className="rounded-full px-4 py-1.5 text-xs font-semibold"
+                style={{ background: decoration.swatch, color: "#241a10" }}
+              >
+                {decoration.label} finish
+              </span>
+            )}
+            <Button onClick={reset}>Treat Another Titan</Button>
           </div>
         )}
       </AppShell>
