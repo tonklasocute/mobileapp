@@ -1,0 +1,74 @@
+[
+  {
+    "id": "fy1",
+    "author": "Bua",
+    "handle": "@bua_",
+    "avatarGradient": "linear-gradient(135deg,#6ea8ff,#8b7bff)",
+    "timeAgo": "8m",
+    "text": "จะเหนื่อยแค่ไหนก็อย่าลืมกลับมาใจดีกับตัวเองด้วยนะ 🤍",
+    "replies": 1,
+    "reposts": 3,
+    "likes": 21,
+    "views": 480
+  },
+  {
+    "id": "fy2",
+    "author": "Mint",
+    "handle": "@mint.k",
+    "avatarGradient": "linear-gradient(135deg,#ffb4a8,#ff9ac2)",
+    "timeAgo": "35m",
+    "text": "sometimes doing nothing is exactly what you need today.",
+    "replies": 2,
+    "reposts": 6,
+    "likes": 54,
+    "views": 910
+  },
+  {
+    "id": "fy3",
+    "author": "Ploy",
+    "handle": "@ploypim",
+    "avatarGradient": "linear-gradient(135deg,#8b7bff,#6ea8ff)",
+    "timeAgo": "2h",
+    "text": "เก็บพลังไว้ใช้พรุ่งนี้ พักผ่อนให้เต็มที่ก่อนนะ",
+    "replies": 0,
+    "reposts": 4,
+    "likes": 37,
+    "views": 620
+  },
+  {
+    "id": "fy4",
+    "author": "Kade",
+    "handle": "@kade.d",
+    "avatarGradient": "linear-gradient(135deg,#ff9ac2,#ffb4a8)",
+    "timeAgo": "4h",
+    "text": "you're doing better than you think you are.",
+    "replies": 3,
+    "reposts": 9,
+    "likes": 88,
+    "views": 1300
+  },
+  {
+    "id": "fy5",
+    "author": "Fah",
+    "handle": "@fahsai",
+    "avatarGradient": "linear-gradient(135deg,#6ea8ff,#ffb4a8)",
+    "timeAgo": "6h",
+    "text": "หายใจเข้าลึกๆ แล้วปล่อยมันไป 🌿",
+    "replies": 1,
+    "reposts": 2,
+    "likes": 29,
+    "views": 540
+  },
+  {
+    "id": "fy6",
+    "author": "Nan",
+    "handle": "@nan_w",
+    "avatarGradient": "linear-gradient(135deg,#8b7bff,#ff9ac2)",
+    "timeAgo": "1d",
+    "text": "growth isn't always loud. sometimes it's just showing up again today.",
+    "replies": 2,
+    "reposts": 7,
+    "likes": 63,
+    "views": 990
+  }
+]

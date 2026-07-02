@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import initialPosts from "../data/posts.json";
+import forYouPosts from "../data/forYouPosts.json";
 import type { Post } from "../types";
 import dada2 from "../assets/pic/dada2.jpg";
 
@@ -193,7 +194,11 @@ function PostCard({ post }: { post: Post }) {
 
   return (
     <div className="px-4 py-3 border-b border-white/10 flex gap-3">
-      <img src={dada2} alt="" className="w-10 h-10 rounded-full object-cover shrink-0" />
+      {post.handle === "@dada" ? (
+        <img src={dada2} alt="" className="w-10 h-10 rounded-full object-cover shrink-0" />
+      ) : (
+        <div className="w-10 h-10 rounded-full shrink-0" style={{ background: post.avatarGradient }} />
+      )}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-1 text-[15px] leading-none">
           <span className="font-bold truncate">{post.author}</span>
@@ -413,7 +418,7 @@ export function SoftPosts({ onClose }: { onClose: () => void }) {
       <div className="flex-1 min-h-0 flex flex-col">
         {activeTab === "home" && (
           <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar pb-4 relative">
-            {posts.map((post) => (
+            {(feedTab === "following" ? posts : (forYouPosts as Post[])).map((post) => (
               <PostCard key={post.id} post={post} />
             ))}
 
