@@ -9,18 +9,40 @@ import dada3 from "../assets/pic/dada3.jpg";
 import dada4 from "../assets/pic/dada4.jpg";
 import dada5 from "../assets/pic/dada5.jpg";
 import dada6 from "../assets/pic/dada6.jpg";
+import s1 from "../assets/story/s1.jpg";
+import s2 from "../assets/story/s2.jpg";
+import s3 from "../assets/story/s3.jpg";
+import s4 from "../assets/story/s4.jpg";
+import s5 from "../assets/story/s5.jpg";
 
 const dadaPhotos = [dada1, dada2, dada3, dada4, dada5, dada6];
 
 const CLOSE_FRIENDS_GREEN = "#7fe8ab";
 const IG_BLUE = "#7cc4f5";
 
-const stories = [
-  { id: "st1", username: "bua_", message: "you're doing better than you think 🤍", gradient: "linear-gradient(135deg,#ffc2dd,#c3b6ff)", closeFriend: false },
-  { id: "st2", username: "mint.k", message: "reminder: you are so loved", gradient: "linear-gradient(135deg,#b3d9ff,#c3b6ff)", closeFriend: false },
-  { id: "st3", username: "ploypim", message: "today's a good day to be proud of yourself", gradient: "linear-gradient(135deg,#ffd4c2,#ffc2dd)", closeFriend: true },
-  { id: "st4", username: "kade.d", message: "small wins count too ✨", gradient: "linear-gradient(135deg,#c3b6ff,#b3d9ff)", closeFriend: false },
-  { id: "st5", username: "fahsai", message: "breathe. you've got this 🌿", gradient: "linear-gradient(135deg,#ffc2dd,#ffd4c2)", closeFriend: true },
+interface StoryPage {
+  message: string;
+  photo?: string;
+}
+
+const stories: { id: string; username: string; gradient: string; closeFriend: boolean; pages: StoryPage[] }[] = [
+  { id: "st1", username: "bua_", gradient: "linear-gradient(135deg,#ffc2dd,#c3b6ff)", closeFriend: false, pages: [{ message: "you're doing better than you think 🤍" }] },
+  {
+    id: "st2",
+    username: "tonkla",
+    gradient: "linear-gradient(135deg,#b3d9ff,#c3b6ff)",
+    closeFriend: false,
+    pages: [
+      { message: "brunch reset 🥯", photo: s1 },
+      { message: "matcha run in Japan 🍵", photo: s2 },
+      { message: "game night got competitive", photo: s3 },
+      { message: "bread run at Bubbi Bear", photo: s4 },
+      { message: "carbonara + chaos on the table 🍝", photo: s5 },
+    ],
+  },
+  { id: "st3", username: "ploypim", gradient: "linear-gradient(135deg,#ffd4c2,#ffc2dd)", closeFriend: true, pages: [{ message: "today's a good day to be proud of yourself" }] },
+  { id: "st4", username: "kade.d", gradient: "linear-gradient(135deg,#c3b6ff,#b3d9ff)", closeFriend: false, pages: [{ message: "small wins count too ✨" }] },
+  { id: "st5", username: "fahsai", gradient: "linear-gradient(135deg,#ffc2dd,#ffd4c2)", closeFriend: true, pages: [{ message: "breathe. you've got this 🌿" }] },
 ];
 
 const highlights = [
@@ -360,12 +382,20 @@ function OtherFeedPost({ post }: { post: OtherPost }) {
 }
 
 function StoryViewer({ initialIndex, onClose }: { initialIndex: number; onClose: () => void }) {
-  const [index, setIndex] = useState(initialIndex);
-  const story = stories[index];
+  const [personIndex, setPersonIndex] = useState(initialIndex);
+  const [pageIndex, setPageIndex] = useState(0);
+  const person = stories[personIndex];
+  const page = person.pages[pageIndex];
 
   const next = () => {
-    if (index < stories.length - 1) setIndex(index + 1);
-    else onClose();
+    if (pageIndex < person.pages.length - 1) {
+      setPageIndex(pageIndex + 1);
+    } else if (personIndex < stories.length - 1) {
+      setPersonIndex(personIndex + 1);
+      setPageIndex(0);
+    } else {
+      onClose();
+    }
   };
 
   return (
@@ -373,37 +403,43 @@ function StoryViewer({ initialIndex, onClose }: { initialIndex: number; onClose:
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="absolute inset-0 z-30 flex flex-col"
-      style={{ background: story.gradient }}
+      className="absolute inset-0 z-30 flex flex-col overflow-hidden"
+      style={{ background: person.gradient }}
       onClick={next}
     >
-      <div className="flex gap-1 px-3 pt-12 shrink-0">
-        <div className="flex-1 h-1 rounded-full bg-white/30 overflow-hidden">
-          <motion.div
-            key={story.id}
-            className="h-full bg-white"
-            initial={{ width: "0%" }}
-            animate={{ width: "100%" }}
-            transition={{ duration: 3 }}
-            onAnimationComplete={next}
-          />
-        </div>
+      {page.photo && <img src={page.photo} alt="" className="absolute inset-0 w-full h-full object-cover" />}
+      <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/40" />
+
+      <div className="relative flex gap-1 px-3 pt-12 shrink-0">
+        {person.pages.map((_, i) => (
+          <div key={i} className="flex-1 h-1 rounded-full bg-white/30 overflow-hidden">
+            {i <= pageIndex && (
+              <motion.div
+                className="h-full bg-white"
+                initial={{ width: i < pageIndex ? "100%" : "0%" }}
+                animate={{ width: "100%" }}
+                transition={{ duration: i === pageIndex ? 3 : 0 }}
+                onAnimationComplete={() => i === pageIndex && next()}
+              />
+            )}
+          </div>
+        ))}
       </div>
-      <div className="flex items-center gap-2 px-3 pt-2 shrink-0">
+      <div className="relative flex items-center gap-2 px-3 pt-2 shrink-0">
         <div className="w-8 h-8 rounded-full bg-white/30 border border-white/50" />
-        <span className="text-white text-[14px] font-semibold drop-shadow">{story.username}</span>
+        <span className="text-white text-[14px] font-semibold drop-shadow">{person.username}</span>
       </div>
       <button
         onClick={(e) => {
           e.stopPropagation();
           onClose();
         }}
-        className="absolute top-12 right-4 w-8 h-8 rounded-full bg-black/20 text-white"
+        className="absolute top-12 right-4 w-8 h-8 rounded-full bg-black/20 text-white z-10"
       >
         ✕
       </button>
-      <div className="flex-1 flex items-center justify-center text-white text-xl font-semibold px-8 text-center">
-        {story.message}
+      <div className="relative flex-1 flex items-end justify-center text-white text-xl font-semibold px-8 pb-16 text-center drop-shadow">
+        {page.message}
       </div>
     </motion.div>
   );
