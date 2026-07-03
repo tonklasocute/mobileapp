@@ -44,12 +44,12 @@ interface ProfileInfo {
 }
 
 const PROFILE: ProfileInfo = {
-  username: "18dadas",
+  username: "dadasocute",
   name: "Dada",
   pronoun: "she/her",
-  followers: "103K",
+  followers: "312K",
   following: "1,126",
-  bio: ["🦷 ทพญ. | Chula Dent รุ่น 79", "🍋 @usedbydada", "dm for work or"],
+  bio: ["dentcu80", "🍋 @usedbydada", "dm for work or"],
   link: "lin.ee/rS4rcBa",
 };
 
