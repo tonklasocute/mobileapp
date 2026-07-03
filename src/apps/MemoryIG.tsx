@@ -467,11 +467,10 @@ function ReelsScreen({ feed, avatar, username }: { feed: FeedEntry[]; avatar: st
   );
 }
 
-function SearchScreen({ feed, onOpenPost }: { feed: FeedEntry[]; onOpenPost: (index: number) => void }) {
+const artImages = Object.values(import.meta.glob("../assets/art/*.jpg", { eager: true, import: "default" })) as string[];
+
+function SearchScreen() {
   const [query, setQuery] = useState("");
-  const filtered = query.trim()
-    ? feed.filter((entry) => `${entry.data.caption} ${entry.data.location}`.toLowerCase().includes(query.trim().toLowerCase()))
-    : feed;
 
   return (
     <div className="absolute inset-0 flex flex-col bg-white text-ink">
@@ -492,26 +491,13 @@ function SearchScreen({ feed, onOpenPost }: { feed: FeedEntry[]; onOpenPost: (in
         </div>
       </div>
       <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar pb-24">
-        {filtered.length === 0 ? (
-          <p className="text-center text-ink/40 text-[14px] mt-10">No results for “{query}”</p>
-        ) : (
-          <div className="grid grid-cols-3 gap-0.5">
-            {filtered.map((entry, i) => (
-              <button
-                key={entry.data.id}
-                onClick={() => onOpenPost(feed.indexOf(entry))}
-                aria-label={`Open explore result ${i + 1}`}
-                className="relative aspect-square"
-              >
-                {entry.kind === "own" ? (
-                  <img src={entry.data.photo} alt="" className="w-full h-full object-cover" />
-                ) : (
-                  <div className="w-full h-full" style={{ background: entry.data.photoGradient }} />
-                )}
-              </button>
-            ))}
-          </div>
-        )}
+        <div className="grid grid-cols-3 gap-0.5">
+          {artImages.map((src) => (
+            <div key={src} className="relative aspect-square">
+              <img src={src} alt="" className="w-full h-full object-cover" />
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
@@ -1090,7 +1076,7 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
 
       {view === "reels" && <ReelsScreen feed={homeFeed} avatar={avatar} username={profile.username} />}
 
-      {view === "search" && <SearchScreen feed={homeFeed} onOpenPost={(i) => setViewer({ feed: homeFeed, index: i })} />}
+      {view === "search" && <SearchScreen />}
 
       {view === "profile" && (
         <>
