@@ -4,7 +4,7 @@ export type AppId =
   | "musicPlayer"
   | "dentalGame"
   | "softPosts"
-  | "comfortAi";
+  | "netflix";
 
 export interface AppMeta {
   id: AppId;
@@ -71,11 +71,21 @@ export interface Post {
   quote?: string[];
 }
 
-export type Mood = "great" | "okay" | "sad" | "crying";
+export interface Show {
+  id: string;
+  title: string;
+  gradient: string;
+  genre: string;
+  match: number;
+  year: number;
+  rating: string;
+  duration: string;
+  durationSeconds: number;
+  description: string;
+}
 
-export interface ComfortEntry {
-  mood: Mood;
-  responses: string[];
-  affirmation: string;
-  songSuggestion: string;
+export interface ShowRow {
+  id: string;
+  title: string;
+  shows: Show[];
 }

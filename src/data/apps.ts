@@ -39,11 +39,9 @@ export const apps: AppMeta[] = [
     icon: "/logo/X_logo.jpg",
   },
   {
-    id: "comfortAi",
-    name: "Comfort AI",
-    emoji: "🌙",
-    gradient: "linear-gradient(135deg,#2e2640,#c3b6ff)",
-    icon: "/logo/comfort-ai.svg",
-    iconFit: "contain",
+    id: "netflix",
+    name: "Netflix",
+    emoji: "🎬",
+    gradient: "linear-gradient(135deg,#2e2640,#ff6b81)",
   },
 ];

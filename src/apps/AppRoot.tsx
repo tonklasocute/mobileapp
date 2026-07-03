@@ -5,7 +5,7 @@ import { CmbOrigin } from "./CmbOrigin";
 import { MusicPlayer } from "./MusicPlayer";
 import { DentalGame } from "./DentalGame";
 import { SoftPosts } from "./SoftPosts";
-import { ComfortAI } from "./ComfortAI";
+import { Netflix } from "./Netflix";
 
 const registry: Record<AppId, (props: { onClose: () => void }) => React.ReactElement> = {
   memoryIg: MemoryIG,
@@ -13,7 +13,7 @@ const registry: Record<AppId, (props: { onClose: () => void }) => React.ReactEle
   musicPlayer: MusicPlayer,
   dentalGame: DentalGame,
   softPosts: SoftPosts,
-  comfortAi: ComfortAI,
+  netflix: Netflix,
 };
 
 export function AppRoot({ appId, onClose }: { appId: AppId; onClose: () => void }) {

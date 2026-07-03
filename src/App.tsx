@@ -15,9 +15,9 @@ type Screen = "boot" | "lock" | "unlocked";
 
 const NUDGE: Notification = {
   id: 1,
-  app: "Comfort AI",
-  emoji: "🌙",
-  message: "Just checking in — how's today treating you?",
+  app: "Netflix",
+  emoji: "🎬",
+  message: "New episodes just dropped — perfect for movie night.",
 };
 
 function App() {
@@ -70,7 +70,7 @@ function App() {
             notification={activeApp ? null : notification}
             onDismiss={() => setNotification(null)}
             onOpen={() => {
-              setActiveApp("comfortAi");
+              setActiveApp("netflix");
               setNotification(null);
             }}
           />
