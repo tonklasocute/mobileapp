@@ -819,11 +819,11 @@ export function CmbOrigin({ onClose }: { onClose: () => void }) {
           }}
         />
       )}
-      {tab === "likes" && <LikesYouTab matchedName={matchName} matchedPhoto={dada2} />}
+      {tab === "likes" && <LikesYouTab matchedName={matchName} matchedPhoto={tonkla} />}
       {tab === "discover" && <DiscoverTab />}
       {tab === "me" && <MeTab />}
       {tab === "chats" && (
-        <ChatsListTab matchName={matchName} matchPhoto={dada2} onOpenChat={() => setStage("chat")} />
+        <ChatsListTab matchName={matchName} matchPhoto={tonkla} onOpenChat={() => setStage("chat")} />
       )}
       <div className="absolute inset-x-0 bottom-0">
         <TabBar active={tab} onChange={setTab} />
