@@ -78,8 +78,22 @@ function HomeView({ onOpenShow }: { onOpenShow: (show: Show) => void }) {
 function DetailView({ show, onPlay }: { show: Show; onPlay: () => void }) {
   return (
     <div className="flex flex-col">
-      <div className="h-52 flex items-end p-4" style={{ background: show.gradient }}>
-        <p className="text-2xl font-bold drop-shadow">{show.title}</p>
+      <div
+        className="relative h-52 flex items-end p-4 overflow-hidden"
+        style={show.poster ? undefined : { background: show.gradient }}
+      >
+        {show.poster && (
+          <>
+            <img
+              src={show.poster}
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{ objectPosition: show.posterPosition }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
+          </>
+        )}
+        <p className="relative text-2xl font-bold drop-shadow">{show.title}</p>
       </div>
       <div className="p-4 flex flex-col gap-3">
         <div className="flex items-center gap-2 text-[12px] text-white/60">
