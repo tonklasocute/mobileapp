@@ -37,15 +37,27 @@ function Poster({ show, onOpen }: { show: Show; onOpen: () => void }) {
 
 function HomeView({ onOpenShow }: { onOpenShow: (show: Show) => void }) {
   const hero = rows[0].shows[0];
+  const heroImage = hero.banner ?? hero.poster;
 
   return (
     <div className="flex flex-col gap-6 pb-4">
       <div
-        className="relative h-56 flex flex-col justify-end p-4 gap-3"
-        style={{ background: hero.gradient }}
+        className="relative h-56 flex flex-col justify-end p-4 gap-3 overflow-hidden"
+        style={heroImage ? undefined : { background: hero.gradient }}
       >
-        <p className="text-2xl font-bold drop-shadow">{hero.title}</p>
-        <div className="flex gap-2">
+        {heroImage && (
+          <>
+            <img
+              src={heroImage}
+              alt=""
+              className="absolute inset-0 w-full h-full object-cover"
+              style={{ objectPosition: hero.banner ? undefined : hero.posterPosition }}
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent" />
+          </>
+        )}
+        <p className="relative text-2xl font-bold drop-shadow">{hero.title}</p>
+        <div className="relative flex gap-2">
           <button
             onClick={() => onOpenShow(hero)}
             className="flex items-center gap-1.5 px-5 py-2 rounded-md bg-white text-black text-sm font-semibold"
