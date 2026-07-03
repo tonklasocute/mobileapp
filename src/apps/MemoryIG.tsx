@@ -111,12 +111,12 @@ interface ActivityEntry {
 }
 
 const activityItems: ActivityEntry[] = [
-  { id: "a1", name: "niceentp", text: "liked your photo.", timeAgo: "2m", gradient: "linear-gradient(135deg,#ffc2dd,#c3b6ff)", type: "like" },
-  { id: "a2", name: "somjungiixm", text: "started following you.", timeAgo: "18m", gradient: "linear-gradient(135deg,#b3d9ff,#c3b6ff)", type: "follow" },
-  { id: "a3", name: "usedbynatnit", text: "commented: “this is so pretty 😍”", timeAgo: "1h", gradient: "linear-gradient(135deg,#ffd4c2,#ffc2dd)", type: "comment" },
-  { id: "a4", name: "kade.d", text: "liked your photo.", timeAgo: "3h", gradient: "linear-gradient(135deg,#c3b6ff,#b3d9ff)", type: "like" },
-  { id: "a5", name: "ploypim", text: "started following you.", timeAgo: "1d", gradient: "linear-gradient(135deg,#ffc2dd,#ffd4c2)", type: "follow" },
-  { id: "a6", name: "mint.k", text: "liked your photo.", timeAgo: "2d", gradient: "linear-gradient(135deg,#b3d9ff,#ffd4c2)", type: "like" },
+  { id: "a1", name: "lalalalisa_m", text: "liked your photo.", timeAgo: "2m", gradient: "linear-gradient(135deg,#ffc2dd,#c3b6ff)", type: "like" },
+  { id: "a2", name: "yayaying9", text: "started following you.", timeAgo: "18m", gradient: "linear-gradient(135deg,#b3d9ff,#c3b6ff)", type: "follow" },
+  { id: "a3", name: "nadechkugimiya", text: "commented: “this is so pretty 😍”", timeAgo: "1h", gradient: "linear-gradient(135deg,#ffd4c2,#ffc2dd)", type: "comment" },
+  { id: "a4", name: "baifernbah", text: "liked your photo.", timeAgo: "3h", gradient: "linear-gradient(135deg,#c3b6ff,#b3d9ff)", type: "like" },
+  { id: "a5", name: "mai_davika", text: "started following you.", timeAgo: "1d", gradient: "linear-gradient(135deg,#ffc2dd,#ffd4c2)", type: "follow" },
+  { id: "a6", name: "bellarani9", text: "liked your photo.", timeAgo: "2d", gradient: "linear-gradient(135deg,#b3d9ff,#ffd4c2)", type: "like" },
 ];
 
 function VerifiedBadge() {
