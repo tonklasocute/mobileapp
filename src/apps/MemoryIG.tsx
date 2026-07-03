@@ -400,14 +400,14 @@ function ReelItem({ entry, avatar, username }: { entry: FeedEntry; avatar: strin
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
   const { data: post } = entry;
-  const displayUsername = entry.kind === "own" ? username : post.username;
+  const displayUsername = entry.kind === "own" ? username : entry.data.username;
 
   return (
     <div className="relative h-full w-full shrink-0 snap-start overflow-hidden">
       {entry.kind === "own" ? (
-        <img src={post.photo} alt="" className="absolute inset-0 w-full h-full object-cover" />
+        <img src={entry.data.photo} alt="" className="absolute inset-0 w-full h-full object-cover" />
       ) : (
-        <div className="absolute inset-0 w-full h-full" style={{ background: post.photoGradient }} />
+        <div className="absolute inset-0 w-full h-full" style={{ background: entry.data.photoGradient }} />
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none" />
 
@@ -432,7 +432,7 @@ function ReelItem({ entry, avatar, username }: { entry: FeedEntry; avatar: strin
           {entry.kind === "own" ? (
             <img src={avatar} alt="" className="w-8 h-8 rounded-full object-cover border border-white/40" />
           ) : (
-            <div className="w-8 h-8 rounded-full border border-white/40" style={{ background: post.avatarGradient }} />
+            <div className="w-8 h-8 rounded-full border border-white/40" style={{ background: entry.data.avatarGradient }} />
           )}
           <span className="text-[14px] font-semibold">{displayUsername}</span>
         </div>
