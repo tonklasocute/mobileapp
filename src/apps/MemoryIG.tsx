@@ -457,9 +457,11 @@ function StoryViewer({ initialIndex, onClose }: { initialIndex: number; onClose:
           ✕
         </button>
       </div>
-      <div className="relative flex-1 flex items-end justify-center text-white text-xl font-semibold px-8 pb-16 text-center drop-shadow">
-        {page.message}
-      </div>
+      {!page.photo && (
+        <div className="relative flex-1 flex items-center justify-center text-white text-xl font-semibold px-8 text-center drop-shadow">
+          {page.message}
+        </div>
+      )}
     </motion.div>
   );
 }
