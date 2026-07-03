@@ -3,19 +3,20 @@ import { AnimatePresence, motion } from "framer-motion";
 import memories from "../data/memories.json";
 import otherPostsData from "../data/otherPosts.json";
 import type { Memory } from "../types";
-import dada1 from "../assets/pic/dada1.jpg";
 import dada2 from "../assets/pic/dada2.jpg";
-import dada3 from "../assets/pic/dada3.jpg";
-import dada4 from "../assets/pic/dada4.jpg";
-import dada5 from "../assets/pic/dada5.jpg";
-import dada6 from "../assets/pic/dada6.jpg";
 import s1 from "../assets/story/s1.jpg";
 import s2 from "../assets/story/s2.jpg";
 import s3 from "../assets/story/s3.jpg";
 import s4 from "../assets/story/s4.jpg";
 import s5 from "../assets/story/s5.jpg";
+import p1 from "../assets/story/p1.jpg";
+import p2 from "../assets/story/p2.jpg";
+import p3 from "../assets/story/p3.jpg";
+import p4 from "../assets/story/p4.jpg";
+import p5 from "../assets/story/p5.jpg";
+import p6 from "../assets/story/p6.jpg";
 
-const dadaPhotos = [dada1, dada2, dada3, dada4, dada5, dada6];
+const dadaPhotos = [p1, p2, p3, p4, p5, p6];
 
 const CLOSE_FRIENDS_GREEN = "linear-gradient(135deg,#c8f7dc,#7fe8ab)";
 const STORY_RING_GRADIENT = "linear-gradient(135deg,#ffc2dd,#ffd4c2,#c3b6ff)";
