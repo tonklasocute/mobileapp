@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import memories from "../data/memories.json";
-import otherPostsData from "../data/otherPosts.json";
 import type { Memory } from "../types";
 import dada2 from "../assets/pic/dada2.jpg";
 import s1 from "../assets/story/s1.jpg";
@@ -85,35 +84,6 @@ interface FeedItem {
   comments: number;
   views: number;
   timeAgo: string;
-}
-
-interface OtherPost {
-  id: string;
-  username: string;
-  avatarGradient: string;
-  photoGradient: string;
-  caption: string;
-  location: string;
-  likes: number;
-  timeAgo: string;
-}
-
-const otherPosts = otherPostsData as OtherPost[];
-
-type FeedEntry = { kind: "own"; data: FeedItem } | { kind: "other"; data: OtherPost };
-
-function buildHomeFeed(own: FeedItem[]): FeedEntry[] {
-  const feed: FeedEntry[] = [];
-  let oi = 0;
-  own.forEach((post, i) => {
-    feed.push({ kind: "own", data: post });
-    const perOwnPost = i === 0 ? 2 : 1;
-    for (let n = 0; n < perOwnPost && oi < otherPosts.length; n++, oi++) {
-      feed.push({ kind: "other", data: otherPosts[oi] });
-    }
-  });
-  while (oi < otherPosts.length) feed.push({ kind: "other", data: otherPosts[oi++] });
-  return feed;
 }
 
 function buildInitialPosts(): FeedItem[] {
@@ -364,27 +334,6 @@ function FeedPost({ post, avatar, username }: { post: FeedItem; avatar: string; 
       <PostActions likes={post.likes} comments={post.comments} views={post.views} />
       <p className="px-1 text-[13px] mt-1">
         <span className="font-semibold">{username}</span> {post.caption}
-      </p>
-      <p className="px-1 text-[11px] text-ink/40 mt-1">{post.timeAgo} ago</p>
-    </div>
-  );
-}
-
-function OtherFeedPost({ post }: { post: OtherPost }) {
-  return (
-    <div className="pb-1">
-      <div className="flex items-center gap-2.5 px-1 py-2">
-        <div className="w-8 h-8 rounded-full shrink-0" style={{ background: post.avatarGradient }} />
-        <div className="flex-1 min-w-0">
-          <p className="text-[13px] font-semibold truncate">{post.username}</p>
-          {post.location && <p className="text-[11px] text-ink/50 truncate">{post.location}</p>}
-        </div>
-        <span className="text-lg text-ink/60">⋯</span>
-      </div>
-      <div className="w-full aspect-[4/5]" style={{ background: post.photoGradient }} />
-      <PostActions likes={post.likes} />
-      <p className="px-1 text-[13px] mt-1">
-        <span className="font-semibold">{post.username}</span> {post.caption}
       </p>
       <p className="px-1 text-[11px] text-ink/40 mt-1">{post.timeAgo} ago</p>
     </div>
@@ -816,7 +765,7 @@ function PostViewer({
   onSearch,
   onProfile,
 }: {
-  feed: FeedEntry[];
+  feed: FeedItem[];
   index: number;
   avatar: string;
   username: string;
@@ -849,9 +798,9 @@ function PostViewer({
           <h2 className="font-semibold text-[15px]">Post</h2>
         </div>
         <div className="pb-20">
-          {feed.map((entry, i) => (
-            <div key={entry.data.id} ref={i === index ? initialRef : undefined} className="border-b border-black/5 scroll-mt-[76px]">
-              {entry.kind === "own" ? <FeedPost post={entry.data} avatar={avatar} username={username} /> : <OtherFeedPost post={entry.data} />}
+          {feed.map((post, i) => (
+            <div key={post.id} ref={i === index ? initialRef : undefined} className="border-b border-black/5 scroll-mt-[76px]">
+              <FeedPost post={post} avatar={avatar} username={username} />
             </div>
           ))}
         </div>
@@ -1054,11 +1003,9 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
   const [editOpen, setEditOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
-  const [viewer, setViewer] = useState<{ feed: FeedEntry[]; index: number } | null>(null);
+  const [viewer, setViewer] = useState<{ feed: FeedItem[]; index: number } | null>(null);
 
   const avatar = dada2;
-  const homeFeed = buildHomeFeed(posts);
-  const ownFeed: FeedEntry[] = posts.map((p) => ({ kind: "own", data: p }));
 
   const handleShare = ({ photo, caption }: { photo: string; caption: string }) => {
     setPosts((p) => [
@@ -1134,13 +1081,9 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
             </div>
 
             <div className="px-3">
-              {homeFeed.map((item) =>
-                item.kind === "own" ? (
-                  <FeedPost key={item.data.id} post={item.data} avatar={avatar} username={profile.username} />
-                ) : (
-                  <OtherFeedPost key={item.data.id} post={item.data} />
-                )
-              )}
+              {posts.map((post) => (
+                <FeedPost key={post.id} post={post} avatar={avatar} username={profile.username} />
+              ))}
             </div>
           </div>
         </div>
@@ -1158,7 +1101,7 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
               postCount={postCount}
               avatar={avatar}
               posts={posts}
-              onOpenPost={(i) => setViewer({ feed: ownFeed, index: i })}
+              onOpenPost={(i) => setViewer({ feed: posts, index: i })}
               onEditProfile={() => setEditOpen(true)}
               onShareProfile={() => setShareOpen(true)}
               onOpenMenu={() => setMenuOpen(true)}
