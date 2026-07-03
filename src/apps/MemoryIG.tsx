@@ -48,7 +48,7 @@ const PROFILE: ProfileInfo = {
   pronoun: "she/her",
   followers: "312K",
   following: "1,126",
-  bio: ["dentcu80", "🍋 @usedbydada", "dm for work or"],
+  bio: ["dcu80", "🍋 @usedbydada", "dm for work or"],
   link: "lin.ee/rS4rcBa",
 };
 
