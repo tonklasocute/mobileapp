@@ -1,5 +1,44 @@
 [
   {
+    "id": "p11",
+    "author": "Bua",
+    "handle": "@bua_",
+    "verified": false,
+    "avatarGradient": "linear-gradient(135deg,#b3d9ff,#c3b6ff)",
+    "timeAgo": "8m",
+    "text": "ดวงดาวบางดวงเลือกที่จะส่องสว่าง ต่อเมื่อพวกเขาพบกับผู้สังเกตการณ์ที่รอคอย",
+    "replies": 1,
+    "reposts": 3,
+    "likes": 47,
+    "views": 890
+  },
+  {
+    "id": "p12",
+    "author": "Ploy",
+    "handle": "@ploypim",
+    "verified": false,
+    "avatarGradient": "linear-gradient(135deg,#c3b6ff,#b3d9ff)",
+    "timeAgo": "34m",
+    "text": "ภาวนาให้ตัวฉันพบรักที่ถูกคน ถูกที่ ถูกเวลาสักที",
+    "replies": 2,
+    "reposts": 5,
+    "likes": 63,
+    "views": 1120
+  },
+  {
+    "id": "p13",
+    "author": "Fah",
+    "handle": "@fahsai",
+    "verified": false,
+    "avatarGradient": "linear-gradient(135deg,#b3d9ff,#ffd4c2)",
+    "timeAgo": "2h",
+    "text": "ชอบประโยคที่บอกว่า “most people doesn’t know how hard to fight a war inside your head while your face stay calm” ไม่มีใครรู้หรอกว่าแต่ละวันเราต้องต่อสู้กับความคิดตัวเองหนักแค่ไหน ข้างนอกดูปกติ แต่ความจริงคือ ต้องประคองและเยียวยาหัวใจไม่ให้แตกสลายนับครั้งไม่ถ้วน",
+    "replies": 4,
+    "reposts": 9,
+    "likes": 118,
+    "views": 2430
+  },
+  {
     "id": "p1",
     "author": "Dada",
     "handle": "@dada",
