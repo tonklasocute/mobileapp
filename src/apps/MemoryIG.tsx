@@ -397,37 +397,20 @@ function StoryViewer({ onClose }: { onClose: () => void }) {
   );
 }
 
-function ReelsScreen({ feed, avatar, username }: { feed: FeedEntry[]; avatar: string; username: string }) {
-  const [index, setIndex] = useState(0);
+function ReelItem({ entry, avatar, username }: { entry: FeedEntry; avatar: string; username: string }) {
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
-  const entry = feed[index];
   const { data: post } = entry;
   const displayUsername = entry.kind === "own" ? username : post.username;
 
-  const go = (dir: 1 | -1) => {
-    setIndex((i) => Math.min(feed.length - 1, Math.max(0, i + dir)));
-    setLiked(false);
-    setSaved(false);
-  };
-
   return (
-    <div className="absolute inset-0 bg-black text-white overflow-hidden">
+    <div className="relative h-full w-full shrink-0 snap-start overflow-hidden">
       {entry.kind === "own" ? (
         <img src={post.photo} alt="" className="absolute inset-0 w-full h-full object-cover" />
       ) : (
         <div className="absolute inset-0 w-full h-full" style={{ background: post.photoGradient }} />
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none" />
-      <button aria-label="Previous reel" onClick={() => go(-1)} className="absolute inset-y-0 left-0 w-1/3" />
-      <button aria-label="Next reel" onClick={() => go(1)} className="absolute inset-y-0 right-0 w-1/3" />
-
-      <div className="absolute top-12 left-4 right-4 flex items-center justify-between pointer-events-none">
-        <h1 className="text-lg font-semibold">Reels</h1>
-        <span className="text-xs text-white/70">
-          {index + 1}/{feed.length}
-        </span>
-      </div>
 
       <div className="absolute right-3 bottom-28 flex flex-col items-center gap-5">
         <motion.button whileTap={{ scale: 0.85 }} onClick={() => setLiked((v) => !v)} aria-label="Like" className="flex flex-col items-center gap-1">
@@ -456,6 +439,19 @@ function ReelsScreen({ feed, avatar, username }: { feed: FeedEntry[]; avatar: st
         </div>
         <p className="text-[13px] leading-snug">{post.caption}</p>
       </div>
+    </div>
+  );
+}
+
+function ReelsScreen({ feed, avatar, username }: { feed: FeedEntry[]; avatar: string; username: string }) {
+  return (
+    <div className="absolute inset-0 bg-black text-white overflow-y-scroll snap-y snap-mandatory no-scrollbar">
+      <div className="absolute top-12 left-4 z-10 pointer-events-none">
+        <h1 className="text-lg font-semibold drop-shadow">Reels</h1>
+      </div>
+      {feed.map((entry) => (
+        <ReelItem key={entry.data.id} entry={entry} avatar={avatar} username={username} />
+      ))}
     </div>
   );
 }
