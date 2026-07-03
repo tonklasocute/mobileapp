@@ -39,7 +39,7 @@ const profiles: Profile[] = [
     id: "pr1",
     theOne: true,
     blocks: [
-      { kind: "photo", image: dada2, badge: "Most Likely to Match" },
+      { kind: "photo", image: tonkla, badge: "Most Likely to Match" },
       {
         kind: "identity",
         name: "T",
