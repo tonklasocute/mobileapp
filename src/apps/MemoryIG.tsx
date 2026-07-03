@@ -75,8 +75,10 @@ interface OtherPost {
 
 const otherPosts = otherPostsData as OtherPost[];
 
-function buildHomeFeed(own: FeedItem[]) {
-  const feed: ({ kind: "own"; data: FeedItem } | { kind: "other"; data: OtherPost })[] = [];
+type FeedEntry = { kind: "own"; data: FeedItem } | { kind: "other"; data: OtherPost };
+
+function buildHomeFeed(own: FeedItem[]): FeedEntry[] {
+  const feed: FeedEntry[] = [];
   let oi = 0;
   own.forEach((post, i) => {
     feed.push({ kind: "own", data: post });
@@ -395,21 +397,27 @@ function StoryViewer({ onClose }: { onClose: () => void }) {
   );
 }
 
-function ReelsScreen({ posts, avatar, username }: { posts: FeedItem[]; avatar: string; username: string }) {
+function ReelsScreen({ feed, avatar, username }: { feed: FeedEntry[]; avatar: string; username: string }) {
   const [index, setIndex] = useState(0);
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
-  const post = posts[index];
+  const entry = feed[index];
+  const { data: post } = entry;
+  const displayUsername = entry.kind === "own" ? username : post.username;
 
   const go = (dir: 1 | -1) => {
-    setIndex((i) => Math.min(posts.length - 1, Math.max(0, i + dir)));
+    setIndex((i) => Math.min(feed.length - 1, Math.max(0, i + dir)));
     setLiked(false);
     setSaved(false);
   };
 
   return (
     <div className="absolute inset-0 bg-black text-white overflow-hidden">
-      <img src={post.photo} alt="" className="absolute inset-0 w-full h-full object-cover" />
+      {entry.kind === "own" ? (
+        <img src={post.photo} alt="" className="absolute inset-0 w-full h-full object-cover" />
+      ) : (
+        <div className="absolute inset-0 w-full h-full" style={{ background: post.photoGradient }} />
+      )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none" />
       <button aria-label="Previous reel" onClick={() => go(-1)} className="absolute inset-y-0 left-0 w-1/3" />
       <button aria-label="Next reel" onClick={() => go(1)} className="absolute inset-y-0 right-0 w-1/3" />
@@ -417,7 +425,7 @@ function ReelsScreen({ posts, avatar, username }: { posts: FeedItem[]; avatar: s
       <div className="absolute top-12 left-4 right-4 flex items-center justify-between pointer-events-none">
         <h1 className="text-lg font-semibold">Reels</h1>
         <span className="text-xs text-white/70">
-          {index + 1}/{posts.length}
+          {index + 1}/{feed.length}
         </span>
       </div>
 
@@ -439,8 +447,12 @@ function ReelsScreen({ posts, avatar, username }: { posts: FeedItem[]; avatar: s
 
       <div className="absolute left-4 right-16 bottom-8">
         <div className="flex items-center gap-2 mb-2">
-          <img src={avatar} alt="" className="w-8 h-8 rounded-full object-cover border border-white/40" />
-          <span className="text-[14px] font-semibold">{username}</span>
+          {entry.kind === "own" ? (
+            <img src={avatar} alt="" className="w-8 h-8 rounded-full object-cover border border-white/40" />
+          ) : (
+            <div className="w-8 h-8 rounded-full border border-white/40" style={{ background: post.avatarGradient }} />
+          )}
+          <span className="text-[14px] font-semibold">{displayUsername}</span>
         </div>
         <p className="text-[13px] leading-snug">{post.caption}</p>
       </div>
@@ -1031,7 +1043,7 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
         </div>
       )}
 
-      {view === "reels" && <ReelsScreen posts={posts} avatar={avatar} username={profile.username} />}
+      {view === "reels" && <ReelsScreen feed={homeFeed} avatar={avatar} username={profile.username} />}
 
       {view === "search" && <SearchScreen posts={posts} onOpenPost={(i) => setViewerIndex(i)} />}
 
