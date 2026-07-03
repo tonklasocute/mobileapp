@@ -17,9 +17,12 @@ function Poster({ show, onOpen }: { show: Show; onOpen: () => void }) {
     <button
       onClick={onOpen}
       className="shrink-0 w-28 h-40 rounded-lg overflow-hidden relative flex items-end p-2 text-left"
-      style={{ background: show.gradient }}
+      style={show.poster ? undefined : { background: show.gradient }}
     >
-      <span className="text-[12px] font-semibold leading-tight drop-shadow">
+      {show.poster && (
+        <img src={show.poster} alt="" className="absolute inset-0 w-full h-full object-cover" />
+      )}
+      <span className="relative text-[12px] font-semibold leading-tight drop-shadow">
         {show.title}
       </span>
     </button>

@@ -1,4 +1,12 @@
 import type { ShowRow } from "../types";
+import strangerThings from "../assets/netfilx/Stranger Things.jpg";
+import bridgerton from "../assets/netfilx/Bridgerton.webp";
+import squidGame from "../assets/netfilx/Squid Game.avif";
+import wednesday from "../assets/netfilx/Wednesday.jpg";
+import theCrown from "../assets/netfilx/The Crown.webp";
+import toAllTheBoys from "../assets/netfilx/To All the Boys I've Loved Before.jpg";
+import emilyInParis from "../assets/netfilx/Emily in Paris.jpg";
+import movieNight from "../assets/netfilx/Movie Night, For Us.webp";
 
 const rows: ShowRow[] = [
   {
@@ -9,6 +17,7 @@ const rows: ShowRow[] = [
         id: "stranger-things",
         title: "Stranger Things",
         gradient: "linear-gradient(135deg,#2e2640,#c3b6ff)",
+        poster: strangerThings,
         genre: "Sci-Fi",
         match: 97,
         year: 2024,
@@ -22,6 +31,7 @@ const rows: ShowRow[] = [
         id: "bridgerton",
         title: "Bridgerton",
         gradient: "linear-gradient(135deg,#ffc2dd,#ffd4c2)",
+        poster: bridgerton,
         genre: "Romance",
         match: 94,
         year: 2024,
@@ -41,6 +51,7 @@ const rows: ShowRow[] = [
         id: "squid-game",
         title: "Squid Game",
         gradient: "linear-gradient(135deg,#ff8aa8,#2e2640)",
+        poster: squidGame,
         genre: "Thriller",
         match: 91,
         year: 2024,
@@ -54,6 +65,7 @@ const rows: ShowRow[] = [
         id: "wednesday",
         title: "Wednesday",
         gradient: "linear-gradient(135deg,#2e2640,#b3d9ff)",
+        poster: wednesday,
         genre: "Comedy",
         match: 96,
         year: 2023,
@@ -67,6 +79,7 @@ const rows: ShowRow[] = [
         id: "the-crown",
         title: "The Crown",
         gradient: "linear-gradient(135deg,#c3b6ff,#ffd4c2)",
+        poster: theCrown,
         genre: "Drama",
         match: 89,
         year: 2023,
@@ -85,6 +98,7 @@ const rows: ShowRow[] = [
         id: "to-all-the-boys",
         title: "To All the Boys I've Loved Before",
         gradient: "linear-gradient(135deg,#ffc2dd,#c3b6ff)",
+        poster: toAllTheBoys,
         genre: "Romance",
         match: 98,
         year: 2018,
@@ -98,6 +112,7 @@ const rows: ShowRow[] = [
         id: "emily-in-paris",
         title: "Emily in Paris",
         gradient: "linear-gradient(135deg,#b3d9ff,#ffc2dd)",
+        poster: emilyInParis,
         genre: "Comedy",
         match: 90,
         year: 2024,
@@ -117,6 +132,7 @@ const rows: ShowRow[] = [
         id: "our-movie-night",
         title: "Movie Night, For Us",
         gradient: "linear-gradient(135deg,#c3b6ff,#ffc2dd)",
+        poster: movieNight,
         genre: "Cozy",
         match: 100,
         year: 2026,

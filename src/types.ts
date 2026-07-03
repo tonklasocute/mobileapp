@@ -75,6 +75,7 @@ export interface Show {
   id: string;
   title: string;
   gradient: string;
+  poster?: string;
   genre: string;
   match: number;
   year: number;
