@@ -44,7 +44,5 @@ export const apps: AppMeta[] = [
     emoji: "🎬",
     gradient: "linear-gradient(135deg,#2e2640,#ff6b81)",
     icon: "/logo/netfilx.webp",
-    iconFit: "contain",
-    iconBg: "#000000",
   },
 ];
