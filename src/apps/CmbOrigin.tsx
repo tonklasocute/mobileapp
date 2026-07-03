@@ -6,7 +6,11 @@ import { ChatBubble } from "../components/ChatBubble";
 import { Button } from "../components/Button";
 import chats from "../data/chats.json";
 import type { ChatMessage } from "../types";
+import dada1 from "../assets/pic/dada1.jpg";
 import dada2 from "../assets/pic/dada2.jpg";
+import dada3 from "../assets/pic/dada3.jpg";
+import dada4 from "../assets/pic/dada4.jpg";
+import dada5 from "../assets/pic/dada5.jpg";
 import tonkla from "../assets/pic/tonkla.jpg";
 
 type Block =
@@ -349,7 +353,7 @@ function SuggestedFeed({ onMatched }: { onMatched: (name: string) => void }) {
 
 const TABS = [
   { id: "suggested", label: "Suggested", icon: "◉", badge: 31 },
-  { id: "likes", label: "Likes You", icon: "♡", badge: 3 },
+  { id: "likes", label: "Likes You", icon: "♡", badge: "99+" },
   { id: "discover", label: "Discover", icon: "⌕", dot: true },
   { id: "chats", label: "Chats", icon: "💬" },
   { id: "me", label: "Me", icon: "👤" },
@@ -369,7 +373,7 @@ function TabBar({ active, onChange }: { active: TabId; onChange: (id: TabId) => 
           <span className="text-lg leading-none">{t.icon}</span>
           {t.label}
           {"badge" in t && t.badge && (
-            <span className="absolute -top-1 right-1.5 bg-red-500 text-white text-[9px] rounded-full min-w-[15px] h-[15px] flex items-center justify-center px-1">
+            <span className="absolute -top-1 -right-2 bg-red-500 text-white text-[9px] rounded-full min-w-[18px] h-[15px] flex items-center justify-center px-1">
               {t.badge}
             </span>
           )}
@@ -380,13 +384,122 @@ function TabBar({ active, onChange }: { active: TabId; onChange: (id: TabId) => 
   );
 }
 
-function PlaceholderTab({ label }: { label: string }) {
+const LOCKED_LIKES = [
+  { photo: dada1, caption: "Mystery admirer" },
+  { photo: dada3, caption: "Someone nearby" },
+  { photo: dada4, caption: "New here" },
+  { photo: dada5, caption: "Liked you" },
+];
+
+function LikesYouTab({ matchedName, matchedPhoto }: { matchedName: string; matchedPhoto: string }) {
   return (
     <div className="absolute inset-0 flex flex-col bg-white text-ink">
       <div className="px-4 pt-12 pb-3 shrink-0">
-        <h1 className="text-2xl font-extrabold">{label}</h1>
+        <h1 className="text-2xl font-extrabold">Likes You</h1>
       </div>
-      <div className="flex-1 flex items-center justify-center text-ink/40 text-sm">Coming soon</div>
+      <div className="flex-1 overflow-y-auto no-scrollbar px-4 pb-6 flex flex-col gap-4">
+        <div className="flex items-center gap-3 bg-dada-purple/10 rounded-2xl p-4">
+          <span className="text-2xl">💎</span>
+          <div className="text-[13px] leading-snug flex-1">
+            <p className="font-bold text-ink">Unlock 99+ likes</p>
+            <p className="text-ink/60">See everyone who liked you with Premium.</p>
+          </div>
+        </div>
+        <div className="grid grid-cols-2 gap-3">
+          <div className="relative rounded-2xl overflow-hidden aspect-[4/5]">
+            <img src={matchedPhoto} alt="" className="w-full h-full object-cover" />
+            <span className="absolute top-2 left-2 bg-black/50 text-white text-[11px] rounded-full px-2 py-0.5">Matched</span>
+            <span className="absolute bottom-2 left-2 right-2 text-white text-[13px] font-semibold drop-shadow">{matchedName}</span>
+          </div>
+          {LOCKED_LIKES.map((l, i) => (
+            <div key={i} className="relative rounded-2xl overflow-hidden aspect-[4/5]">
+              <img src={l.photo} alt="" className="w-full h-full object-cover blur-lg scale-110" />
+              <div className="absolute inset-0 bg-black/20 flex items-center justify-center">
+                <span className="w-9 h-9 rounded-full bg-white/90 flex items-center justify-center text-base">🔒</span>
+              </div>
+              <span className="absolute bottom-2 left-2 right-2 text-white text-[12px] font-medium drop-shadow text-center">
+                {l.caption}
+              </span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+const DISCOVER_CARDS = [
+  { photo: dada1, caption: "Still her." },
+  { photo: dada3, caption: "Yep, her again." },
+  { photo: dada4, caption: "No one else." },
+  { photo: dada5, caption: "Obviously her." },
+  { photo: dada2, caption: "Always will be." },
+];
+
+function DiscoverTab() {
+  const [open, setOpen] = useState<number | null>(null);
+  return (
+    <div className="absolute inset-0 flex flex-col bg-white text-ink">
+      <div className="px-4 pt-12 pb-3 shrink-0">
+        <h1 className="text-2xl font-extrabold">Discover</h1>
+      </div>
+      <div className="flex-1 overflow-y-auto no-scrollbar px-4 pb-6 grid grid-cols-2 gap-3 content-start">
+        {DISCOVER_CARDS.map((c, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={() => setOpen(i)}
+            className="relative rounded-2xl overflow-hidden aspect-[4/5]"
+          >
+            <img src={c.photo} alt="" className="w-full h-full object-cover" />
+            <span className="absolute bottom-2 left-2 right-2 text-white text-[12px] font-semibold drop-shadow text-left">
+              {c.caption}
+            </span>
+          </button>
+        ))}
+      </div>
+      <AnimatePresence>
+        {open !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="absolute inset-0 z-20 bg-black/90 flex flex-col items-center justify-center gap-4 px-8"
+            onClick={() => setOpen(null)}
+          >
+            <img src={DISCOVER_CARDS[open].photo} alt="" className="w-full rounded-3xl object-cover max-h-[70%]" />
+            <p className="text-white font-semibold">{DISCOVER_CARDS[open].caption}</p>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
+
+function MeTab() {
+  return (
+    <div className="absolute inset-0 flex flex-col bg-white text-ink">
+      <div className="px-4 pt-12 pb-3 shrink-0">
+        <h1 className="text-2xl font-extrabold">Me</h1>
+      </div>
+      <div className="flex-1 overflow-y-auto no-scrollbar px-4 pb-6 flex flex-col gap-3">
+        <div className="bg-white rounded-3xl p-4 flex items-center gap-4 border border-black/5">
+          <img src={tonkla} alt="" className="w-16 h-16 rounded-full object-cover" />
+          <div>
+            <h2 className="text-lg font-bold">You</h2>
+            <p className="text-ink/60 text-sm">Looking for: her, apparently</p>
+          </div>
+        </div>
+        <ListCard
+          title="Settings"
+          items={[
+            { icon: "🔔", text: "Notifications" },
+            { icon: "🔒", text: "Privacy" },
+            { icon: "💳", text: "Subscription" },
+            { icon: "❓", text: "Help" },
+          ]}
+        />
+      </div>
     </div>
   );
 }
@@ -581,7 +694,9 @@ export function CmbOrigin({ onClose }: { onClose: () => void }) {
           }}
         />
       )}
-      {tab !== "suggested" && tab !== "chats" && <PlaceholderTab label={TABS.find((t) => t.id === tab)!.label} />}
+      {tab === "likes" && <LikesYouTab matchedName={matchName} matchedPhoto={dada2} />}
+      {tab === "discover" && <DiscoverTab />}
+      {tab === "me" && <MeTab />}
       {tab === "chats" && (
         <div className="absolute inset-0 flex flex-col">
           <div className="flex-1 min-h-0">
