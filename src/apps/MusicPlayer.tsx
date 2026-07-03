@@ -269,9 +269,10 @@ function PlaylistView({
   return (
     <div className="flex flex-col">
       <div className="px-4 pt-2 pb-4 flex flex-col items-center gap-3">
-        <div
-          className="w-40 h-40 rounded-lg shadow-2xl"
-          style={{ background: playlist.gradient }}
+        <img
+          src={playlist.songs[0]?.cover}
+          alt=""
+          className="w-40 h-40 rounded-lg shadow-2xl object-cover"
         />
         <div className="text-center">
           <p className="text-lg font-bold">{playlist.name}</p>
