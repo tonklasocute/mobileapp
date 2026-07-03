@@ -17,8 +17,8 @@ import s5 from "../assets/story/s5.jpg";
 
 const dadaPhotos = [dada1, dada2, dada3, dada4, dada5, dada6];
 
-const CLOSE_FRIENDS_GREEN = "#7fe8ab";
-const STORY_RED = "#ff3040";
+const CLOSE_FRIENDS_GREEN = "linear-gradient(135deg,#78e08f,#38ada9)";
+const STORY_RING_GRADIENT = "linear-gradient(135deg,#f58529,#dd2a7b,#8134af,#515bd4)";
 const IG_BLUE = "#7cc4f5";
 
 interface StoryPage {
@@ -196,6 +196,14 @@ function BookmarkIcon({ filled }: { filled?: boolean }) {
   return (
     <svg width="22" height="22" viewBox="0 0 24 24" fill={filled ? "currentColor" : "none"} stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round">
       <path d="M6 3h12v18l-6-4.5L6 21V3z" />
+    </svg>
+  );
+}
+
+function StarIcon() {
+  return (
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="#fff">
+      <path d="M12 2.5l2.9 6.6 7.1.7-5.4 4.8 1.6 7-6.2-3.7-6.2 3.7 1.6-7-5.4-4.8 7.1-.7z" />
     </svg>
   );
 }
@@ -430,6 +438,15 @@ function StoryViewer({ initialIndex, onClose }: { initialIndex: number; onClose:
         <div className="w-8 h-8 rounded-full bg-white/30 border border-white/50" />
         <span className="text-white text-[14px] font-semibold drop-shadow">{person.username}</span>
       </div>
+      {person.closeFriend && (
+        <div
+          className="absolute top-12 right-14 flex items-center gap-1 rounded-full px-2.5 py-1 z-10"
+          style={{ background: CLOSE_FRIENDS_GREEN }}
+        >
+          <StarIcon />
+          <span className="text-white text-[12px] font-semibold">Close Friends</span>
+        </div>
+      )}
       <button
         onClick={(e) => {
           e.stopPropagation();
@@ -1104,7 +1121,7 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
               </button>
               {stories.map((s, i) => (
                 <button key={s.id} onClick={() => setStoryIndex(i)} className="flex flex-col items-center gap-1.5 shrink-0">
-                  <div className="w-14 h-14 rounded-full p-[2px]" style={{ background: s.closeFriend ? CLOSE_FRIENDS_GREEN : STORY_RED }}>
+                  <div className="w-14 h-14 rounded-full p-[2px]" style={{ background: s.closeFriend ? CLOSE_FRIENDS_GREEN : STORY_RING_GRADIENT }}>
                     <div className="w-full h-full rounded-full bg-white border-2 border-white" />
                   </div>
                   <span className="text-[10px] text-ink/60">{s.username}</span>
