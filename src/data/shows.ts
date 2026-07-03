@@ -1,6 +1,6 @@
 import type { ShowRow } from "../types";
 import strangerThings from "../assets/netfilx/Stranger Things.jpg";
-import strangerThingsBanner from "../assets/netfilx/ Stranger Things banner.jpg";
+import strangerThingsBanner from "../assets/netfilx/ Stranger Things banner1.jpg";
 import bridgerton from "../assets/netfilx/Bridgerton.webp";
 import bridgertonBanner from "../assets/netfilx/ Bridgerton banner.jpg";
 import squidGame from "../assets/netfilx/Squid Game.avif";
