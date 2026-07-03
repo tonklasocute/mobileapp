@@ -809,7 +809,6 @@ function ProfileScreen({
   postCount,
   avatar,
   posts,
-  onOpenStory,
   onOpenPost,
   onEditProfile,
   onShareProfile,
@@ -819,7 +818,6 @@ function ProfileScreen({
   postCount: number;
   avatar: string;
   posts: FeedItem[];
-  onOpenStory: () => void;
   onOpenPost: (index: number) => void;
   onEditProfile: () => void;
   onShareProfile: () => void;
@@ -880,9 +878,9 @@ function ProfileScreen({
 
       <div className="flex gap-4 overflow-x-auto no-scrollbar mb-5">
         {highlights.map((h) => (
-          <button key={h.id} onClick={onOpenStory} aria-label={`Highlight: ${h.label}`}>
+          <div key={h.id} aria-label={`Highlight: ${h.label}`}>
             <HighlightCircle label={h.label} gradient={h.gradient} />
-          </button>
+          </div>
         ))}
       </div>
 
@@ -1101,7 +1099,6 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
               postCount={postCount}
               avatar={avatar}
               posts={posts}
-              onOpenStory={() => setStoryOpen(true)}
               onOpenPost={(i) => setViewer({ feed: ownFeed, index: i })}
               onEditProfile={() => setEditOpen(true)}
               onShareProfile={() => setShareOpen(true)}
