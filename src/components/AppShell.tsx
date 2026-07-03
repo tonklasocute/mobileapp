@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { motion } from "framer-motion";
+import { HomeIndicator } from "./HomeIndicator";
 
 export function AppShell({
   title,
@@ -23,14 +23,7 @@ export function AppShell({
           transparent ? "" : "border-b border-white/10"
         }`}
       >
-        <motion.button
-          whileTap={{ scale: 0.9 }}
-          onClick={onBack}
-          className="w-9 h-9 rounded-full glass flex items-center justify-center text-lg"
-          aria-label="Back to home"
-        >
-          ‹
-        </motion.button>
+        <div className="w-9 h-9" />
         <span className="text-[15px] font-semibold">{title}</span>
         <div className="w-9 h-9 flex items-center justify-center">{action}</div>
       </div>
@@ -38,6 +31,7 @@ export function AppShell({
         {children}
       </div>
       {bottomBar}
+      <HomeIndicator onSwipeUp={onBack} />
     </div>
   );
 }

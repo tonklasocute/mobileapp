@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { HomeIndicator } from "../components/HomeIndicator";
 import memories from "../data/memories.json";
 import type { Memory } from "../types";
 import dada1 from "../assets/pic/dada1.jpg";
@@ -282,18 +283,6 @@ function TaggedIcon({ active }: { active?: boolean }) {
       <circle cx="12" cy="10" r="2.6" />
       <path d="M7 17c0-3 2.3-4.8 5-4.8s5 1.8 5 4.8" />
     </svg>
-  );
-}
-
-function BackButton({ onClick }: { onClick: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      className="absolute top-12 left-4 w-8 h-8 rounded-full bg-black/5 flex items-center justify-center text-ink/60 text-lg z-10"
-      aria-label="Back"
-    >
-      ‹
-    </button>
   );
 }
 
@@ -606,9 +595,6 @@ function ActivityScreen({ onBack }: { onBack: () => void }) {
       className="absolute inset-0 z-30 bg-white text-ink flex flex-col"
     >
       <div className="flex items-center gap-3 px-4 pt-12 pb-3 shrink-0 border-b border-black/10">
-        <button onClick={onBack} aria-label="Back" className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center text-ink/60 text-lg">
-          ‹
-        </button>
         <h1 className="text-[17px] font-bold">Activity</h1>
       </div>
       <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar pb-10">
@@ -617,6 +603,7 @@ function ActivityScreen({ onBack }: { onBack: () => void }) {
           <ActivityRow key={item.id} item={item} index={i} />
         ))}
       </div>
+      <HomeIndicator light onSwipeUp={onBack} />
     </motion.div>
   );
 }
@@ -838,9 +825,6 @@ function PostViewer({
     >
       <div className="absolute inset-0 overflow-y-auto no-scrollbar">
         <div className="sticky top-0 z-10 flex items-center gap-3 px-4 pt-12 pb-2 bg-white">
-          <button onClick={onClose} aria-label="Close" className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center text-ink/60 text-lg">
-            ‹
-          </button>
           <h2 className="font-semibold text-[15px]">Post</h2>
         </div>
         <div className="pb-20">
@@ -852,6 +836,7 @@ function PostViewer({
         </div>
       </div>
       <TabBar view={view} onHome={onHome} onReels={onReels} onCreate={onCreate} onSearch={onSearch} onProfile={onProfile} />
+      <HomeIndicator light onSwipeUp={onClose} />
     </motion.div>
   );
 }
@@ -1088,12 +1073,7 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
     <div className="absolute inset-0 bg-white text-ink overflow-hidden">
       {view === "feed" && (
         <div className="absolute inset-0 flex flex-col">
-          <div className="pt-8 px-4 shrink-0">
-            <button onClick={onClose} aria-label="Back to home screen" className="w-8 h-8 -ml-1.5 rounded-full bg-black/5 flex items-center justify-center text-ink/60 text-lg">
-              ‹
-            </button>
-          </div>
-          <div className="flex items-center justify-between px-4 pt-1 pb-2 shrink-0">
+          <div className="flex items-center justify-between px-4 pt-12 pb-2 shrink-0">
             <button aria-label="New post" onClick={() => setCreateOpen(true)}>
               <PlusIcon />
             </button>
@@ -1132,6 +1112,7 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
               ))}
             </div>
           </div>
+          <HomeIndicator light onSwipeUp={onClose} />
         </div>
       )}
 
@@ -1153,7 +1134,7 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
               onOpenMenu={() => setMenuOpen(true)}
             />
           </div>
-          <BackButton onClick={() => setView("feed")} />
+          <HomeIndicator light onSwipeUp={() => setView("feed")} />
         </>
       )}
 

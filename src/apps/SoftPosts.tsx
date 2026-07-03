@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
+import { HomeIndicator } from "../components/HomeIndicator";
 import initialPosts from "../data/posts.json";
 import forYouPosts from "../data/forYouPosts.json";
 import type { Post } from "../types";
@@ -388,13 +389,6 @@ export function SoftPosts({ onClose }: { onClose: () => void }) {
   return (
     <div className="absolute inset-0 bg-black text-white flex flex-col">
       <div className="flex items-center gap-3 px-4 pt-8 shrink-0">
-        <button
-          onClick={onClose}
-          aria-label="Back to home screen"
-          className="w-8 h-8 -ml-1.5 rounded-full bg-white/10 flex items-center justify-center text-white/70 text-lg shrink-0"
-        >
-          ‹
-        </button>
         {activeTab === "home" ? (
           <div className="relative w-8 h-8 ml-auto">
             <img src={dada2} alt="" className="w-full h-full rounded-full object-cover" />
@@ -518,6 +512,7 @@ export function SoftPosts({ onClose }: { onClose: () => void }) {
           )}
         </button>
       </div>
+      <HomeIndicator onSwipeUp={onClose} />
     </div>
   );
 }

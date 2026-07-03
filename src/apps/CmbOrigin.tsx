@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import clsx from "clsx";
 import { AppShell } from "../components/AppShell";
+import { HomeIndicator } from "../components/HomeIndicator";
 import { ChatBubble } from "../components/ChatBubble";
 import { Button } from "../components/Button";
 import chats from "../data/chats.json";
@@ -804,14 +805,7 @@ export function CmbOrigin({ onClose }: { onClose: () => void }) {
       <div className="absolute inset-x-0 bottom-0">
         <TabBar active={tab} onChange={setTab} />
       </div>
-
-      <button
-        onClick={onClose}
-        className="absolute top-4 left-4 w-8 h-8 rounded-full bg-black/5 flex items-center justify-center text-ink/60 text-lg z-10"
-        aria-label="Close CMB"
-      >
-        ‹
-      </button>
+      <HomeIndicator light onSwipeUp={onClose} />
 
       <AnimatePresence>
         {stage === "match" && (

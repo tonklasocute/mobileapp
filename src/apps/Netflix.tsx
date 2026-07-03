@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { AppShell } from "../components/AppShell";
+import { HomeIndicator } from "../components/HomeIndicator";
 import rows from "../data/shows";
 import type { Show } from "../types";
 
@@ -152,13 +153,6 @@ function PlayerView({ show, onBack }: { show: Show; onBack: () => void }) {
       className="absolute inset-0 flex flex-col justify-between p-5"
       style={{ background: show.gradient }}
     >
-      <button
-        onClick={onBack}
-        className="w-9 h-9 rounded-full glass flex items-center justify-center text-lg self-start"
-      >
-        ‹
-      </button>
-
       <div className="flex flex-col items-center gap-3">
         <p className="text-lg font-semibold drop-shadow">{show.title}</p>
         {done ? (
@@ -199,6 +193,7 @@ function PlayerView({ show, onBack }: { show: Show; onBack: () => void }) {
           <span>{show.duration}</span>
         </div>
       </div>
+      <HomeIndicator onSwipeUp={onBack} />
     </div>
   );
 }

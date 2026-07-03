@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { AppShell } from "../components/AppShell";
+import { HomeIndicator } from "../components/HomeIndicator";
 import playlists from "../data/songs";
 import type { Playlist, Song } from "../types";
 import dada1 from "../assets/pic/dada1.jpg";
@@ -23,13 +24,6 @@ function greeting() {
 
 // ─── SVG Icons ────────────────────────────────────────────────────────────────
 
-function IcoChevronDown() {
-  return (
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M6 9l6 6 6-6" />
-    </svg>
-  );
-}
 function IcoEllipsis() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
@@ -434,13 +428,7 @@ function NowPlayingView({
 
         {/* Header */}
         <div className="flex items-center justify-between shrink-0">
-          <motion.button
-            whileTap={{ scale: 0.82 }}
-            onClick={onBack}
-            className="w-8 h-8 flex items-center justify-center -ml-1 text-white"
-          >
-            <IcoChevronDown />
-          </motion.button>
+          <div className="w-8 h-8" />
 
           <div className="text-center flex-1 px-3">
             <p className="text-[9px] font-bold uppercase tracking-[0.16em] text-white/45 leading-none">
@@ -559,6 +547,7 @@ function NowPlayingView({
           </button>
         </div>
       </div>
+      <HomeIndicator onSwipeUp={onBack} />
     </div>
   );
 }
