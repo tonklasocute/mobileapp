@@ -544,7 +544,7 @@ function MeTab() {
       </div>
       <div className="flex-1 overflow-y-auto no-scrollbar px-4 pb-6 flex flex-col gap-3">
         <div className="bg-white rounded-3xl p-4 flex items-center gap-4 border border-black/5">
-          <img src={dada1} alt="" className="w-16 h-16 rounded-full object-cover" />
+          <img src={dada2} alt="" className="w-16 h-16 rounded-full object-cover" />
           <div>
             <h2 className="text-lg font-bold">You</h2>
             <p className="text-ink/60 text-sm">Looking for: her, apparently</p>
