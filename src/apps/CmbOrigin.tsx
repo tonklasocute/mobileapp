@@ -7,6 +7,7 @@ import { Button } from "../components/Button";
 import chats from "../data/chats.json";
 import type { ChatMessage } from "../types";
 import dada2 from "../assets/pic/dada2.jpg";
+import tonkla from "../assets/pic/tonkla.jpg";
 
 type Block =
   | { kind: "quote"; title: string; text: string }
@@ -390,33 +391,99 @@ function PlaceholderTab({ label }: { label: string }) {
   );
 }
 
-function MatchScreen({ name, onContinue }: { name: string; onContinue: () => void }) {
+const CONFETTI = [
+  { x: "12%", y: "18%", color: "#ffc2dd", delay: 0 },
+  { x: "82%", y: "14%", color: "#c3b6ff", delay: 0.3 },
+  { x: "20%", y: "70%", color: "#b3d9ff", delay: 0.6 },
+  { x: "78%", y: "68%", color: "#ffc2dd", delay: 0.9 },
+  { x: "50%", y: "10%", color: "#c3b6ff", delay: 1.2 },
+  { x: "90%", y: "45%", color: "#b3d9ff", delay: 0.45 },
+];
+
+function MatchScreen({
+  name,
+  onContinue,
+  onKeepSwiping,
+}: {
+  name: string;
+  onContinue: () => void;
+  onKeepSwiping: () => void;
+}) {
   return (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-6 px-8 text-center"
+      className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-5 px-8 text-center overflow-hidden"
       style={{ background: "radial-gradient(120% 80% at 50% 20%,#4a3968,#2e2640 70%)" }}
     >
-      <motion.div
-        initial={{ scale: 0.4, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        transition={{ type: "spring", stiffness: 260, damping: 16 }}
-        className="text-6xl"
-      >
-        ❤️
-      </motion.div>
+      {CONFETTI.map((c, i) => (
+        <motion.span
+          key={i}
+          className="absolute w-2 h-2 rounded-full"
+          style={{ left: c.x, top: c.y, background: c.color }}
+          initial={{ opacity: 0, y: -10, scale: 0.5 }}
+          animate={{ opacity: [0, 1, 0], y: 30, scale: 1 }}
+          transition={{ delay: c.delay, duration: 1.8, repeat: Infinity, repeatDelay: 1.2, ease: "easeOut" }}
+        />
+      ))}
+
       <motion.h1
-        initial={{ y: 12, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.2 }}
-        className="text-3xl font-bold text-gradient-dada"
+        initial={{ y: -12, opacity: 0, scale: 1.3 }}
+        animate={{ y: 0, opacity: 1, scale: 1 }}
+        transition={{ type: "spring", stiffness: 220, damping: 14 }}
+        className="text-4xl font-extrabold italic tracking-tight text-gradient-dada -rotate-2"
       >
         It's a Match!
       </motion.h1>
-      <p className="text-white/70 text-sm">You and {name} liked each other.</p>
-      <Button onClick={onContinue}>Say hello</Button>
+
+      <div className="relative w-36 h-24 my-2">
+        <motion.img
+          src={tonkla}
+          initial={{ x: 30, rotate: 10, opacity: 0 }}
+          animate={{ x: 0, rotate: -6, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 260, damping: 16, delay: 0.15 }}
+          className="absolute left-0 top-0 w-24 h-24 rounded-full object-cover border-[3px] border-white/90 shadow-xl"
+        />
+        <motion.img
+          src={dada2}
+          initial={{ x: -30, rotate: -10, opacity: 0 }}
+          animate={{ x: 0, rotate: 6, opacity: 1 }}
+          transition={{ type: "spring", stiffness: 260, damping: 16, delay: 0.2 }}
+          className="absolute right-0 top-0 w-24 h-24 rounded-full object-cover border-[3px] border-white/90 shadow-xl"
+        />
+        <motion.div
+          initial={{ scale: 0 }}
+          animate={{ scale: 1 }}
+          transition={{ delay: 0.45, type: "spring", stiffness: 320, damping: 14 }}
+          className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-9 h-9 rounded-full bg-gradient-to-br from-dada-purple to-dada-pink flex items-center justify-center text-base shadow-lg"
+        >
+          ❤️
+        </motion.div>
+      </div>
+
+      <motion.p
+        initial={{ y: 8, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.5 }}
+        className="text-white/70 text-sm"
+      >
+        You and {name} liked each other.
+      </motion.p>
+
+      <motion.div
+        initial={{ y: 8, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.6 }}
+        className="flex flex-col items-center gap-3 mt-1"
+      >
+        <Button onClick={onContinue} className="px-10 py-3 text-base">
+          Say hello
+        </Button>
+        <Button variant="ghost" onClick={onKeepSwiping}>
+          Keep swiping
+        </Button>
+      </motion.div>
     </motion.div>
   );
 }
@@ -537,7 +604,13 @@ export function CmbOrigin({ onClose }: { onClose: () => void }) {
       </button>
 
       <AnimatePresence>
-        {stage === "match" && <MatchScreen name={matchName} onContinue={() => setStage("chat")} />}
+        {stage === "match" && (
+          <MatchScreen
+            name={matchName}
+            onContinue={() => setStage("chat")}
+            onKeepSwiping={() => setStage("main")}
+          />
+        )}
       </AnimatePresence>
     </div>
   );
