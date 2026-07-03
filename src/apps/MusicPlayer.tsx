@@ -425,7 +425,7 @@ function NowPlayingView({
       <div className="absolute inset-0 bg-black/40" />
 
       {/* Content */}
-      <div className="relative flex flex-col h-full px-6 pt-12 pb-7 gap-5">
+      <div className="relative flex flex-col h-full px-6 pt-[calc(3rem+env(safe-area-inset-top))] pb-7 gap-5">
 
         {/* Header */}
         <div className="flex items-center justify-between shrink-0">

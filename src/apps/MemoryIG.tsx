@@ -404,7 +404,7 @@ function StoryViewer({ initialIndex, onClose }: { initialIndex: number; onClose:
       {page.photo && <img src={page.photo} alt="" className="absolute inset-0 w-full h-full object-cover" />}
       <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-black/40" />
 
-      <div className="relative flex gap-1 px-3 pt-12 shrink-0">
+      <div className="relative flex gap-1 px-3 pt-[calc(3rem+env(safe-area-inset-top))] shrink-0">
         {person.pages.map((_, i) => (
           <div key={`${person.id}-${i}`} className="flex-1 h-1 rounded-full bg-white/30 overflow-hidden">
             {i <= pageIndex && (
@@ -532,7 +532,7 @@ function SearchScreen() {
 
   return (
     <div className="absolute inset-0 flex flex-col bg-white text-ink">
-      <div className="px-4 pt-12 pb-2 shrink-0">
+      <div className="px-4 pt-[calc(3rem+env(safe-area-inset-top))] pb-2 shrink-0">
         <div className="flex items-center gap-2 bg-black/5 rounded-xl px-3 py-2">
           <SearchIcon />
           <input
@@ -600,7 +600,7 @@ function ActivityScreen({ onBack }: { onBack: () => void }) {
       }}
       className="absolute inset-0 z-30 bg-white text-ink flex flex-col"
     >
-      <div className="flex items-center gap-3 px-4 pt-12 pb-3 shrink-0 border-b border-black/10">
+      <div className="flex items-center gap-3 px-4 pt-[calc(3rem+env(safe-area-inset-top))] pb-3 shrink-0 border-b border-black/10">
         <button type="button" aria-label="Back" onClick={onBack} className="-ml-1 p-1">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
             <path d="M15 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
@@ -631,7 +631,7 @@ function CreateScreen({ onCancel, onShare }: { onCancel: () => void; onShare: (i
       transition={{ type: "spring", stiffness: 320, damping: 32 }}
       className="absolute inset-0 z-30 bg-white text-ink flex flex-col"
     >
-      <div className="flex items-center justify-between px-4 pt-12 pb-3 border-b border-black/10 shrink-0">
+      <div className="flex items-center justify-between px-4 pt-[calc(3rem+env(safe-area-inset-top))] pb-3 border-b border-black/10 shrink-0">
         <button onClick={onCancel} className="text-[15px] text-ink/70">
           Cancel
         </button>
@@ -707,7 +707,7 @@ function EditProfileScreen({
       transition={{ type: "spring", stiffness: 320, damping: 32 }}
       className="absolute inset-0 z-30 bg-white text-ink flex flex-col"
     >
-      <div className="flex items-center justify-between px-4 pt-12 pb-3 border-b border-black/10 shrink-0">
+      <div className="flex items-center justify-between px-4 pt-[calc(3rem+env(safe-area-inset-top))] pb-3 border-b border-black/10 shrink-0">
         <button onClick={onCancel} className="text-[15px] text-ink/70">
           Cancel
         </button>
@@ -835,7 +835,7 @@ function PostViewer({
       className="absolute inset-0 z-30 bg-white text-ink"
     >
       <div className="absolute inset-0 overflow-y-auto no-scrollbar">
-        <div className="sticky top-0 z-10 flex items-center gap-3 px-4 pt-12 pb-2 bg-white">
+        <div className="sticky top-0 z-10 flex items-center gap-3 px-4 pt-[calc(3rem+env(safe-area-inset-top))] pb-2 bg-white">
           <h2 className="font-semibold text-[15px]">Post</h2>
         </div>
         <div className="pb-20">
@@ -876,7 +876,7 @@ function ProfileScreen({
   const [tab, setTab] = useState<ProfileTab>("posts");
 
   return (
-    <div className="px-4 pt-12 pb-8">
+    <div className="px-4 pt-[calc(3rem+env(safe-area-inset-top))] pb-8">
       <div className="flex items-center justify-between pb-2 pl-10">
         <div className="flex items-center gap-1.5">
           <h1 className="text-[19px] font-bold">{profile.username}</h1>
@@ -1084,7 +1084,7 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
     <div className="absolute inset-0 bg-white text-ink overflow-hidden">
       {view === "feed" && (
         <div className="absolute inset-0 flex flex-col">
-          <div className="flex items-center justify-between px-4 pt-12 pb-2 shrink-0">
+          <div className="flex items-center justify-between px-4 pt-[calc(3rem+env(safe-area-inset-top))] pb-2 shrink-0">
             <button aria-label="New post" onClick={() => setCreateOpen(true)}>
               <PlusIcon />
             </button>

@@ -13,7 +13,7 @@ export function StatusBar({ light = false }: { light?: boolean }) {
 
   return (
     <div
-      className={`absolute top-0 inset-x-0 z-40 flex items-center justify-between px-7 pt-3 h-11 text-[15px] font-semibold ${tone}`}
+      className={`absolute top-0 inset-x-0 z-40 flex items-center justify-between px-7 pt-[calc(0.75rem+env(safe-area-inset-top))] h-11 text-[15px] font-semibold ${tone}`}
     >
       <span>{time}</span>
       <div className="flex items-center gap-1.5">

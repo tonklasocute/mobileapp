@@ -317,7 +317,7 @@ function ComposeScreen({ onCancel, onPost }: { onCancel: () => void; onPost: (te
   const [text, setText] = useState("");
   return (
     <div className="absolute inset-0 bg-black flex flex-col">
-      <div className="flex items-center justify-between px-4 pt-12 pb-3">
+      <div className="flex items-center justify-between px-4 pt-[calc(3rem+env(safe-area-inset-top))] pb-3">
         <button onClick={onCancel} className="text-[15px] text-white/80">
           Cancel
         </button>

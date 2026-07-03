@@ -9,7 +9,7 @@ export function HomeIndicator({
 }) {
   return (
     <motion.div
-      className={`absolute bottom-0 inset-x-0 h-7 flex items-end justify-center pb-1.5 z-40 ${
+      className={`absolute bottom-[env(safe-area-inset-bottom)] inset-x-0 h-7 flex items-end justify-center pb-1.5 z-40 ${
         onSwipeUp ? "cursor-grab active:cursor-grabbing" : ""
       }`}
       drag={onSwipeUp ? "y" : false}
