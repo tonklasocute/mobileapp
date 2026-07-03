@@ -1,5 +1,57 @@
 [
   {
+    "id": "fy7",
+    "author": "Ken",
+    "handle": "@ken_p",
+    "avatarGradient": "linear-gradient(135deg,#b3d9ff,#c3b6ff)",
+    "timeAgo": "5m",
+    "text": "พรุ่งนี้วันจันทร์อีกแล้วหรอวะ",
+    "image": "x1.jpg",
+    "replies": 3,
+    "reposts": 2,
+    "likes": 41,
+    "views": 720
+  },
+  {
+    "id": "fy8",
+    "author": "Non",
+    "handle": "@non.p",
+    "avatarGradient": "linear-gradient(135deg,#c3b6ff,#ffc2dd)",
+    "timeAgo": "20m",
+    "text": "กว่าจะได้นอน = ยันเช้า",
+    "image": "x2.jpg",
+    "replies": 1,
+    "reposts": 0,
+    "likes": 18,
+    "views": 310
+  },
+  {
+    "id": "fy9",
+    "author": "Kade",
+    "handle": "@kade.d",
+    "avatarGradient": "linear-gradient(135deg,#ffd4c2,#ffc2dd)",
+    "timeAgo": "1h",
+    "text": "comment : ทำไมไม่อ่านป้าย 55555555555",
+    "image": "x3.jpg",
+    "replies": 7,
+    "reposts": 5,
+    "likes": 96,
+    "views": 1580
+  },
+  {
+    "id": "fy10",
+    "author": "Nan",
+    "handle": "@nan_w",
+    "avatarGradient": "linear-gradient(135deg,#b3d9ff,#ffd4c2)",
+    "timeAgo": "3h",
+    "text": "จุดที่น่ากลัวที่สุดในความสัมพันธ์ :",
+    "image": "x4.jpg",
+    "replies": 12,
+    "reposts": 8,
+    "likes": 134,
+    "views": 2210
+  },
+  {
     "id": "fy1",
     "author": "Bua",
     "handle": "@bua_",

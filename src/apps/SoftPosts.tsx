@@ -4,8 +4,13 @@ import initialPosts from "../data/posts.json";
 import forYouPosts from "../data/forYouPosts.json";
 import type { Post } from "../types";
 import dada2 from "../assets/pic/dada2.jpg";
+import x1 from "../assets/x/x1.jpg";
+import x2 from "../assets/x/x2.jpg";
+import x3 from "../assets/x/x3.jpg";
+import x4 from "../assets/x/x4.jpg";
 
 const BLUE = "#7cc4f5";
+const postImages: Record<string, string> = { "x1.jpg": x1, "x2.jpg": x2, "x3.jpg": x3, "x4.jpg": x4 };
 
 type Tab = "home" | "search" | "grok" | "notifications" | "messages";
 
@@ -206,6 +211,9 @@ function PostCard({ post }: { post: Post }) {
           <span className="text-white/50 truncate">{post.handle} · {post.timeAgo}</span>
         </div>
         <p className="text-[15px] leading-snug mt-1.5 whitespace-pre-wrap">{post.text}</p>
+        {post.image && (
+          <img src={postImages[post.image]} alt="" className="mt-3 rounded-2xl w-full max-h-96 object-cover" />
+        )}
         {post.quote && (
           <div className="mt-3 bg-white text-black rounded-2xl px-6 py-7 text-center">
             {post.quote.map((line, i) => (

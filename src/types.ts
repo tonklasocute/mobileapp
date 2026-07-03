@@ -70,6 +70,7 @@ export interface Post {
   replies?: number;
   views?: number;
   quote?: string[];
+  image?: string;
 }
 
 export interface Show {
