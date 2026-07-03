@@ -6,7 +6,6 @@ import wednesday from "../assets/netfilx/Wednesday.jpg";
 import theCrown from "../assets/netfilx/The Crown.webp";
 import toAllTheBoys from "../assets/netfilx/To All the Boys I've Loved Before.jpg";
 import emilyInParis from "../assets/netfilx/Emily in Paris.jpg";
-import movieNight from "../assets/netfilx/Movie Night, For Us.webp";
 
 const rows: ShowRow[] = [
   {
@@ -130,18 +129,43 @@ const rows: ShowRow[] = [
     title: "Dada's List",
     shows: [
       {
-        id: "our-movie-night",
-        title: "Movie Night, For Us",
-        gradient: "linear-gradient(135deg,#c3b6ff,#ffc2dd)",
-        poster: movieNight,
-        genre: "Cozy",
-        match: 100,
-        year: 2026,
-        rating: "Us",
-        duration: "always",
+        id: "frozen",
+        title: "Frozen",
+        gradient: "linear-gradient(135deg,#b3d9ff,#e8f4ff)",
+        genre: "Animation",
+        match: 95,
+        year: 2013,
+        rating: "G",
+        duration: "1h 42m",
         durationSeconds: 40,
         description:
-          "Blanket, snacks, phone on silent. Press play whenever you're ready. No script, no runtime, just the two of us picking something to half-watch while we actually talk. A 100% match rating because it's the one show on here that's ours, not the algorithm's.",
+          "Two royal sisters, one accidental eternal winter, and a snowman who just wants a hug. Elsa runs from a power she can't control while Anna treks across the mountains to bring her home, picking up a reindeer and an overly optimistic ice harvester along the way.",
+      },
+      {
+        id: "encanto",
+        title: "Encanto",
+        gradient: "linear-gradient(135deg,#ffd4c2,#ffc2dd)",
+        genre: "Animation",
+        match: 97,
+        year: 2021,
+        rating: "PG",
+        duration: "1h 42m",
+        durationSeconds: 40,
+        description:
+          "Every Madrigal gets a magical gift except Mirabel, which turns out to be the least interesting thing about her. When the family's enchanted house starts cracking, she's the only one who notices — and the only one willing to ask why.",
+      },
+      {
+        id: "moana",
+        title: "Moana",
+        gradient: "linear-gradient(135deg,#7cc4f5,#c3b6ff)",
+        genre: "Animation",
+        match: 96,
+        year: 2016,
+        rating: "PG",
+        duration: "1h 47m",
+        durationSeconds: 40,
+        description:
+          "A chief's daughter sails past the reef to save her island, drags a washed-up demigod along for the ride, and gets a lot of unsolicited singing along the way. Turns out the ocean picked her for a reason.",
       },
     ],
   },
