@@ -456,12 +456,11 @@ function ReelsScreen({ feed, avatar, username }: { feed: FeedEntry[]; avatar: st
   );
 }
 
-function SearchScreen({ posts, onOpenPost }: { posts: FeedItem[]; onOpenPost: (index: number) => void }) {
+function SearchScreen({ feed, onOpenPost }: { feed: FeedEntry[]; onOpenPost: (index: number) => void }) {
   const [query, setQuery] = useState("");
-  const tiles = Array.from({ length: 12 }, (_, i) => posts[i % posts.length]);
   const filtered = query.trim()
-    ? tiles.filter((p) => `${p.caption} ${p.location}`.toLowerCase().includes(query.trim().toLowerCase()))
-    : tiles;
+    ? feed.filter((entry) => `${entry.data.caption} ${entry.data.location}`.toLowerCase().includes(query.trim().toLowerCase()))
+    : feed;
 
   return (
     <div className="absolute inset-0 flex flex-col bg-white text-ink">
@@ -486,14 +485,18 @@ function SearchScreen({ posts, onOpenPost }: { posts: FeedItem[]; onOpenPost: (i
           <p className="text-center text-ink/40 text-[14px] mt-10">No results for “{query}”</p>
         ) : (
           <div className="grid grid-cols-3 gap-0.5">
-            {filtered.map((p, i) => (
+            {filtered.map((entry, i) => (
               <button
-                key={`${p.id}-${i}`}
-                onClick={() => onOpenPost(posts.indexOf(p))}
+                key={entry.data.id}
+                onClick={() => onOpenPost(feed.indexOf(entry))}
                 aria-label={`Open explore result ${i + 1}`}
                 className="relative aspect-square"
               >
-                <img src={p.photo} alt="" className="w-full h-full object-cover" />
+                {entry.kind === "own" ? (
+                  <img src={entry.data.photo} alt="" className="w-full h-full object-cover" />
+                ) : (
+                  <div className="w-full h-full" style={{ background: entry.data.photoGradient }} />
+                )}
               </button>
             ))}
           </div>
@@ -730,21 +733,21 @@ function ShareSheet({ onClose }: { onClose: () => void }) {
 }
 
 function PostViewer({
-  posts,
+  feed,
   index,
   avatar,
   username,
   onClose,
   onChangeIndex,
 }: {
-  posts: FeedItem[];
+  feed: FeedEntry[];
   index: number;
   avatar: string;
   username: string;
   onClose: () => void;
   onChangeIndex: (index: number) => void;
 }) {
-  const post = posts[index];
+  const entry = feed[index];
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -758,13 +761,13 @@ function PostViewer({
         </button>
         <h2 className="font-semibold text-[15px]">Post</h2>
       </div>
-      <FeedPost post={post} avatar={avatar} username={username} />
-      {posts.length > 1 && (
+      {entry.kind === "own" ? <FeedPost post={entry.data} avatar={avatar} username={username} /> : <OtherFeedPost post={entry.data} />}
+      {feed.length > 1 && (
         <div className="flex items-center justify-between px-4 py-4 text-[13px] text-ink/60">
           <button disabled={index === 0} onClick={() => onChangeIndex(index - 1)} className="disabled:opacity-30">
             ‹ Previous
           </button>
-          <button disabled={index === posts.length - 1} onClick={() => onChangeIndex(index + 1)} className="disabled:opacity-30">
+          <button disabled={index === feed.length - 1} onClick={() => onChangeIndex(index + 1)} className="disabled:opacity-30">
             Next ›
           </button>
         </div>
@@ -970,10 +973,11 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
   const [editOpen, setEditOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [shareOpen, setShareOpen] = useState(false);
-  const [viewerIndex, setViewerIndex] = useState<number | null>(null);
+  const [viewer, setViewer] = useState<{ feed: FeedEntry[]; index: number } | null>(null);
 
   const avatar = dada2;
   const homeFeed = buildHomeFeed(posts);
+  const ownFeed: FeedEntry[] = posts.map((p) => ({ kind: "own", data: p }));
 
   const handleShare = ({ photo, caption }: { photo: string; caption: string }) => {
     setPosts((p) => [
@@ -1041,7 +1045,7 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
 
       {view === "reels" && <ReelsScreen feed={homeFeed} avatar={avatar} username={profile.username} />}
 
-      {view === "search" && <SearchScreen posts={posts} onOpenPost={(i) => setViewerIndex(i)} />}
+      {view === "search" && <SearchScreen feed={homeFeed} onOpenPost={(i) => setViewer({ feed: homeFeed, index: i })} />}
 
       {view === "profile" && (
         <>
@@ -1052,7 +1056,7 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
               avatar={avatar}
               posts={posts}
               onOpenStory={() => setStoryOpen(true)}
-              onOpenPost={(i) => setViewerIndex(i)}
+              onOpenPost={(i) => setViewer({ feed: ownFeed, index: i })}
               onEditProfile={() => setEditOpen(true)}
               onShareProfile={() => setShareOpen(true)}
               onOpenMenu={() => setMenuOpen(true)}
@@ -1089,14 +1093,14 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
         )}
         {menuOpen && <OptionsSheet onClose={() => setMenuOpen(false)} onLogOut={onClose} />}
         {shareOpen && <ShareSheet onClose={() => setShareOpen(false)} />}
-        {viewerIndex !== null && (
+        {viewer && (
           <PostViewer
-            posts={posts}
-            index={viewerIndex}
+            feed={viewer.feed}
+            index={viewer.index}
             avatar={avatar}
             username={profile.username}
-            onClose={() => setViewerIndex(null)}
-            onChangeIndex={setViewerIndex}
+            onClose={() => setViewer(null)}
+            onChangeIndex={(index) => setViewer((v) => v && { ...v, index })}
           />
         )}
       </AnimatePresence>
