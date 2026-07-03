@@ -1,7 +1,7 @@
 [
   {
     "id": "m1",
-    "image": "linear-gradient(135deg,#ff9ac2,#8b7bff)",
+    "image": "linear-gradient(135deg,#ffc2dd,#c3b6ff)",
     "caption": "The evening the sky turned pink and you laughed at nothing.",
     "location": "Rooftop, home",
     "likes": 214,
@@ -9,7 +9,7 @@
   },
   {
     "id": "m2",
-    "image": "linear-gradient(135deg,#6ea8ff,#8b7bff)",
+    "image": "linear-gradient(135deg,#b3d9ff,#c3b6ff)",
     "caption": "First rain of the season. We stayed out longer than we should have.",
     "location": "Old street",
     "likes": 178,
@@ -17,7 +17,7 @@
   },
   {
     "id": "m3",
-    "image": "linear-gradient(135deg,#ffb4a8,#ff9ac2)",
+    "image": "linear-gradient(135deg,#ffd4c2,#ffc2dd)",
     "caption": "You fell asleep mid-sentence. I let the story end there.",
     "location": "Sunday afternoon",
     "likes": 342,
@@ -25,7 +25,7 @@
   },
   {
     "id": "m4",
-    "image": "linear-gradient(135deg,#8b7bff,#6ea8ff)",
+    "image": "linear-gradient(135deg,#c3b6ff,#b3d9ff)",
     "caption": "Coffee gone cold, conversation still warm.",
     "location": "Corner cafe",
     "likes": 96,
@@ -33,7 +33,7 @@
   },
   {
     "id": "m5",
-    "image": "linear-gradient(135deg,#ff9ac2,#ffb4a8)",
+    "image": "linear-gradient(135deg,#ffc2dd,#ffd4c2)",
     "caption": "Small apartment, big year.",
     "location": "Home",
     "likes": 401,
@@ -41,7 +41,7 @@
   },
   {
     "id": "m6",
-    "image": "linear-gradient(135deg,#6ea8ff,#ffb4a8)",
+    "image": "linear-gradient(135deg,#b3d9ff,#ffd4c2)",
     "caption": "You said this was your favorite kind of quiet.",
     "location": "Late night",
     "likes": 267,

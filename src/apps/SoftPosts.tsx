@@ -5,7 +5,7 @@ import forYouPosts from "../data/forYouPosts.json";
 import type { Post } from "../types";
 import dada2 from "../assets/pic/dada2.jpg";
 
-const BLUE = "#1d9bf0";
+const BLUE = "#7cc4f5";
 
 type Tab = "home" | "search" | "grok" | "notifications" | "messages";
 
@@ -20,12 +20,12 @@ interface NotificationEntry {
 }
 
 const notifications: NotificationEntry[] = [
-  { id: "n1", type: "like", author: "Bua", handle: "@bua_", avatarGradient: "linear-gradient(135deg,#6ea8ff,#8b7bff)", text: 'liked your post: "small steps still count"', timeAgo: "3m" },
-  { id: "n2", type: "follow", author: "Mint", handle: "@mint.k", avatarGradient: "linear-gradient(135deg,#ffb4a8,#ff9ac2)", text: "started following you", timeAgo: "22m" },
-  { id: "n3", type: "reply", author: "Ploy", handle: "@ploypim", avatarGradient: "linear-gradient(135deg,#8b7bff,#6ea8ff)", text: 'replied: "needed to read this today 🤍"', timeAgo: "1h" },
-  { id: "n4", type: "repost", author: "Kade", handle: "@kade.d", avatarGradient: "linear-gradient(135deg,#ff9ac2,#ffb4a8)", text: "reposted your post", timeAgo: "3h" },
-  { id: "n5", type: "like", author: "Fah", handle: "@fahsai", avatarGradient: "linear-gradient(135deg,#6ea8ff,#ffb4a8)", text: 'liked your post: "rest is productive too"', timeAgo: "5h" },
-  { id: "n6", type: "follow", author: "Nan", handle: "@nan_w", avatarGradient: "linear-gradient(135deg,#8b7bff,#ff9ac2)", text: "started following you", timeAgo: "1d" },
+  { id: "n1", type: "like", author: "Bua", handle: "@bua_", avatarGradient: "linear-gradient(135deg,#b3d9ff,#c3b6ff)", text: 'liked your post: "small steps still count"', timeAgo: "3m" },
+  { id: "n2", type: "follow", author: "Mint", handle: "@mint.k", avatarGradient: "linear-gradient(135deg,#ffd4c2,#ffc2dd)", text: "started following you", timeAgo: "22m" },
+  { id: "n3", type: "reply", author: "Ploy", handle: "@ploypim", avatarGradient: "linear-gradient(135deg,#c3b6ff,#b3d9ff)", text: 'replied: "needed to read this today 🤍"', timeAgo: "1h" },
+  { id: "n4", type: "repost", author: "Kade", handle: "@kade.d", avatarGradient: "linear-gradient(135deg,#ffc2dd,#ffd4c2)", text: "reposted your post", timeAgo: "3h" },
+  { id: "n5", type: "like", author: "Fah", handle: "@fahsai", avatarGradient: "linear-gradient(135deg,#b3d9ff,#ffd4c2)", text: 'liked your post: "rest is productive too"', timeAgo: "5h" },
+  { id: "n6", type: "follow", author: "Nan", handle: "@nan_w", avatarGradient: "linear-gradient(135deg,#c3b6ff,#ffc2dd)", text: "started following you", timeAgo: "1d" },
 ];
 
 interface DirectMessage {
@@ -39,10 +39,10 @@ interface DirectMessage {
 }
 
 const messages: DirectMessage[] = [
-  { id: "m1", author: "Bua", handle: "@bua_", avatarGradient: "linear-gradient(135deg,#6ea8ff,#8b7bff)", preview: "เห็นโพสวันนี้แล้ว หายเหนื่อยเลยอ่ะ 🤍", timeAgo: "2m", unread: true },
-  { id: "m2", author: "Ploy", handle: "@ploypim", avatarGradient: "linear-gradient(135deg,#ff9ac2,#8b7bff)", preview: "เก่งมากนะวันนี้ ไปพักผ่อนบ้างน้า", timeAgo: "1h", unread: true },
-  { id: "m3", author: "Kade", handle: "@kade.d", avatarGradient: "linear-gradient(135deg,#ffb4a8,#6ea8ff)", preview: "ส่งเพลงนี้ให้ฟังนะ เพราะดี", timeAgo: "6h" },
-  { id: "m4", author: "Mint", handle: "@mint.k", avatarGradient: "linear-gradient(135deg,#8b7bff,#ffb4a8)", preview: "ขอบคุณที่แชร์นะ ต้องการอ่านพอดีเลย", timeAgo: "1d" },
+  { id: "m1", author: "Bua", handle: "@bua_", avatarGradient: "linear-gradient(135deg,#b3d9ff,#c3b6ff)", preview: "เห็นโพสวันนี้แล้ว หายเหนื่อยเลยอ่ะ 🤍", timeAgo: "2m", unread: true },
+  { id: "m2", author: "Ploy", handle: "@ploypim", avatarGradient: "linear-gradient(135deg,#ffc2dd,#c3b6ff)", preview: "เก่งมากนะวันนี้ ไปพักผ่อนบ้างน้า", timeAgo: "1h", unread: true },
+  { id: "m3", author: "Kade", handle: "@kade.d", avatarGradient: "linear-gradient(135deg,#ffd4c2,#b3d9ff)", preview: "ส่งเพลงนี้ให้ฟังนะ เพราะดี", timeAgo: "6h" },
+  { id: "m4", author: "Mint", handle: "@mint.k", avatarGradient: "linear-gradient(135deg,#c3b6ff,#ffd4c2)", preview: "ขอบคุณที่แชร์นะ ต้องการอ่านพอดีเลย", timeAgo: "1d" },
 ];
 
 const trends = [
@@ -357,7 +357,7 @@ export function SoftPosts({ onClose }: { onClose: () => void }) {
               author: "Dada",
               handle: "@dada",
               verified: true,
-              avatarGradient: "linear-gradient(135deg,#8b7bff,#ff9ac2)",
+              avatarGradient: "linear-gradient(135deg,#c3b6ff,#ffc2dd)",
               timeAgo: "now",
               text,
               likes: 0,
@@ -491,7 +491,7 @@ export function SoftPosts({ onClose }: { onClose: () => void }) {
           className={`relative ${activeTab === "notifications" ? "text-white" : "text-white/60"}`}
         >
           <BellIcon />
-          <span className="absolute -top-1.5 -right-2 min-w-[16px] h-4 px-1 rounded-full bg-[#1d9bf0] text-white text-[10px] leading-4 text-center font-semibold">
+          <span className="absolute -top-1.5 -right-2 min-w-[16px] h-4 px-1 rounded-full bg-[#7cc4f5] text-white text-[10px] leading-4 text-center font-semibold">
             {notifications.length}
           </span>
         </button>
@@ -502,7 +502,7 @@ export function SoftPosts({ onClose }: { onClose: () => void }) {
         >
           <MessageIcon />
           {messages.some((m) => m.unread) && (
-            <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#1d9bf0] border-2 border-black" />
+            <span className="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 rounded-full bg-[#7cc4f5] border-2 border-black" />
           )}
         </button>
       </div>

@@ -48,7 +48,7 @@ function BreathingScreen({ onDone }: { onDone: () => void }) {
         animate={{ scale: phase === "in" ? 1.4 : 0.8 }}
         transition={{ duration: 4, ease: "easeInOut" }}
         className="w-32 h-32 rounded-full"
-        style={{ background: "radial-gradient(circle,#8b7bff,#0d0b18)" }}
+        style={{ background: "radial-gradient(circle,#c3b6ff,#2e2640)" }}
       />
       <p className="text-white/70 text-sm">{phase === "in" ? "Breathe in…" : "Breathe out…"}</p>
       <Button variant="glass" onClick={onDone}>

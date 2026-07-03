@@ -42,7 +42,7 @@ function randomDust(count: number): Dust[] {
 const decorations = [
   { id: "gold", label: "Gold", swatch: "linear-gradient(135deg,#ffd76a,#c9922a)" },
   { id: "diamond", label: "Diamond", swatch: "linear-gradient(135deg,#d6f3ff,#7bc9e8)" },
-  { id: "rainbow", label: "Rainbow", swatch: "linear-gradient(135deg,#ff9ac2,#8b7bff,#6ea8ff)" },
+  { id: "rainbow", label: "Rainbow", swatch: "linear-gradient(135deg,#ffc2dd,#c3b6ff,#b3d9ff)" },
   { id: "classic", label: "Classic", swatch: "linear-gradient(135deg,#ffffff,#e8e8ee)" },
 ] as const;
 

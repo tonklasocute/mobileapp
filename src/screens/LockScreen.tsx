@@ -31,17 +31,17 @@ export function LockScreen({ onUnlock }: { onUnlock: () => void }) {
       className="absolute inset-0 overflow-hidden"
       style={{
         background:
-          "radial-gradient(120% 90% at 50% 0%, #241a3d 0%, #0d0b18 55%, #05040a 100%)",
+          "radial-gradient(120% 90% at 50% 0%, #ffe3ef 0%, #e7dcff 55%, #d8ecff 100%)",
       }}
     >
-      <StatusBar />
+      <StatusBar light />
       <div className="absolute inset-0 flex flex-col items-center pt-28 gap-2">
-        <p className="text-sm text-white/60">{date}</p>
+        <p className="text-sm text-[#5b4b73]/70">{date}</p>
         <motion.h1
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="text-7xl font-semibold tracking-tight"
+          className="text-7xl font-semibold tracking-tight text-[#4a3b63]"
         >
           {time}
         </motion.h1>
@@ -49,7 +49,7 @@ export function LockScreen({ onUnlock }: { onUnlock: () => void }) {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.3, duration: 0.6 }}
-          className="text-base text-white/80 mt-4"
+          className="text-base text-[#5b4b73]/85 mt-4"
         >
           {greeting(now.getHours())}
         </motion.p>
@@ -67,14 +67,14 @@ export function LockScreen({ onUnlock }: { onUnlock: () => void }) {
         <motion.span
           animate={{ y: [0, -8, 0] }}
           transition={{ duration: 1.6, repeat: Infinity, ease: "easeInOut" }}
-          className="text-white/50 text-xs tracking-wide"
+          className="text-[#5b4b73]/60 text-xs tracking-wide"
         >
           swipe up to unlock
         </motion.span>
-        <div className="w-32 h-1 rounded-full bg-white/60" />
+        <div className="w-32 h-1 rounded-full bg-[#4a3b63]/35" />
       </motion.div>
 
-      <HomeIndicator />
+      <HomeIndicator light />
     </motion.div>
   );
 }

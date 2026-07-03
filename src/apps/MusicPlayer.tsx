@@ -171,7 +171,7 @@ function HomeView({
       <div className="px-4 flex items-center gap-2 overflow-x-auto no-scrollbar">
         <div
           className="w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-[13px] font-bold"
-          style={{ background: "#ff6a3d" }}
+          style={{ background: "#ffb08a" }}
         >
           D
         </div>
@@ -407,7 +407,7 @@ function NowPlayingView({
   onToggleRepeat: () => void;
 }) {
   const [liked, setLiked] = useState(false);
-  const glowColor = song.gradient.match(/#[a-f0-9]{6}/i)?.[0] ?? "#8b7bff";
+  const glowColor = song.gradient.match(/#[a-f0-9]{6}/i)?.[0] ?? "#c3b6ff";
 
   return (
     <div className="absolute inset-0 flex flex-col overflow-hidden">

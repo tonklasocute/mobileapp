@@ -3,16 +3,16 @@
 @theme {
   --font-sans: "Inter", -apple-system, "SF Pro Display", system-ui, sans-serif;
 
-  --color-ink: #05040a;
-  --color-ink-soft: #0d0b18;
-  --color-glass: rgb(255 255 255 / 0.08);
-  --color-glass-border: rgb(255 255 255 / 0.14);
+  --color-ink: #221c33;
+  --color-ink-soft: #2e2640;
+  --color-glass: rgb(255 235 248 / 0.1);
+  --color-glass-border: rgb(255 220 240 / 0.2);
 
-  --color-dada-purple: #8b7bff;
-  --color-dada-blue: #6ea8ff;
-  --color-dada-pink: #ff9ac2;
-  --color-dada-rose: #ffb4a8;
-  --color-spotify-green: #1ed760;
+  --color-dada-purple: #c3b6ff;
+  --color-dada-blue: #b3d9ff;
+  --color-dada-pink: #ffc2dd;
+  --color-dada-rose: #ffd4c2;
+  --color-spotify-green: #7fe8ab;
 
   --radius-app: 22px;
   --radius-card: 26px;
@@ -29,7 +29,7 @@
   body {
     margin: 0;
     font-family: var(--font-sans);
-    background: #000;
+    background: var(--color-ink);
     color: white;
     -webkit-tap-highlight-color: transparent;
     overscroll-behavior: none;

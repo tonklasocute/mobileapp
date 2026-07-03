@@ -36,7 +36,7 @@ export function AppIcon({
           app.emoji
         )}
       </motion.div>
-      <span className="text-[11px] text-white/85 font-medium drop-shadow">
+      <span className="text-[11px] text-[#4a3b63]/85 font-medium">
         {app.name}
       </span>
     </motion.button>

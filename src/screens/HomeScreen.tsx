@@ -36,12 +36,12 @@ export function HomeScreen({
       className="absolute inset-0 overflow-hidden"
       style={{
         background:
-          "radial-gradient(130% 90% at 20% 0%, #2c2050 0%, #140f26 45%, #05040a 100%)",
+          "radial-gradient(130% 90% at 20% 0%, #ffe9d6 0%, #ffdcef 45%, #e3d9ff 100%)",
         pointerEvents: dimmed ? "none" : "auto",
       }}
       onClick={() => jiggling && setJiggling(false)}
     >
-      <StatusBar />
+      <StatusBar light />
 
       <div className="absolute inset-0 pt-24 px-7">
         <div
@@ -64,7 +64,7 @@ export function HomeScreen({
         </div>
       </div>
 
-      <HomeIndicator />
+      <HomeIndicator light />
     </motion.div>
   );
 }

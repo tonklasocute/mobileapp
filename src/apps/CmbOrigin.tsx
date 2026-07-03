@@ -187,7 +187,7 @@ function PhotoCard({
         <div className="flex items-center gap-3 bg-dada-purple/10 rounded-2xl p-3">
           <span
             className="w-9 h-9 rounded-full shrink-0"
-            style={{ background: "linear-gradient(135deg,#ff9ac2,#8b7bff)" }}
+            style={{ background: "linear-gradient(135deg,#ffc2dd,#c3b6ff)" }}
           />
           <div className="text-[13px] leading-snug">
             <p className="font-bold text-ink">{badge}</p>
@@ -397,7 +397,7 @@ function MatchScreen({ name, onContinue }: { name: string; onContinue: () => voi
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       className="absolute inset-0 z-30 flex flex-col items-center justify-center gap-6 px-8 text-center"
-      style={{ background: "radial-gradient(120% 80% at 50% 20%,#3a2a63,#0d0b18 70%)" }}
+      style={{ background: "radial-gradient(120% 80% at 50% 20%,#4a3968,#2e2640 70%)" }}
     >
       <motion.div
         initial={{ scale: 0.4, opacity: 0 }}

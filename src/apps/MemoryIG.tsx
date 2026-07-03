@@ -12,23 +12,23 @@ import dada6 from "../assets/pic/dada6.jpg";
 
 const dadaPhotos = [dada1, dada2, dada3, dada4, dada5, dada6];
 
-const CLOSE_FRIENDS_GREEN = "#3ad16a";
-const IG_BLUE = "#3897f0";
+const CLOSE_FRIENDS_GREEN = "#7fe8ab";
+const IG_BLUE = "#7cc4f5";
 
 const stories = [
-  { id: "st1", label: "First Day", gradient: "linear-gradient(135deg,#ff9ac2,#8b7bff)", closeFriend: false },
-  { id: "st2", label: "Trip", gradient: "linear-gradient(135deg,#6ea8ff,#8b7bff)", closeFriend: false },
-  { id: "st3", label: "Home", gradient: "linear-gradient(135deg,#ffb4a8,#ff9ac2)", closeFriend: true },
-  { id: "st4", label: "Rain", gradient: "linear-gradient(135deg,#8b7bff,#6ea8ff)", closeFriend: false },
-  { id: "st5", label: "Us", gradient: "linear-gradient(135deg,#ff9ac2,#ffb4a8)", closeFriend: true },
+  { id: "st1", label: "First Day", gradient: "linear-gradient(135deg,#ffc2dd,#c3b6ff)", closeFriend: false },
+  { id: "st2", label: "Trip", gradient: "linear-gradient(135deg,#b3d9ff,#c3b6ff)", closeFriend: false },
+  { id: "st3", label: "Home", gradient: "linear-gradient(135deg,#ffd4c2,#ffc2dd)", closeFriend: true },
+  { id: "st4", label: "Rain", gradient: "linear-gradient(135deg,#c3b6ff,#b3d9ff)", closeFriend: false },
+  { id: "st5", label: "Us", gradient: "linear-gradient(135deg,#ffc2dd,#ffd4c2)", closeFriend: true },
 ];
 
 const highlights = [
-  { id: "h1", label: "2026 🛒", gradient: "linear-gradient(135deg,#ff9ac2,#8b7bff)" },
-  { id: "h2", label: "ootd 🛒", gradient: "linear-gradient(135deg,#6ea8ff,#8b7bff)" },
-  { id: "h3", label: "makeup 🛒", gradient: "linear-gradient(135deg,#ffb4a8,#ff9ac2)" },
-  { id: "h4", label: "🇯🇵🍁", gradient: "linear-gradient(135deg,#8b7bff,#6ea8ff)" },
-  { id: "h5", label: "🤿", gradient: "linear-gradient(135deg,#6ea8ff,#ffb4a8)" },
+  { id: "h1", label: "2026 🛒", gradient: "linear-gradient(135deg,#ffc2dd,#c3b6ff)" },
+  { id: "h2", label: "ootd 🛒", gradient: "linear-gradient(135deg,#b3d9ff,#c3b6ff)" },
+  { id: "h3", label: "makeup 🛒", gradient: "linear-gradient(135deg,#ffd4c2,#ffc2dd)" },
+  { id: "h4", label: "🇯🇵🍁", gradient: "linear-gradient(135deg,#c3b6ff,#b3d9ff)" },
+  { id: "h5", label: "🤿", gradient: "linear-gradient(135deg,#b3d9ff,#ffd4c2)" },
 ];
 
 const FOLLOWED_BY = "Followed by niceentp, somjungiixm and 3 others";
@@ -112,12 +112,12 @@ interface ActivityEntry {
 }
 
 const activityItems: ActivityEntry[] = [
-  { id: "a1", name: "niceentp", text: "liked your photo.", timeAgo: "2m", gradient: "linear-gradient(135deg,#ff9ac2,#8b7bff)", type: "like" },
-  { id: "a2", name: "somjungiixm", text: "started following you.", timeAgo: "18m", gradient: "linear-gradient(135deg,#6ea8ff,#8b7bff)", type: "follow" },
-  { id: "a3", name: "usedbynatnit", text: "commented: “this is so pretty 😍”", timeAgo: "1h", gradient: "linear-gradient(135deg,#ffb4a8,#ff9ac2)", type: "comment" },
-  { id: "a4", name: "kade.d", text: "liked your photo.", timeAgo: "3h", gradient: "linear-gradient(135deg,#8b7bff,#6ea8ff)", type: "like" },
-  { id: "a5", name: "ploypim", text: "started following you.", timeAgo: "1d", gradient: "linear-gradient(135deg,#ff9ac2,#ffb4a8)", type: "follow" },
-  { id: "a6", name: "mint.k", text: "liked your photo.", timeAgo: "2d", gradient: "linear-gradient(135deg,#6ea8ff,#ffb4a8)", type: "like" },
+  { id: "a1", name: "niceentp", text: "liked your photo.", timeAgo: "2m", gradient: "linear-gradient(135deg,#ffc2dd,#c3b6ff)", type: "like" },
+  { id: "a2", name: "somjungiixm", text: "started following you.", timeAgo: "18m", gradient: "linear-gradient(135deg,#b3d9ff,#c3b6ff)", type: "follow" },
+  { id: "a3", name: "usedbynatnit", text: "commented: “this is so pretty 😍”", timeAgo: "1h", gradient: "linear-gradient(135deg,#ffd4c2,#ffc2dd)", type: "comment" },
+  { id: "a4", name: "kade.d", text: "liked your photo.", timeAgo: "3h", gradient: "linear-gradient(135deg,#c3b6ff,#b3d9ff)", type: "like" },
+  { id: "a5", name: "ploypim", text: "started following you.", timeAgo: "1d", gradient: "linear-gradient(135deg,#ffc2dd,#ffd4c2)", type: "follow" },
+  { id: "a6", name: "mint.k", text: "liked your photo.", timeAgo: "2d", gradient: "linear-gradient(135deg,#b3d9ff,#ffd4c2)", type: "like" },
 ];
 
 function VerifiedBadge() {
@@ -814,7 +814,7 @@ function ProfileScreen({
       </div>
 
       <div className="flex items-center gap-6 mb-3">
-        <div className="w-[74px] h-[74px] rounded-full p-[2px] shrink-0" style={{ background: "linear-gradient(135deg,#ff9ac2,#8b7bff)" }}>
+        <div className="w-[74px] h-[74px] rounded-full p-[2px] shrink-0" style={{ background: "linear-gradient(135deg,#ffc2dd,#c3b6ff)" }}>
           <img src={avatar} alt="" className="w-full h-full rounded-full object-cover border-2 border-white" />
         </div>
         <div className="flex-1 flex justify-around text-center">
