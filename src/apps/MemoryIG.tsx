@@ -412,7 +412,7 @@ function ReelItem({ entry, avatar, username }: { entry: FeedEntry; avatar: strin
       )}
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none" />
 
-      <div className="absolute right-3 bottom-28 flex flex-col items-center gap-5">
+      <div className="absolute right-3 bottom-44 flex flex-col items-center gap-5">
         <motion.button whileTap={{ scale: 0.85 }} onClick={() => setLiked((v) => !v)} aria-label="Like" className="flex flex-col items-center gap-1">
           <HeartIcon filled={liked} />
           <span className="text-[11px]">{(post.likes + (liked ? 1 : 0)).toLocaleString()}</span>
@@ -428,7 +428,7 @@ function ReelItem({ entry, avatar, username }: { entry: FeedEntry; avatar: strin
         </motion.button>
       </div>
 
-      <div className="absolute left-4 right-16 bottom-8">
+      <div className="absolute left-4 right-16 bottom-24">
         <div className="flex items-center gap-2 mb-2">
           {entry.kind === "own" ? (
             <img src={avatar} alt="" className="w-8 h-8 rounded-full object-cover border border-white/40" />
