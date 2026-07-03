@@ -905,11 +905,11 @@ function ProfileScreen({
 
       {tab === "reels" && (
         <div className="grid grid-cols-3 gap-0.5">
-          {posts.slice(0, 3).map((p, i) => (
-            <button key={p.id} onClick={() => onOpenPost(i)} aria-label={`Open reel ${i + 1}`} className="relative aspect-square">
+          {posts.slice(0, 3).map((p) => (
+            <div key={p.id} className="relative aspect-square">
               <img src={p.photo} alt="" className="w-full h-full object-cover" />
               <span className="absolute bottom-1.5 left-1.5 text-white text-[11px] font-semibold drop-shadow">▶ {Math.max(1, Math.round(p.likes / 10))}k</span>
-            </button>
+            </div>
           ))}
         </div>
       )}
