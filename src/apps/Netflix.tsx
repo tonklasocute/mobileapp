@@ -19,12 +19,13 @@ function Poster({ show, onOpen }: { show: Show; onOpen: () => void }) {
       className="shrink-0 w-28 h-40 rounded-lg overflow-hidden relative flex items-end p-2 text-left"
       style={show.poster ? undefined : { background: show.gradient }}
     >
-      {show.poster && (
-        <img src={show.poster} alt="" className="absolute inset-0 w-full h-full object-cover" />
+      {show.poster ? (
+        <img src={show.poster} alt={show.title} className="absolute inset-0 w-full h-full object-cover" />
+      ) : (
+        <span className="relative text-[12px] font-semibold leading-tight drop-shadow">
+          {show.title}
+        </span>
       )}
-      <span className="relative text-[12px] font-semibold leading-tight drop-shadow">
-        {show.title}
-      </span>
     </button>
   );
 }
