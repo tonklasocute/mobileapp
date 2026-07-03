@@ -15,6 +15,7 @@ export function HomeIndicator({
       drag={onSwipeUp ? "y" : false}
       dragConstraints={{ top: -80, bottom: 0 }}
       dragElastic={{ top: 0.3, bottom: 0 }}
+      dragSnapToOrigin
       onDragEnd={
         onSwipeUp
           ? (_, info) => {
