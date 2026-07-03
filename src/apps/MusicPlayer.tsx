@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { AppShell } from "../components/AppShell";
 import playlists from "../data/songs";
 import type { Playlist, Song } from "../types";
+import dada1 from "../assets/pic/dada1.jpg";
 
 const GREEN = "var(--color-spotify-green)";
 
@@ -169,12 +170,11 @@ function HomeView({
       <p className="px-4 pt-3 text-xl font-bold">{greeting()}</p>
 
       <div className="px-4 flex items-center gap-2 overflow-x-auto no-scrollbar">
-        <div
-          className="w-8 h-8 rounded-full shrink-0 flex items-center justify-center text-[13px] font-bold"
-          style={{ background: "#ffb08a" }}
-        >
-          D
-        </div>
+        <img
+          src={dada1}
+          alt="D"
+          className="w-8 h-8 rounded-full shrink-0 object-cover"
+        />
         <button
           className="px-4 py-1.5 rounded-full text-[13px] font-semibold shrink-0 text-black"
           style={{ background: GREEN }}
