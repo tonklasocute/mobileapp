@@ -748,13 +748,25 @@ function PostViewer({
   index,
   avatar,
   username,
+  view,
   onClose,
+  onHome,
+  onReels,
+  onCreate,
+  onSearch,
+  onProfile,
 }: {
   feed: FeedEntry[];
   index: number;
   avatar: string;
   username: string;
+  view: "feed" | "profile" | "reels" | "search";
   onClose: () => void;
+  onHome: () => void;
+  onReels: () => void;
+  onCreate: () => void;
+  onSearch: () => void;
+  onProfile: () => void;
 }) {
   const initialRef = useRef<HTMLDivElement>(null);
 
@@ -767,19 +779,24 @@ function PostViewer({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="absolute inset-0 z-30 bg-white text-ink overflow-y-auto no-scrollbar"
+      className="absolute inset-0 z-30 bg-white text-ink"
     >
-      <div className="sticky top-0 z-10 flex items-center gap-3 px-4 pt-12 pb-2 bg-white">
-        <button onClick={onClose} aria-label="Close" className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center text-ink/60 text-lg">
-          ‹
-        </button>
-        <h2 className="font-semibold text-[15px]">Post</h2>
-      </div>
-      {feed.map((entry, i) => (
-        <div key={entry.data.id} ref={i === index ? initialRef : undefined} className="border-b border-black/5 scroll-mt-[76px]">
-          {entry.kind === "own" ? <FeedPost post={entry.data} avatar={avatar} username={username} /> : <OtherFeedPost post={entry.data} />}
+      <div className="absolute inset-0 overflow-y-auto no-scrollbar">
+        <div className="sticky top-0 z-10 flex items-center gap-3 px-4 pt-12 pb-2 bg-white">
+          <button onClick={onClose} aria-label="Close" className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center text-ink/60 text-lg">
+            ‹
+          </button>
+          <h2 className="font-semibold text-[15px]">Post</h2>
         </div>
-      ))}
+        <div className="pb-20">
+          {feed.map((entry, i) => (
+            <div key={entry.data.id} ref={i === index ? initialRef : undefined} className="border-b border-black/5 scroll-mt-[76px]">
+              {entry.kind === "own" ? <FeedPost post={entry.data} avatar={avatar} username={username} /> : <OtherFeedPost post={entry.data} />}
+            </div>
+          ))}
+        </div>
+      </div>
+      <TabBar view={view} onHome={onHome} onReels={onReels} onCreate={onCreate} onSearch={onSearch} onProfile={onProfile} />
     </motion.div>
   );
 }
@@ -987,11 +1004,33 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
 
   const handleShare = ({ photo, caption }: { photo: string; caption: string }) => {
     setPosts((p) => [
-      { id: `local-${Date.now()}`, photo, caption: caption || "New post", location: "", likes: 0, timeAgo: "now" },
+      { id: `local-${Date.now()}`, photo, caption: caption || "New post", location: "", likes: 0, comments: 0, views: 0, timeAgo: "now" },
       ...p,
     ]);
     setPostCount((c) => c + 1);
     setCreateOpen(false);
+  };
+
+  const goHome = () => {
+    setViewer(null);
+    if (view === "feed") onClose();
+    else setView("feed");
+  };
+  const goReels = () => {
+    setViewer(null);
+    setView("reels");
+  };
+  const goCreate = () => {
+    setViewer(null);
+    setCreateOpen(true);
+  };
+  const goSearch = () => {
+    setViewer(null);
+    setView("search");
+  };
+  const goProfile = () => {
+    setViewer(null);
+    setView("profile");
   };
 
   return (
@@ -1075,11 +1114,11 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
       <TabBar
         view={view}
         theme={view === "reels" ? "dark" : "light"}
-        onHome={() => (view === "feed" ? onClose() : setView("feed"))}
-        onReels={() => setView("reels")}
-        onCreate={() => setCreateOpen(true)}
-        onSearch={() => setView("search")}
-        onProfile={() => setView("profile")}
+        onHome={goHome}
+        onReels={goReels}
+        onCreate={goCreate}
+        onSearch={goSearch}
+        onProfile={goProfile}
       />
 
       <AnimatePresence>
@@ -1105,7 +1144,13 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
             index={viewer.index}
             avatar={avatar}
             username={profile.username}
+            view={view}
             onClose={() => setViewer(null)}
+            onHome={goHome}
+            onReels={goReels}
+            onCreate={goCreate}
+            onSearch={goSearch}
+            onProfile={goProfile}
           />
         )}
       </AnimatePresence>
