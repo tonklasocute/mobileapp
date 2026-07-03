@@ -408,19 +408,38 @@ function StoryViewer({ onClose }: { onClose: () => void }) {
   );
 }
 
-function ReelItem({ entry, avatar, username }: { entry: FeedEntry; avatar: string; username: string }) {
+interface ReelPost {
+  id: string;
+  username: string;
+  avatarGradient: string;
+  photo: string;
+  caption: string;
+  likes: number;
+}
+
+const reelImages = Object.values(import.meta.glob("../assets/reels/*.jpg", { eager: true, import: "default" })) as string[];
+
+const reelMeta: Omit<ReelPost, "id" | "photo">[] = [
+  { username: "softsundaysclub", avatarGradient: "linear-gradient(135deg,#ffc2dd,#c3b6ff)", caption: "flowers for no reason 💐", likes: 12400 },
+  { username: "gentle.notes", avatarGradient: "linear-gradient(135deg,#b3d9ff,#c3b6ff)", caption: "do more of what makes you happy", likes: 8930 },
+  { username: "quietlygrowing", avatarGradient: "linear-gradient(135deg,#ffd4c2,#ffc2dd)", caption: "shine your light ⭐", likes: 15200 },
+  { username: "dailygrace.txt", avatarGradient: "linear-gradient(135deg,#c3b6ff,#b3d9ff)", caption: "god bless you 🙏", likes: 6720 },
+  { username: "softreminders", avatarGradient: "linear-gradient(135deg,#ffc2dd,#ffd4c2)", caption: "everything will be okay", likes: 21800 },
+  { username: "tinywins.txt", avatarGradient: "linear-gradient(135deg,#b3d9ff,#ffd4c2)", caption: "you can do it!", likes: 9340 },
+  { username: "cozy.moodboard", avatarGradient: "linear-gradient(135deg,#ffd4c2,#c3b6ff)", caption: "rainy day, toy story reruns", likes: 17600 },
+  { username: "just.chill.things", avatarGradient: "linear-gradient(135deg,#c3b6ff,#ffc2dd)", caption: "don't worry about what you can't control", likes: 10500 },
+  { username: "quietlygrowing", avatarGradient: "linear-gradient(135deg,#b3d9ff,#c3b6ff)", caption: "never stop trying", likes: 13100 },
+];
+
+const reels: ReelPost[] = reelImages.map((photo, i) => ({ id: `reel-${i}`, photo, ...reelMeta[i] }));
+
+function ReelItem({ post }: { post: ReelPost }) {
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
-  const { data: post } = entry;
-  const displayUsername = entry.kind === "own" ? username : entry.data.username;
 
   return (
     <div className="relative h-full w-full shrink-0 snap-start overflow-hidden">
-      {entry.kind === "own" ? (
-        <img src={entry.data.photo} alt="" className="absolute inset-0 w-full h-full object-cover" />
-      ) : (
-        <div className="absolute inset-0 w-full h-full" style={{ background: entry.data.photoGradient }} />
-      )}
+      <img src={post.photo} alt="" className="absolute inset-0 w-full h-full object-cover" />
       <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/30 pointer-events-none" />
 
       <div className="absolute right-3 bottom-44 flex flex-col items-center gap-5">
@@ -441,12 +460,8 @@ function ReelItem({ entry, avatar, username }: { entry: FeedEntry; avatar: strin
 
       <div className="absolute left-4 right-16 bottom-24">
         <div className="flex items-center gap-2 mb-2">
-          {entry.kind === "own" ? (
-            <img src={avatar} alt="" className="w-8 h-8 rounded-full object-cover border border-white/40" />
-          ) : (
-            <div className="w-8 h-8 rounded-full border border-white/40" style={{ background: entry.data.avatarGradient }} />
-          )}
-          <span className="text-[14px] font-semibold">{displayUsername}</span>
+          <div className="w-8 h-8 rounded-full border border-white/40" style={{ background: post.avatarGradient }} />
+          <span className="text-[14px] font-semibold">{post.username}</span>
         </div>
         <p className="text-[13px] leading-snug">{post.caption}</p>
       </div>
@@ -454,14 +469,14 @@ function ReelItem({ entry, avatar, username }: { entry: FeedEntry; avatar: strin
   );
 }
 
-function ReelsScreen({ feed, avatar, username }: { feed: FeedEntry[]; avatar: string; username: string }) {
+function ReelsScreen() {
   return (
     <div className="absolute inset-0 bg-black text-white overflow-y-scroll snap-y snap-mandatory no-scrollbar">
       <div className="absolute top-12 left-4 z-10 pointer-events-none">
         <h1 className="text-lg font-semibold drop-shadow">Reels</h1>
       </div>
-      {feed.map((entry) => (
-        <ReelItem key={entry.data.id} entry={entry} avatar={avatar} username={username} />
+      {reels.map((post) => (
+        <ReelItem key={post.id} post={post} />
       ))}
     </div>
   );
@@ -1074,7 +1089,7 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
         </div>
       )}
 
-      {view === "reels" && <ReelsScreen feed={homeFeed} avatar={avatar} username={profile.username} />}
+      {view === "reels" && <ReelsScreen />}
 
       {view === "search" && <SearchScreen />}
 
