@@ -504,6 +504,71 @@ function MeTab() {
   );
 }
 
+function ChatRow({
+  name,
+  photo,
+  preview,
+  pill,
+  onClick,
+}: {
+  name: string;
+  photo: string;
+  preview: string;
+  pill?: string;
+  onClick?: () => void;
+}) {
+  return (
+    <div
+      onClick={onClick}
+      className={clsx("flex items-start gap-3 px-4 py-3", onClick && "active:bg-black/[0.02] cursor-pointer")}
+    >
+      <img src={photo} alt="" className="w-14 h-14 rounded-full object-cover ring-2 ring-dada-blue shrink-0" />
+      <div className="flex-1 min-w-0">
+        <p className="text-[15px] text-ink truncate">
+          <span className="font-semibold">{name}</span>
+          <span className="text-dada-purple font-medium"> · Liked you back!</span>
+        </p>
+        <p className={clsx("text-[14px] mt-0.5", onClick ? "text-ink/80" : "text-ink/45")}>{preview}</p>
+      </div>
+      {pill && (
+        <span className="shrink-0 mt-0.5 bg-dada-purple/15 text-dada-purple text-[12px] font-medium rounded-full px-3 py-1 whitespace-nowrap">
+          {pill}
+        </span>
+      )}
+    </div>
+  );
+}
+
+function ChatsListTab({
+  matchName,
+  matchPhoto,
+  onOpenChat,
+}: {
+  matchName: string;
+  matchPhoto: string;
+  onOpenChat: () => void;
+}) {
+  return (
+    <div className="absolute inset-0 flex flex-col bg-white text-ink">
+      <div className="px-4 pt-12 pb-3 shrink-0">
+        <h1 className="text-2xl font-extrabold">Chats</h1>
+      </div>
+      <div className="flex-1 overflow-y-auto no-scrollbar">
+        <ChatRow
+          name={matchName}
+          photo={matchPhoto}
+          preview={`Your chat with ${matchName} has been extended for 3 days`}
+          pill="Your move"
+          onClick={onOpenChat}
+        />
+        <div className="bg-black/5 px-4 py-2 text-[13px] text-ink/50">Expired Conversations</div>
+        <ChatRow name="Mystery match" photo={dada3} preview="Would you like to extend this chat?" />
+        <ChatRow name="Mystery match" photo={dada4} preview="Would you like to extend this chat?" />
+      </div>
+    </div>
+  );
+}
+
 const CONFETTI = [
   { x: "12%", y: "18%", color: "#ffc2dd", delay: 0 },
   { x: "82%", y: "14%", color: "#c3b6ff", delay: 0.3 },
@@ -698,17 +763,11 @@ export function CmbOrigin({ onClose }: { onClose: () => void }) {
       {tab === "discover" && <DiscoverTab />}
       {tab === "me" && <MeTab />}
       {tab === "chats" && (
-        <div className="absolute inset-0 flex flex-col">
-          <div className="flex-1 min-h-0">
-            <ChatScreen name={matchName} />
-          </div>
-        </div>
+        <ChatsListTab matchName={matchName} matchPhoto={dada2} onOpenChat={() => setStage("chat")} />
       )}
-      {tab !== "chats" && (
-        <div className="absolute inset-x-0 bottom-0">
-          <TabBar active={tab} onChange={setTab} />
-        </div>
-      )}
+      <div className="absolute inset-x-0 bottom-0">
+        <TabBar active={tab} onChange={setTab} />
+      </div>
 
       <button
         onClick={onClose}
