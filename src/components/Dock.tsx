@@ -30,18 +30,18 @@ const icons = [
 
 export function Dock() {
   return (
-    <div className="absolute inset-x-6 bottom-[86px] flex justify-center">
-      <div className="flex gap-4 px-4 py-3 rounded-[32px] bg-white/25 backdrop-blur-2xl shadow-lg shadow-black/20">
+    <div className="absolute inset-x-3 bottom-[70px] flex justify-center">
+      <div className="flex justify-between w-full gap-3 px-4 py-4 rounded-[36px] bg-white/25 backdrop-blur-2xl shadow-lg shadow-black/20">
         {icons.map((app) => (
-          <div key={app.key} className="relative w-14 h-14">
+          <div key={app.key} className="relative w-[72px] h-[72px] shrink-0">
             <div
-              className="w-full h-full rounded-2xl flex items-center justify-center overflow-hidden"
+              className="w-full h-full rounded-[20px] flex items-center justify-center overflow-hidden"
               style={{ background: app.bg }}
             >
               {app.key === "safari" ? (
-                <div className="w-9 h-9 rounded-full bg-white ring-1 ring-black/10 flex items-center justify-center">
+                <div className="w-11 h-11 rounded-full bg-white ring-1 ring-black/10 flex items-center justify-center">
                   <div
-                    className="w-5 h-5 rotate-45"
+                    className="w-6 h-6 rotate-45"
                     style={{
                       background:
                         "linear-gradient(to bottom right, #ff3b30 50%, #d1d1d6 50%)",
@@ -49,13 +49,13 @@ export function Dock() {
                   />
                 </div>
               ) : (
-                <svg viewBox="0 0 24 24" fill="white" className="w-7 h-7">
+                <svg viewBox="0 0 24 24" fill="white" className="w-9 h-9">
                   {app.glyph}
                 </svg>
               )}
             </div>
             {app.badge ? (
-              <span className="absolute -top-1.5 -right-1.5 min-w-[22px] h-[22px] px-1 rounded-full bg-[#ff3b30] ring-2 ring-white/25 text-white text-[11px] font-medium flex items-center justify-center">
+              <span className="absolute -top-2 -right-2 min-w-[26px] h-[26px] px-1.5 rounded-full bg-[#ff3b30] ring-2 ring-white/25 text-white text-sm font-medium flex items-center justify-center">
                 {app.badge}
               </span>
             ) : null}
