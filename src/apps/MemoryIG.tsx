@@ -378,19 +378,16 @@ function StoryViewer({ initialIndex, onClose }: { initialIndex: number; onClose:
       onClick={next}
     >
       <div className="flex gap-1 px-3 pt-12 shrink-0">
-        {stories.map((s, i) => (
-          <div key={s.id} className="flex-1 h-1 rounded-full bg-white/30 overflow-hidden">
-            {i <= index && (
-              <motion.div
-                className="h-full bg-white"
-                initial={{ width: i < index ? "100%" : "0%" }}
-                animate={{ width: i === index ? "100%" : "100%" }}
-                transition={{ duration: i === index ? 3 : 0 }}
-                onAnimationComplete={() => i === index && next()}
-              />
-            )}
-          </div>
-        ))}
+        <div className="flex-1 h-1 rounded-full bg-white/30 overflow-hidden">
+          <motion.div
+            key={story.id}
+            className="h-full bg-white"
+            initial={{ width: "0%" }}
+            animate={{ width: "100%" }}
+            transition={{ duration: 3 }}
+            onAnimationComplete={next}
+          />
+        </div>
       </div>
       <div className="flex items-center gap-2 px-3 pt-2 shrink-0">
         <div className="w-8 h-8 rounded-full bg-white/30 border border-white/50" />
