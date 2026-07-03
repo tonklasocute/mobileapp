@@ -488,50 +488,17 @@ function LikesYouTab({ matchedName, matchedPhoto }: { matchedName: string; match
   );
 }
 
-const DISCOVER_CARDS = [
-  { photo: dada1, caption: "Still her." },
-  { photo: dada3, caption: "Yep, her again." },
-  { photo: dada4, caption: "No one else." },
-  { photo: dada5, caption: "Obviously her." },
-  { photo: dada2, caption: "Always will be." },
-];
-
 function DiscoverTab() {
-  const [open, setOpen] = useState<number | null>(null);
   return (
     <div className="absolute inset-0 flex flex-col bg-white text-ink">
       <div className="px-4 pt-12 pb-3 shrink-0">
         <h1 className="text-2xl font-extrabold">Discover</h1>
       </div>
-      <div className="flex-1 overflow-y-auto no-scrollbar px-4 pb-6 grid grid-cols-2 gap-3 content-start">
-        {DISCOVER_CARDS.map((c, i) => (
-          <button
-            key={i}
-            type="button"
-            onClick={() => setOpen(i)}
-            className="relative rounded-2xl overflow-hidden aspect-[4/5]"
-          >
-            <img src={c.photo} alt="" className="w-full h-full object-cover" />
-            <span className="absolute bottom-2 left-2 right-2 text-white text-[12px] font-semibold drop-shadow text-left">
-              {c.caption}
-            </span>
-          </button>
-        ))}
+      <div className="flex-1 flex flex-col items-center justify-center gap-2 px-8 text-center -mt-12">
+        <span className="text-4xl">🙅‍♀️</span>
+        <p className="font-bold text-lg">Nice try. No searching here. 😝</p>
+        <p className="text-ink/50 text-sm">There's no one else to find — just me.</p>
       </div>
-      <AnimatePresence>
-        {open !== null && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="absolute inset-0 z-20 bg-black/90 flex flex-col items-center justify-center gap-4 px-8"
-            onClick={() => setOpen(null)}
-          >
-            <img src={DISCOVER_CARDS[open].photo} alt="" className="w-full rounded-3xl object-cover max-h-[70%]" />
-            <p className="text-white font-semibold">{DISCOVER_CARDS[open].caption}</p>
-          </motion.div>
-        )}
-      </AnimatePresence>
     </div>
   );
 }
