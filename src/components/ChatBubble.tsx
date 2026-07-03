@@ -20,7 +20,7 @@ export function ChatBubble({ message }: { message: ChatMessage }) {
       >
         {message.text}
       </div>
-      <span className="text-[10px] text-white/40 mt-1 px-1">{message.time}</span>
+      {message.time && <span className="text-[10px] text-white/40 mt-1 px-1">{message.time}</span>}
     </motion.div>
   );
 }

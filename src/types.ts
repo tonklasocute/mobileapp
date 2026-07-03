@@ -37,6 +37,7 @@ export interface ChatMessage {
   from: "dada" | "T";
   text: string;
   time: string;
+  date?: string;
 }
 
 export interface Song {

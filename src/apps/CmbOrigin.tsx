@@ -727,7 +727,16 @@ function ChatScreen({ name }: { name: string }) {
     <div className="flex flex-col h-full">
       <div className="flex-1 overflow-y-auto no-scrollbar px-4 pt-4">
         {messages.map((m) => (
-          <ChatBubble key={m.id} message={m} />
+          <div key={m.id}>
+            {m.date && (
+              <div className="flex justify-center my-3">
+                <span className="text-[11px] text-white/40 bg-white/10 rounded-full px-3 py-1">
+                  {m.date}
+                </span>
+              </div>
+            )}
+            <ChatBubble message={m} />
+          </div>
         ))}
         <AnimatePresence>
           {typing && (
