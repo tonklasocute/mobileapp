@@ -54,7 +54,11 @@ const trends = [
   { id: "t1", category: "Self-care · Trending", topic: "#เหนื่อยแต่ไม่ยอมแพ้", posts: "12.4K posts" },
   { id: "t2", category: "Music · Trending", topic: "small steps still count", posts: "3,201 posts" },
   { id: "t3", category: "Trending in Thailand", topic: "#restisproductive", posts: "8,904 posts" },
-  { id: "t4", category: "For you", topic: "proud of you", posts: "1,532 posts" },
+  { id: "t4", category: "For you", topic: "you've got this", posts: "1,532 posts" },
+  { id: "t5", category: "For you", topic: "เธอเก่งกว่าที่เธอคิดนะ", posts: "2,048 posts" },
+  { id: "t6", category: "Trending in Thailand", topic: "#วันนี้ก็สู้ๆนะ", posts: "9,320 posts" },
+  { id: "t7", category: "Self-care · Trending", topic: "you are enough today", posts: "4,510 posts" },
+  { id: "t8", category: "For you", topic: "ไม่ต้องรีบ ค่อยๆไปก็ถึง", posts: "1,780 posts" },
 ];
 
 function VerifiedBadge() {
