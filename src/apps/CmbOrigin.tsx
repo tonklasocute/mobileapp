@@ -57,7 +57,7 @@ const profiles: Profile[] = [
         items: [
           { icon: "🌐", text: "Thai" },
           { icon: "✳️", text: "Buddhist" },
-          { icon: "📏", text: "165cm" },
+          { icon: "📏", text: "176cm" },
         ],
       },
       {
@@ -831,7 +831,7 @@ export function CmbOrigin({ onClose }: { onClose: () => void }) {
 
       <button
         onClick={onClose}
-        className="absolute top-12 left-4 w-8 h-8 rounded-full bg-black/5 flex items-center justify-center text-ink/60 text-lg z-10"
+        className="absolute top-4 left-4 w-8 h-8 rounded-full bg-black/5 flex items-center justify-center text-ink/60 text-lg z-10"
         aria-label="Close CMB"
       >
         ‹
