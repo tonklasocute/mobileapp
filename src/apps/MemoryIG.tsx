@@ -16,11 +16,11 @@ const CLOSE_FRIENDS_GREEN = "#7fe8ab";
 const IG_BLUE = "#7cc4f5";
 
 const stories = [
-  { id: "st1", label: "First Day", gradient: "linear-gradient(135deg,#ffc2dd,#c3b6ff)", closeFriend: false },
-  { id: "st2", label: "Trip", gradient: "linear-gradient(135deg,#b3d9ff,#c3b6ff)", closeFriend: false },
-  { id: "st3", label: "Home", gradient: "linear-gradient(135deg,#ffd4c2,#ffc2dd)", closeFriend: true },
-  { id: "st4", label: "Rain", gradient: "linear-gradient(135deg,#c3b6ff,#b3d9ff)", closeFriend: false },
-  { id: "st5", label: "Us", gradient: "linear-gradient(135deg,#ffc2dd,#ffd4c2)", closeFriend: true },
+  { id: "st1", username: "bua_", message: "you're doing better than you think 🤍", gradient: "linear-gradient(135deg,#ffc2dd,#c3b6ff)", closeFriend: false },
+  { id: "st2", username: "mint.k", message: "reminder: you are so loved", gradient: "linear-gradient(135deg,#b3d9ff,#c3b6ff)", closeFriend: false },
+  { id: "st3", username: "ploypim", message: "today's a good day to be proud of yourself", gradient: "linear-gradient(135deg,#ffd4c2,#ffc2dd)", closeFriend: true },
+  { id: "st4", username: "kade.d", message: "small wins count too ✨", gradient: "linear-gradient(135deg,#c3b6ff,#b3d9ff)", closeFriend: false },
+  { id: "st5", username: "fahsai", message: "breathe. you've got this 🌿", gradient: "linear-gradient(135deg,#ffc2dd,#ffd4c2)", closeFriend: true },
 ];
 
 const highlights = [
@@ -359,8 +359,8 @@ function OtherFeedPost({ post }: { post: OtherPost }) {
   );
 }
 
-function StoryViewer({ onClose }: { onClose: () => void }) {
-  const [index, setIndex] = useState(0);
+function StoryViewer({ initialIndex, onClose }: { initialIndex: number; onClose: () => void }) {
+  const [index, setIndex] = useState(initialIndex);
   const story = stories[index];
 
   const next = () => {
@@ -392,6 +392,10 @@ function StoryViewer({ onClose }: { onClose: () => void }) {
           </div>
         ))}
       </div>
+      <div className="flex items-center gap-2 px-3 pt-2 shrink-0">
+        <div className="w-8 h-8 rounded-full bg-white/30 border border-white/50" />
+        <span className="text-white text-[14px] font-semibold drop-shadow">{story.username}</span>
+      </div>
       <button
         onClick={(e) => {
           e.stopPropagation();
@@ -402,7 +406,7 @@ function StoryViewer({ onClose }: { onClose: () => void }) {
         ✕
       </button>
       <div className="flex-1 flex items-center justify-center text-white text-xl font-semibold px-8 text-center">
-        {story.label}
+        {story.message}
       </div>
     </motion.div>
   );
@@ -989,7 +993,7 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
   const [profile, setProfile] = useState<ProfileInfo>(PROFILE);
   const [postCount, setPostCount] = useState(607);
 
-  const [storyOpen, setStoryOpen] = useState(false);
+  const [storyIndex, setStoryIndex] = useState<number | null>(null);
   const [createOpen, setCreateOpen] = useState(false);
   const [activityOpen, setActivityOpen] = useState(false);
   const [editOpen, setEditOpen] = useState(false);
@@ -1064,12 +1068,12 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
                 </div>
                 <span className="text-[10px] text-ink/60">Your story</span>
               </button>
-              {stories.map((s) => (
-                <button key={s.id} onClick={() => setStoryOpen(true)} className="flex flex-col items-center gap-1.5 shrink-0">
+              {stories.map((s, i) => (
+                <button key={s.id} onClick={() => setStoryIndex(i)} className="flex flex-col items-center gap-1.5 shrink-0">
                   <div className="w-14 h-14 rounded-full p-[2px]" style={{ background: s.closeFriend ? CLOSE_FRIENDS_GREEN : s.gradient }}>
                     <div className="w-full h-full rounded-full bg-white border-2 border-white" />
                   </div>
-                  <span className="text-[10px] text-ink/60">{s.label}</span>
+                  <span className="text-[10px] text-ink/60">{s.username}</span>
                 </button>
               ))}
             </div>
@@ -1120,7 +1124,7 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
       />
 
       <AnimatePresence>
-        {storyOpen && <StoryViewer onClose={() => setStoryOpen(false)} />}
+        {storyIndex !== null && <StoryViewer initialIndex={storyIndex} onClose={() => setStoryIndex(null)} />}
         {createOpen && <CreateScreen onCancel={() => setCreateOpen(false)} onShare={handleShare} />}
         {activityOpen && <ActivityScreen onBack={() => setActivityOpen(false)} />}
         {editOpen && (
