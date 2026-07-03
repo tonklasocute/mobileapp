@@ -76,19 +76,20 @@ function HomeView({ onOpenShow }: { onOpenShow: (show: Show) => void }) {
 }
 
 function DetailView({ show, onPlay }: { show: Show; onPlay: () => void }) {
+  const heroImage = show.banner ?? show.poster;
   return (
     <div className="flex flex-col">
       <div
         className="relative h-52 flex items-end p-4 overflow-hidden"
-        style={show.poster ? undefined : { background: show.gradient }}
+        style={heroImage ? undefined : { background: show.gradient }}
       >
-        {show.poster && (
+        {heroImage && (
           <>
             <img
-              src={show.poster}
+              src={heroImage}
               alt=""
               className="absolute inset-0 w-full h-full object-cover"
-              style={{ objectPosition: show.posterPosition }}
+              style={{ objectPosition: show.banner ? undefined : show.posterPosition }}
             />
             <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-transparent to-black/20" />
           </>

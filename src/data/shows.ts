@@ -7,8 +7,11 @@ import theCrown from "../assets/netfilx/The Crown.webp";
 import toAllTheBoys from "../assets/netfilx/To All the Boys I've Loved Before.jpg";
 import emilyInParis from "../assets/netfilx/Emily in Paris.jpg";
 import frozen from "../assets/netfilx/Frozen.webp";
+import frozenBanner from "../assets/netfilx/Frozen banner.jpg";
 import encanto from "../assets/netfilx/Encanto.webp";
+import encantoBanner from "../assets/netfilx/Encanto banner.webp";
 import moana from "../assets/netfilx/Moana.jpg";
+import moanaBanner from "../assets/netfilx/moana banner.jpg";
 
 const rows: ShowRow[] = [
   {
@@ -136,6 +139,7 @@ const rows: ShowRow[] = [
         title: "Frozen",
         gradient: "linear-gradient(135deg,#b3d9ff,#e8f4ff)",
         poster: frozen,
+        banner: frozenBanner,
         genre: "Animation",
         match: 95,
         year: 2013,
@@ -150,6 +154,7 @@ const rows: ShowRow[] = [
         title: "Encanto",
         gradient: "linear-gradient(135deg,#ffd4c2,#ffc2dd)",
         poster: encanto,
+        banner: encantoBanner,
         genre: "Animation",
         match: 97,
         year: 2021,
@@ -165,6 +170,7 @@ const rows: ShowRow[] = [
         gradient: "linear-gradient(135deg,#7cc4f5,#c3b6ff)",
         poster: moana,
         posterPosition: "center 20%",
+        banner: moanaBanner,
         genre: "Animation",
         match: 96,
         year: 2016,

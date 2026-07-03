@@ -77,6 +77,7 @@ export interface Show {
   gradient: string;
   poster?: string;
   posterPosition?: string;
+  banner?: string;
   genre: string;
   match: number;
   year: number;
