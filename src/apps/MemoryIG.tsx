@@ -31,7 +31,6 @@ const highlights = [
   { id: "h5", label: "🤿", gradient: "linear-gradient(135deg,#b3d9ff,#ffd4c2)" },
 ];
 
-const FOLLOWED_BY = "Followed by niceentp, somjungiixm and 3 others";
 
 interface ProfileInfo {
   username: string;
@@ -842,8 +841,6 @@ function ProfileScreen({
         ))}
         <p className="text-dada-purple font-medium">🔗 {profile.link}</p>
       </div>
-
-      <p className="text-[13px] text-ink/60 mb-3">{FOLLOWED_BY}</p>
 
       <div className="flex items-center gap-2 mb-5">
         <button onClick={onEditProfile} className="flex-1 rounded-xl py-2 text-[14px] font-semibold bg-black/5 text-ink">
