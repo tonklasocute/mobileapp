@@ -592,9 +592,20 @@ function ActivityScreen({ onBack }: { onBack: () => void }) {
       animate={{ x: 0 }}
       exit={{ x: "100%" }}
       transition={{ type: "spring", stiffness: 320, damping: 30 }}
+      drag="x"
+      dragConstraints={{ left: 0, right: 0 }}
+      dragElastic={{ left: 0, right: 1 }}
+      onDragEnd={(_, info) => {
+        if (info.offset.x > 80 || info.velocity.x > 500) onBack();
+      }}
       className="absolute inset-0 z-30 bg-white text-ink flex flex-col"
     >
       <div className="flex items-center gap-3 px-4 pt-12 pb-3 shrink-0 border-b border-black/10">
+        <button type="button" aria-label="Back" onClick={onBack} className="-ml-1 p-1">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+            <path d="M15 19l-7-7 7-7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          </svg>
+        </button>
         <h1 className="text-[17px] font-bold">Activity</h1>
       </div>
       <div className="flex-1 min-h-0 overflow-y-auto no-scrollbar pb-10">
