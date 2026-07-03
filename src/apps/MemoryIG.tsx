@@ -58,6 +58,8 @@ interface FeedItem {
   caption: string;
   location: string;
   likes: number;
+  comments: number;
+  views: number;
   timeAgo: string;
 }
 
@@ -97,6 +99,8 @@ function buildInitialPosts(): FeedItem[] {
     caption: m.caption,
     location: m.location,
     likes: m.likes,
+    comments: m.comments,
+    views: m.views,
     timeAgo: m.timeAgo,
   }));
 }
@@ -277,7 +281,13 @@ function HighlightCircle({ label, gradient }: { label: string; gradient: string 
   );
 }
 
-function PostActions({ likes }: { likes: number }) {
+function formatCount(n: number): string {
+  if (n >= 1_000_000) return `${(n / 1_000_000).toFixed(1).replace(/\.0$/, "")}M`;
+  if (n >= 1_000) return `${(n / 1_000).toFixed(1).replace(/\.0$/, "")}K`;
+  return `${n}`;
+}
+
+function PostActions({ likes, comments = 0, views }: { likes: number; comments?: number; views?: number }) {
   const [liked, setLiked] = useState(false);
   const [saved, setSaved] = useState(false);
   const count = likes + (liked ? 1 : 0);
@@ -300,7 +310,9 @@ function PostActions({ likes }: { likes: number }) {
           <BookmarkIcon filled={saved} />
         </motion.button>
       </div>
-      <p className="text-[13px] font-semibold mt-1.5">{count.toLocaleString()} likes</p>
+      {views !== undefined && <p className="text-[12px] text-ink/50 mt-1.5">{formatCount(views)} views</p>}
+      <p className="text-[13px] font-semibold mt-0.5">{count.toLocaleString()} likes</p>
+      {comments > 0 && <p className="text-[13px] text-ink/50 mt-0.5">View all {formatCount(comments)} comments</p>}
     </div>
   );
 }
@@ -317,7 +329,7 @@ function FeedPost({ post, avatar, username }: { post: FeedItem; avatar: string; 
         <span className="text-lg text-ink/60">⋯</span>
       </div>
       <img src={post.photo} alt="" className="w-full aspect-[4/5] object-cover" />
-      <PostActions likes={post.likes} />
+      <PostActions likes={post.likes} comments={post.comments} views={post.views} />
       <p className="px-1 text-[13px] mt-1">
         <span className="font-semibold">{username}</span> {post.caption}
       </p>

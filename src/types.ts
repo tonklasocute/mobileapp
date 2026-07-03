@@ -22,6 +22,8 @@ export interface Memory {
   caption: string;
   location: string;
   likes: number;
+  comments: number;
+  views: number;
   timeAgo: string;
 }
 
