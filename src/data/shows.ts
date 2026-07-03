@@ -8,7 +8,7 @@ import toAllTheBoys from "../assets/netfilx/To All the Boys I've Loved Before.jp
 import emilyInParis from "../assets/netfilx/Emily in Paris.jpg";
 import frozen from "../assets/netfilx/Frozen.webp";
 import encanto from "../assets/netfilx/Encanto.webp";
-import moana from "../assets/netfilx/Moana.webp";
+import moana from "../assets/netfilx/Moana.jpg";
 
 const rows: ShowRow[] = [
   {
