@@ -415,7 +415,7 @@ function TabIcon({ id, active }: { id: TabId; active: boolean }) {
   }
   return (
     <img
-      src={tonkla}
+      src={dada2}
       alt=""
       className={clsx("w-[22px] h-[22px] rounded-full object-cover", active && "ring-2 ring-dada-blue")}
     />
