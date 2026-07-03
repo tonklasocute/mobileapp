@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import memories from "../data/memories.json";
 import otherPostsData from "../data/otherPosts.json";
@@ -749,16 +749,19 @@ function PostViewer({
   avatar,
   username,
   onClose,
-  onChangeIndex,
 }: {
   feed: FeedEntry[];
   index: number;
   avatar: string;
   username: string;
   onClose: () => void;
-  onChangeIndex: (index: number) => void;
 }) {
-  const entry = feed[index];
+  const initialRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    initialRef.current?.scrollIntoView({ block: "start" });
+  }, []);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -766,23 +769,17 @@ function PostViewer({
       exit={{ opacity: 0 }}
       className="absolute inset-0 z-30 bg-white text-ink overflow-y-auto no-scrollbar"
     >
-      <div className="flex items-center gap-3 px-4 pt-12 pb-2">
+      <div className="sticky top-0 z-10 flex items-center gap-3 px-4 pt-12 pb-2 bg-white">
         <button onClick={onClose} aria-label="Close" className="w-8 h-8 rounded-full bg-black/5 flex items-center justify-center text-ink/60 text-lg">
           ‹
         </button>
         <h2 className="font-semibold text-[15px]">Post</h2>
       </div>
-      {entry.kind === "own" ? <FeedPost post={entry.data} avatar={avatar} username={username} /> : <OtherFeedPost post={entry.data} />}
-      {feed.length > 1 && (
-        <div className="flex items-center justify-between px-4 py-4 text-[13px] text-ink/60">
-          <button disabled={index === 0} onClick={() => onChangeIndex(index - 1)} className="disabled:opacity-30">
-            ‹ Previous
-          </button>
-          <button disabled={index === feed.length - 1} onClick={() => onChangeIndex(index + 1)} className="disabled:opacity-30">
-            Next ›
-          </button>
+      {feed.map((entry, i) => (
+        <div key={entry.data.id} ref={i === index ? initialRef : undefined} className="border-b border-black/5 scroll-mt-[76px]">
+          {entry.kind === "own" ? <FeedPost post={entry.data} avatar={avatar} username={username} /> : <OtherFeedPost post={entry.data} />}
         </div>
-      )}
+      ))}
     </motion.div>
   );
 }
@@ -1109,7 +1106,6 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
             avatar={avatar}
             username={profile.username}
             onClose={() => setViewer(null)}
-            onChangeIndex={(index) => setViewer((v) => v && { ...v, index })}
           />
         )}
       </AnimatePresence>
