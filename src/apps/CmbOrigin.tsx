@@ -352,14 +352,74 @@ function SuggestedFeed({ onMatched }: { onMatched: (name: string) => void }) {
 }
 
 const TABS = [
-  { id: "suggested", label: "Suggested", icon: "◉", badge: 31 },
-  { id: "likes", label: "Likes You", icon: "♡", badge: "99+" },
-  { id: "discover", label: "Discover", icon: "⌕", dot: true },
-  { id: "chats", label: "Chats", icon: "💬" },
-  { id: "me", label: "Me", icon: "👤" },
+  { id: "suggested", label: "Suggested", badge: 31 },
+  { id: "likes", label: "Likes You", badge: "99+" },
+  { id: "discover", label: "Discover", dot: true },
+  { id: "chats", label: "Chats" },
+  { id: "me", label: "Me" },
 ] as const;
 
 type TabId = (typeof TABS)[number]["id"];
+
+function TabIcon({ id, active }: { id: TabId; active: boolean }) {
+  const stroke = active ? "#111" : "#9a9a9a";
+  if (id === "suggested") {
+    return (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+        <circle cx="12" cy="12" r="9" stroke={stroke} strokeWidth="1.8" />
+        <circle cx="12" cy="12" r="3.2" fill={active ? stroke : "none"} stroke={stroke} strokeWidth="1.8" />
+      </svg>
+    );
+  }
+  if (id === "likes") {
+    return (
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <path
+          fill={active ? stroke : "none"}
+          stroke={stroke}
+          strokeWidth="1.8"
+          strokeLinejoin="round"
+          d="M12 20.2s-7.5-4.6-9.9-9.2C.6 7.6 2.2 4 5.7 3.4c2-.3 4 .6 5 2.3C11.7 4 13.7 3.1 15.7 3.4c3.5.6 5.1 4.2 3.6 7.6-2.4 4.6-9.9 9.2-9.9 9.2z"
+        />
+      </svg>
+    );
+  }
+  if (id === "discover") {
+    return (
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke={stroke} strokeWidth="1.8" strokeLinecap="round">
+        <circle cx="10.5" cy="10.5" r="7" />
+        <line x1="20" y1="20" x2="15.5" y2="15.5" />
+      </svg>
+    );
+  }
+  if (id === "chats") {
+    return (
+      <svg width="22" height="22" viewBox="0 0 24 24">
+        <path
+          fill={active ? stroke : "none"}
+          stroke={stroke}
+          strokeWidth="1.8"
+          strokeLinejoin="round"
+          d="M12 3.5c-5 0-9 3.4-9 7.6 0 2.6 1.5 4.9 3.8 6.3-.1 1-.4 2-1 2.9-.1.2.1.4.3.3 1.5-.4 2.8-1 3.9-1.8.6.1 1.3.2 2 .2 5 0 9-3.4 9-7.6s-4-7.9-9-7.9z"
+        />
+        {active && (
+          <>
+            <circle cx="8.5" cy="11.2" r="1" fill="#fff" />
+            <circle cx="12" cy="11.2" r="1" fill="#fff" />
+            <circle cx="15.5" cy="11.2" r="1" fill="#fff" />
+          </>
+        )}
+      </svg>
+    );
+  }
+  return (
+    <img
+      src={tonkla}
+      alt=""
+      className={clsx("w-[22px] h-[22px] rounded-full object-cover", active && "ring-2 ring-dada-blue")}
+    />
+  );
+}
 
 function TabBar({ active, onChange }: { active: TabId; onChange: (id: TabId) => void }) {
   return (
@@ -368,9 +428,9 @@ function TabBar({ active, onChange }: { active: TabId; onChange: (id: TabId) => 
         <button
           key={t.id}
           onClick={() => onChange(t.id)}
-          className={clsx("relative flex flex-col items-center gap-0.5 text-[11px]", active === t.id ? "text-ink font-bold" : "text-ink/40")}
+          className={clsx("relative flex flex-col items-center gap-1 text-[11px]", active === t.id ? "text-ink font-bold" : "text-ink/40")}
         >
-          <span className="text-lg leading-none">{t.icon}</span>
+          <TabIcon id={t.id} active={active === t.id} />
           {t.label}
           {"badge" in t && t.badge && (
             <span className="absolute -top-1 -right-2 bg-red-500 text-white text-[9px] rounded-full min-w-[18px] h-[15px] flex items-center justify-center px-1">
