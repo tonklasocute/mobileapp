@@ -273,7 +273,7 @@ function SuggestedFeed({ onMatched }: { onMatched: (name: string) => void }) {
     toggleLike(key);
     if (profile.theOne) {
       const identity = profile.blocks.find((b) => b.kind === "identity");
-      onMatched(identity && identity.kind === "identity" ? identity.name : "them");
+      onMatched(identity && identity.kind === "identity" ? identity.name : "T");
     }
   };
 
@@ -748,7 +748,7 @@ function ChatScreen({ name }: { name: string }) {
         ...m,
         {
           id: `reply-${Date.now()}`,
-          from: "them",
+          from: "T",
           text: ":)",
           time: new Date().toLocaleTimeString([], { hour: "numeric", minute: "2-digit" }),
         },
@@ -797,7 +797,7 @@ function ChatScreen({ name }: { name: string }) {
 export function CmbOrigin({ onClose }: { onClose: () => void }) {
   const [stage, setStage] = useState<"main" | "match" | "chat">("main");
   const [tab, setTab] = useState<TabId>("suggested");
-  const [matchName, setMatchName] = useState("them");
+  const [matchName, setMatchName] = useState("T");
 
   if (stage === "chat") {
     return (

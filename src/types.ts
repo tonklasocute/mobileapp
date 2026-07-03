@@ -34,7 +34,7 @@ export interface Story {
 
 export interface ChatMessage {
   id: string;
-  from: "dada" | "them";
+  from: "dada" | "T";
   text: string;
   time: string;
 }
