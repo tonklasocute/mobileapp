@@ -23,7 +23,7 @@ const icons = [
     key: "music",
     bg: "linear-gradient(160deg,#ff5f6d,#e0397a)",
     glyph: (
-      <path d="M9 18a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zm9-2a2.5 2.5 0 1 1 0-5 2.5 2.5 0 0 1 0 5zM9 15.5V6l9-1.5v9" />
+      <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55-2.21 0-4 1.79-4 4s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
     ),
   },
 ];
@@ -33,25 +33,29 @@ export function Dock() {
     <div className="absolute inset-x-6 bottom-[86px] flex justify-center">
       <div className="flex gap-4 px-4 py-3 rounded-[32px] bg-white/25 backdrop-blur-2xl shadow-lg shadow-black/20">
         {icons.map((app) => (
-          <div
-            key={app.key}
-            className="relative w-14 h-14 rounded-2xl flex items-center justify-center overflow-hidden"
-            style={{ background: app.bg }}
-          >
-            {app.key === "safari" ? (
-              <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center">
-                <div className="w-6 h-6 rotate-45 bg-gradient-to-b from-red-500 to-red-500 relative">
-                  <div className="absolute inset-0 [clip-path:polygon(50%_50%,50%_0,100%_0)] bg-[#ff3b30]" />
-                  <div className="absolute inset-0 [clip-path:polygon(50%_50%,50%_100%,0_100%)] bg-[#e5e5e5]" />
+          <div key={app.key} className="relative w-14 h-14">
+            <div
+              className="w-full h-full rounded-2xl flex items-center justify-center overflow-hidden"
+              style={{ background: app.bg }}
+            >
+              {app.key === "safari" ? (
+                <div className="w-9 h-9 rounded-full bg-white ring-1 ring-black/10 flex items-center justify-center">
+                  <div
+                    className="w-5 h-5 rotate-45"
+                    style={{
+                      background:
+                        "linear-gradient(to bottom right, #ff3b30 50%, #d1d1d6 50%)",
+                    }}
+                  />
                 </div>
-              </div>
-            ) : (
-              <svg viewBox="0 0 24 24" fill="white" className="w-7 h-7">
-                {app.glyph}
-              </svg>
-            )}
+              ) : (
+                <svg viewBox="0 0 24 24" fill="white" className="w-7 h-7">
+                  {app.glyph}
+                </svg>
+              )}
+            </div>
             {app.badge ? (
-              <span className="absolute -top-1 -right-1 min-w-[20px] h-5 px-1 rounded-full bg-[#ff3b30] text-white text-[11px] font-medium flex items-center justify-center">
+              <span className="absolute -top-1.5 -right-1.5 min-w-[22px] h-[22px] px-1 rounded-full bg-[#ff3b30] ring-2 ring-white/25 text-white text-[11px] font-medium flex items-center justify-center">
                 {app.badge}
               </span>
             ) : null}
