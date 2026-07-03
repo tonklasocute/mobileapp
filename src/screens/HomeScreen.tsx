@@ -4,6 +4,7 @@ import { StatusBar } from "../components/StatusBar";
 import { HomeIndicator } from "../components/HomeIndicator";
 import { AppIcon } from "../components/AppIcon";
 import { DadaWidget } from "../components/DadaWidget";
+import { Dock } from "../components/Dock";
 import { apps } from "../data/apps";
 import type { AppId } from "../types";
 
@@ -68,6 +69,7 @@ export function HomeScreen({
         </div>
       </div>
 
+      <Dock />
       <HomeIndicator light />
     </motion.div>
   );
