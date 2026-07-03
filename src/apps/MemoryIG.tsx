@@ -18,6 +18,7 @@ import s5 from "../assets/story/s5.jpg";
 const dadaPhotos = [dada1, dada2, dada3, dada4, dada5, dada6];
 
 const CLOSE_FRIENDS_GREEN = "#7fe8ab";
+const STORY_RED = "#ff3040";
 const IG_BLUE = "#7cc4f5";
 
 interface StoryPage {
@@ -31,7 +32,7 @@ const stories: { id: string; username: string; gradient: string; closeFriend: bo
     id: "st2",
     username: "tonkla",
     gradient: "linear-gradient(135deg,#b3d9ff,#c3b6ff)",
-    closeFriend: false,
+    closeFriend: true,
     pages: [
       { message: "brunch reset 🥯", photo: s1 },
       { message: "matcha run in Japan 🍵", photo: s2 },
@@ -40,9 +41,9 @@ const stories: { id: string; username: string; gradient: string; closeFriend: bo
       { message: "carbonara + chaos on the table 🍝", photo: s5 },
     ],
   },
-  { id: "st3", username: "ploypim", gradient: "linear-gradient(135deg,#ffd4c2,#ffc2dd)", closeFriend: true, pages: [{ message: "today's a good day to be proud of yourself" }] },
+  { id: "st3", username: "ploypim", gradient: "linear-gradient(135deg,#ffd4c2,#ffc2dd)", closeFriend: false, pages: [{ message: "today's a good day to be proud of yourself" }] },
   { id: "st4", username: "kade.d", gradient: "linear-gradient(135deg,#c3b6ff,#b3d9ff)", closeFriend: false, pages: [{ message: "small wins count too ✨" }] },
-  { id: "st5", username: "fahsai", gradient: "linear-gradient(135deg,#ffc2dd,#ffd4c2)", closeFriend: true, pages: [{ message: "breathe. you've got this 🌿" }] },
+  { id: "st5", username: "fahsai", gradient: "linear-gradient(135deg,#ffc2dd,#ffd4c2)", closeFriend: false, pages: [{ message: "breathe. you've got this 🌿" }] },
 ];
 
 const highlights = [
@@ -412,7 +413,7 @@ function StoryViewer({ initialIndex, onClose }: { initialIndex: number; onClose:
 
       <div className="relative flex gap-1 px-3 pt-12 shrink-0">
         {person.pages.map((_, i) => (
-          <div key={i} className="flex-1 h-1 rounded-full bg-white/30 overflow-hidden">
+          <div key={`${person.id}-${i}`} className="flex-1 h-1 rounded-full bg-white/30 overflow-hidden">
             {i <= pageIndex && (
               <motion.div
                 className="h-full bg-white"
@@ -1103,7 +1104,7 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
               </button>
               {stories.map((s, i) => (
                 <button key={s.id} onClick={() => setStoryIndex(i)} className="flex flex-col items-center gap-1.5 shrink-0">
-                  <div className="w-14 h-14 rounded-full p-[2px]" style={{ background: s.closeFriend ? CLOSE_FRIENDS_GREEN : s.gradient }}>
+                  <div className="w-14 h-14 rounded-full p-[2px]" style={{ background: s.closeFriend ? CLOSE_FRIENDS_GREEN : STORY_RED }}>
                     <div className="w-full h-full rounded-full bg-white border-2 border-white" />
                   </div>
                   <span className="text-[10px] text-ink/60">{s.username}</span>
