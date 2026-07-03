@@ -20,7 +20,12 @@ function Poster({ show, onOpen }: { show: Show; onOpen: () => void }) {
       style={show.poster ? undefined : { background: show.gradient }}
     >
       {show.poster ? (
-        <img src={show.poster} alt={show.title} className="absolute inset-0 w-full h-full object-cover" />
+        <img
+          src={show.poster}
+          alt={show.title}
+          className="absolute inset-0 w-full h-full object-cover"
+          style={{ objectPosition: show.posterPosition }}
+        />
       ) : (
         <span className="relative text-[12px] font-semibold leading-tight drop-shadow">
           {show.title}

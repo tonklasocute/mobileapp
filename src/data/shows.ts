@@ -164,6 +164,7 @@ const rows: ShowRow[] = [
         title: "Moana",
         gradient: "linear-gradient(135deg,#7cc4f5,#c3b6ff)",
         poster: moana,
+        posterPosition: "center 20%",
         genre: "Animation",
         match: 96,
         year: 2016,
