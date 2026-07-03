@@ -3,6 +3,7 @@ import { motion } from "framer-motion";
 import { StatusBar } from "../components/StatusBar";
 import { HomeIndicator } from "../components/HomeIndicator";
 import { AppIcon } from "../components/AppIcon";
+import { DadaWidget } from "../components/DadaWidget";
 import { apps } from "../data/apps";
 import type { AppId } from "../types";
 
@@ -44,6 +45,9 @@ export function HomeScreen({
       <StatusBar light />
 
       <div className="absolute inset-0 pt-24 px-7">
+        <div className="mb-7">
+          <DadaWidget />
+        </div>
         <div
           className="grid grid-cols-3 gap-x-4 gap-y-7"
           onPointerDown={startPress}
