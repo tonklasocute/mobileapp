@@ -60,7 +60,8 @@ function HomeView({ onOpenShow }: { onOpenShow: (show: Show) => void }) {
         <div className="relative flex gap-2">
           <button
             onClick={() => onOpenShow(hero)}
-            className="flex items-center gap-1.5 px-5 py-2 rounded-md bg-white text-black text-sm font-semibold"
+            disabled
+            className="flex items-center gap-1.5 px-5 py-2 rounded-md bg-white text-black text-sm font-semibold opacity-50 cursor-not-allowed"
           >
             ▶ Play
           </button>
@@ -119,7 +120,8 @@ function DetailView({ show, onPlay }: { show: Show; onPlay: () => void }) {
         </div>
         <button
           onClick={onPlay}
-          className="flex items-center justify-center gap-2 py-2.5 rounded-md bg-white text-black text-sm font-semibold"
+          disabled
+          className="flex items-center justify-center gap-2 py-2.5 rounded-md bg-white text-black text-sm font-semibold opacity-50 cursor-not-allowed"
         >
           ▶ Play
         </button>
@@ -165,7 +167,8 @@ function PlayerView({ show, onBack }: { show: Show; onBack: () => void }) {
               setElapsed(0);
               setPlaying(true);
             }}
-            className="px-5 py-2 rounded-full bg-white text-black text-sm font-semibold"
+            disabled
+            className="px-5 py-2 rounded-full bg-white text-black text-sm font-semibold opacity-50 cursor-not-allowed"
           >
             ↻ Play Again
           </button>
@@ -173,7 +176,8 @@ function PlayerView({ show, onBack }: { show: Show; onBack: () => void }) {
           <motion.button
             whileTap={{ scale: 0.9 }}
             onClick={() => setPlaying((p) => !p)}
-            className="w-16 h-16 rounded-full bg-white/90 text-black flex items-center justify-center text-2xl"
+            disabled
+            className="w-16 h-16 rounded-full bg-white/90 text-black flex items-center justify-center text-2xl opacity-50 cursor-not-allowed"
           >
             {playing ? "❚❚" : "▶"}
           </motion.button>
