@@ -17,8 +17,8 @@ import s5 from "../assets/story/s5.jpg";
 
 const dadaPhotos = [dada1, dada2, dada3, dada4, dada5, dada6];
 
-const CLOSE_FRIENDS_GREEN = "linear-gradient(135deg,#78e08f,#38ada9)";
-const STORY_RING_GRADIENT = "linear-gradient(135deg,#f58529,#dd2a7b,#8134af,#515bd4)";
+const CLOSE_FRIENDS_GREEN = "linear-gradient(135deg,#c8f7dc,#7fe8ab)";
+const STORY_RING_GRADIENT = "linear-gradient(135deg,#ffc2dd,#ffd4c2,#c3b6ff)";
 const IG_BLUE = "#7cc4f5";
 
 interface StoryPage {
@@ -435,27 +435,28 @@ function StoryViewer({ initialIndex, onClose }: { initialIndex: number; onClose:
         ))}
       </div>
       <div className="relative flex items-center gap-2 px-3 pt-2 shrink-0">
-        <div className="w-8 h-8 rounded-full bg-white/30 border border-white/50" />
-        <span className="text-white text-[14px] font-semibold drop-shadow">{person.username}</span>
-      </div>
-      {person.closeFriend && (
-        <div
-          className="absolute top-12 right-14 flex items-center gap-1 rounded-full px-2.5 py-1 z-10"
-          style={{ background: CLOSE_FRIENDS_GREEN }}
+        <div className="w-8 h-8 rounded-full bg-white/30 border border-white/50 shrink-0" />
+        <span className="text-white text-[14px] font-semibold drop-shadow truncate">{person.username}</span>
+        <div className="flex-1" />
+        {person.closeFriend && (
+          <div
+            className="flex items-center gap-1 rounded-full px-2.5 py-1 shrink-0"
+            style={{ background: CLOSE_FRIENDS_GREEN }}
+          >
+            <StarIcon />
+            <span className="text-white text-[12px] font-semibold">Close Friends</span>
+          </div>
+        )}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            onClose();
+          }}
+          className="w-8 h-8 rounded-full bg-black/20 text-white shrink-0"
         >
-          <StarIcon />
-          <span className="text-white text-[12px] font-semibold">Close Friends</span>
-        </div>
-      )}
-      <button
-        onClick={(e) => {
-          e.stopPropagation();
-          onClose();
-        }}
-        className="absolute top-12 right-4 w-8 h-8 rounded-full bg-black/20 text-white z-10"
-      >
-        ✕
-      </button>
+          ✕
+        </button>
+      </div>
       <div className="relative flex-1 flex items-end justify-center text-white text-xl font-semibold px-8 pb-16 text-center drop-shadow">
         {page.message}
       </div>
