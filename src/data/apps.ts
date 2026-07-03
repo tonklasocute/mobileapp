@@ -43,5 +43,8 @@ export const apps: AppMeta[] = [
     name: "Netflix",
     emoji: "🎬",
     gradient: "linear-gradient(135deg,#2e2640,#ff6b81)",
+    icon: "/logo/netfilx.webp",
+    iconFit: "contain",
+    iconBg: "#000000",
   },
 ];
