@@ -7,7 +7,7 @@ const icons = [
 
 export function Dock() {
   return (
-    <div className="absolute inset-x-3 bottom-[70px] flex justify-center">
+    <div className="absolute inset-x-3 bottom-9 flex justify-center">
       <div className="flex justify-between w-full gap-3 px-4 py-4 rounded-[36px] bg-white/25 backdrop-blur-2xl shadow-lg shadow-black/20">
         {icons.map((app) => (
           <div key={app.key} className="relative w-[72px] h-[72px] shrink-0">
