@@ -2,7 +2,12 @@ import { useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import memories from "../data/memories.json";
 import type { Memory } from "../types";
+import dada1 from "../assets/pic/dada1.jpg";
 import dada2 from "../assets/pic/dada2.jpg";
+import dada3 from "../assets/pic/dada3.jpg";
+import dada4 from "../assets/pic/dada4.jpg";
+import dada5 from "../assets/pic/dada5.jpg";
+import dada6 from "../assets/pic/dada6.jpg";
 import s1 from "../assets/story/s1.jpg";
 import s2 from "../assets/story/s2.jpg";
 import s3 from "../assets/story/s3.jpg";
@@ -15,7 +20,27 @@ import p4 from "../assets/story/p4.jpg";
 import p5 from "../assets/story/p5.jpg";
 import p6 from "../assets/story/p6.jpg";
 
-const dadaPhotos = [p1, p2, p3, p4, p5, p6];
+const dadaPhotos = [dada1, dada2, dada3, dada4, dada5, dada6];
+
+interface HomePost {
+  id: string;
+  username: string;
+  avatarGradient: string;
+  photo: string;
+  caption: string;
+  location: string;
+  likes: number;
+  timeAgo: string;
+}
+
+const homePosts: HomePost[] = [
+  { id: "hp1", username: "bua_", avatarGradient: "linear-gradient(135deg,#b3d9ff,#c3b6ff)", photo: p1, caption: "Made friends with the locals in Nara — mostly food-motivated friendships.", location: "Nara Park, Japan", likes: 842, timeAgo: "12m" },
+  { id: "hp2", username: "mint.k", avatarGradient: "linear-gradient(135deg,#ffd4c2,#ffc2dd)", photo: p2, caption: "Stopped just to look at this for a while.", location: "The Dolomites", likes: 1204, timeAgo: "38m" },
+  { id: "hp3", username: "ploypim", avatarGradient: "linear-gradient(135deg,#c3b6ff,#b3d9ff)", photo: p3, caption: "Best seat in the house, no reservation needed.", location: "Lakeside", likes: 967, timeAgo: "1h" },
+  { id: "hp4", username: "kade.d", avatarGradient: "linear-gradient(135deg,#ffc2dd,#ffd4c2)", photo: p4, caption: "Watched them whisk this to order and it was worth the wait.", location: "Matcha bar, Tokyo", likes: 512, timeAgo: "2h" },
+  { id: "hp5", username: "fahsai", avatarGradient: "linear-gradient(135deg,#b3d9ff,#ffd4c2)", photo: p5, caption: "Cooking night: too many ingredients, not enough plan.", location: "Home kitchen", likes: 1580, timeAgo: "4h" },
+  { id: "hp6", username: "nan_w", avatarGradient: "linear-gradient(135deg,#c3b6ff,#ffc2dd)", photo: p6, caption: "Lost my voice by the second song.", location: "Music festival", likes: 2210, timeAgo: "6h" },
+];
 
 const CLOSE_FRIENDS_GREEN = "linear-gradient(135deg,#c8f7dc,#7fe8ab)";
 const STORY_RING_GRADIENT = "linear-gradient(135deg,#ffc2dd,#ffd4c2,#c3b6ff)";
@@ -334,6 +359,27 @@ function FeedPost({ post, avatar, username }: { post: FeedItem; avatar: string; 
       <PostActions likes={post.likes} comments={post.comments} views={post.views} />
       <p className="px-1 text-[13px] mt-1">
         <span className="font-semibold">{username}</span> {post.caption}
+      </p>
+      <p className="px-1 text-[11px] text-ink/40 mt-1">{post.timeAgo} ago</p>
+    </div>
+  );
+}
+
+function HomeFeedPost({ post }: { post: HomePost }) {
+  return (
+    <div className="pb-1">
+      <div className="flex items-center gap-2.5 px-1 py-2">
+        <div className="w-8 h-8 rounded-full shrink-0" style={{ background: post.avatarGradient }} />
+        <div className="flex-1 min-w-0">
+          <p className="text-[13px] font-semibold truncate">{post.username}</p>
+          {post.location && <p className="text-[11px] text-ink/50 truncate">{post.location}</p>}
+        </div>
+        <span className="text-lg text-ink/60">⋯</span>
+      </div>
+      <img src={post.photo} alt="" className="w-full aspect-[4/5] object-cover" />
+      <PostActions likes={post.likes} />
+      <p className="px-1 text-[13px] mt-1">
+        <span className="font-semibold">{post.username}</span> {post.caption}
       </p>
       <p className="px-1 text-[11px] text-ink/40 mt-1">{post.timeAgo} ago</p>
     </div>
@@ -1081,8 +1127,8 @@ export function MemoryIG({ onClose }: { onClose: () => void }) {
             </div>
 
             <div className="px-3">
-              {posts.map((post) => (
-                <FeedPost key={post.id} post={post} avatar={avatar} username={profile.username} />
+              {homePosts.map((post) => (
+                <HomeFeedPost key={post.id} post={post} />
               ))}
             </div>
           </div>
